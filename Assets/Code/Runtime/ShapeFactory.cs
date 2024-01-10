@@ -3,16 +3,17 @@ using UnityEngine;
 
 namespace Code.Runtime
 {
-    public class ShapeFactory : MonoBehaviour
+    public class ShapeFactory : MonoBehaviour, IShapeFactory
     {
         public ShapeSizeConfig ShapeSizeConfig;
-        public GameObject shapePrefab;
+        public Shape shapePrefab;
         
-        private GameObject CreateShape(Vector3 at, ShapeSize shapeSize)
+        public Shape CreateShape(Vector3 at, ShapeSize shapeSize)
         {
             float size = ShapeSizeConfig.Sizes[(int) shapeSize];
-            GameObject shape = Object.Instantiate(shapePrefab, at, Quaternion.identity);
-
+            Shape shape = Object.Instantiate(shapePrefab, at, Quaternion.identity);
+            
+            shape.Construct(shapeSize, this);
             shape.transform.localScale = new Vector2(size, size);
 
             return shape;

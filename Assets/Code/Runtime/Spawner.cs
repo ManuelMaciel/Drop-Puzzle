@@ -1,46 +1,50 @@
 using System.Collections;
-using Code.Runtime;
 using UnityEngine;
 
-[RequireComponent(typeof(Movement))]
-public class Spawner : MonoBehaviour
+namespace Code.Runtime
 {
-    [SerializeField] private GameObject shapePrefab;
-    [SerializeField] private Transform spawnPoint;
-
-    private Movement _movement;
-
-    private void Awake()
+    //ShapeDropper
+    [RequireComponent(typeof(Movement))]
+    public class Spawner : MonoBehaviour
     {
-        _movement = GetComponent<Movement>();
-        _movement.AddShape(CreateShape());
-
-        _movement.OnShapeDropped += SpawnNextShape;
-    }
-
-    private void OnDestroy() => 
-        _movement.OnShapeDropped += SpawnNextShape;
-
-    private void SpawnNextShape() => 
-        StartCoroutine(SpawnNextShapeDelay());
-
-    private IEnumerator SpawnNextShapeDelay()
-    {
-        yield return new WaitForSeconds(2f);
+        private const float Delay = 1f;
         
-        _movement.AddShape(CreateShape());
-    }
+        [SerializeField] private GameObject shapePrefab;
+        [SerializeField] private Transform spawnPoint;
+        [SerializeField] private ShapeFactory shapeFactory;
 
-    private Rigidbody2D CreateShape()
-    {
-        GameObject instantiate = Instantiate(shapePrefab, spawnPoint);
-        Rigidbody2D shapeRigidbody = instantiate.GetComponent<Rigidbody2D>();
+        private Movement _movement;
 
-        float randomSize = Random.Range(0.3f, 1.5f);
+        private void Awake()
+        {
+            _movement = GetComponent<Movement>();
+            _movement.AddShape(CreateShape());
 
-        shapeRigidbody.transform.localScale = new Vector2(randomSize, randomSize);
-        shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
+            _movement.OnShapeDropped += SpawnNextShape;
+        }
 
-        return shapeRigidbody;
+        private void OnDestroy() => 
+            _movement.OnShapeDropped += SpawnNextShape;
+
+        private void SpawnNextShape() => 
+            StartCoroutine(SpawnNextShapeDelay());
+
+        private IEnumerator SpawnNextShapeDelay()
+        {
+            yield return new WaitForSeconds(Delay);
+        
+            _movement.AddShape(CreateShape());
+        }
+
+        private Rigidbody2D CreateShape()
+        {
+            ShapeSize shapeSize = (ShapeSize)Random.Range(0, 2);
+            Shape shape = shapeFactory.CreateShape(spawnPoint.position, shapeSize);
+            Rigidbody2D shapeRigidbody = shape.GetComponent<Rigidbody2D>();
+
+            shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
+
+            return shapeRigidbody;
+        }
     }
 }
