@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Code.Runtime
+namespace Code.Runtime.Logic
 {
     public class Movement : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Code.Runtime
+namespace Code.Runtime.Logic
 {
     public class Shape : MonoBehaviour
     {
