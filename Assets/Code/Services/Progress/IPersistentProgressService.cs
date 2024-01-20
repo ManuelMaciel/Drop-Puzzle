@@ -4,6 +4,6 @@ namespace Code.Services.Progress
 {
     public interface IPersistentProgressService
     {
-        Interactors Interactors { get; set; }
+        IInteractorContainer InteractorContainer { get; set; }
     }
 }

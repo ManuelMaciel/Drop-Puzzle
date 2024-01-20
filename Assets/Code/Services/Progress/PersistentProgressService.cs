@@ -1,9 +1,10 @@
-﻿using Code.Runtime.Repositories;
+﻿using Code.Runtime.Interactors;
+using Code.Runtime.Repositories;
 
 namespace Code.Services.Progress
 {
     public class PersistentProgressService : IPersistentProgressService
     {
-        public Interactors Interactors { get; set; } = new Interactors();
+        public IInteractorContainer InteractorContainer { get; set; } = new InteractorContainer();
     }
 }
