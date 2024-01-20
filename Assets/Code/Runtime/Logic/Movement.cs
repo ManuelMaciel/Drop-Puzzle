@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Runtime.Logic
 {
@@ -11,9 +12,10 @@ namespace Code.Runtime.Logic
         private IInput _input;
         private bool _isDropped;
 
-        private void Awake()
+        [Inject]
+        public void Construct(IInput input)
         {
-            _input = new StandardInput();
+            _input = input;
         }
 
         private void Update()

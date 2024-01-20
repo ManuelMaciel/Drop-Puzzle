@@ -4,15 +4,21 @@ using UnityEngine;
 
 namespace Code.Runtime
 {
-    public class ShapeFactory : MonoBehaviour, IShapeFactory
+    public class ShapeFactory : IShapeFactory
     {
-        public ShapeSizeConfig ShapeSizeConfig;
-        public Shape shapePrefab;
+        private readonly ShapeSizeConfig _shapeSizeConfig;
+        private readonly Shape _shapePrefab;
+
+        public ShapeFactory(ShapeSizeConfig shapeSizeConfig, Shape shapePrefab)
+        {
+            _shapeSizeConfig = shapeSizeConfig;
+            _shapePrefab = shapePrefab;
+        }
         
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize)
         {
-            float size = ShapeSizeConfig.Sizes[(int) shapeSize];
-            Shape shape = Object.Instantiate(shapePrefab, at, Quaternion.identity);
+            float size = _shapeSizeConfig.Sizes[(int) shapeSize];
+            Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
             
             shape.Construct(shapeSize, this);
             shape.transform.localScale = new Vector2(size, size);

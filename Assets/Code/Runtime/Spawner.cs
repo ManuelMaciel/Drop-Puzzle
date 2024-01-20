@@ -1,6 +1,7 @@
 using System.Collections;
 using Code.Runtime.Logic;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Runtime
 {
@@ -9,12 +10,17 @@ namespace Code.Runtime
     public class Spawner : MonoBehaviour
     {
         private const float Delay = 1f;
-        
-        [SerializeField] private GameObject shapePrefab;
-        [SerializeField] private Transform spawnPoint;
-        [SerializeField] private ShapeFactory shapeFactory;
 
+        [SerializeField] private Transform spawnPoint;
+
+        private IShapeFactory _shapeFactory;
         private Movement _movement;
+
+        [Inject]
+        public void Construct(IShapeFactory shapeFactory)
+        {
+            _shapeFactory = shapeFactory;
+        }
 
         private void Awake()
         {
@@ -40,7 +46,7 @@ namespace Code.Runtime
         private Rigidbody2D CreateShape()
         {
             ShapeSize shapeSize = (ShapeSize)Random.Range(0, 2);
-            Shape shape = shapeFactory.CreateShape(spawnPoint.position, shapeSize);
+            Shape shape = _shapeFactory.CreateShape(spawnPoint.position, shapeSize);
             Rigidbody2D shapeRigidbody = shape.GetComponent<Rigidbody2D>();
 
             shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
