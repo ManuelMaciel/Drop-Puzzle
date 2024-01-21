@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Repositories;
+﻿using Code.Runtime.Interactors;
+using Code.Runtime.Repositories;
 using Code.Services.Progress;
 using TMPro;
 using UnityEngine;
@@ -9,8 +10,10 @@ namespace Code.Runtime.UI
     public class HUD : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
+        [SerializeField] private TextMeshProUGUI _maxScoreText;
         
         private IInteractorContainer _interactorContainer;
+        private ScoreInteractor _scoreInteractor;
 
         [Inject]
         void Construct(IPersistentProgressService persistentProgressService)
@@ -25,16 +28,21 @@ namespace Code.Runtime.UI
 
         private void InitializeScoreInteractor()
         {
-            ScoreInteractor scoreInteractor = _interactorContainer.Get<ScoreInteractor>();
+            _scoreInteractor = _interactorContainer.Get<ScoreInteractor>();
             
-            scoreInteractor.OnScoreIncreased += UpdateScoreText;
+            _scoreInteractor.OnScoreIncreased += UpdateScoreText;
             
-            UpdateScoreText(scoreInteractor.GetCurrentScore());
+            UpdateScoreText(_scoreInteractor.GetCurrentScore());
         }
 
         private void UpdateScoreText(int score)
         {
             _scoreText.text = score.ToString();
+            _maxScoreText.text = _scoreInteractor.GetMaxScore().ToString();
+        }
+        
+        public class Factory : PlaceholderFactory<HUD>
+        {
         }
     }
 }

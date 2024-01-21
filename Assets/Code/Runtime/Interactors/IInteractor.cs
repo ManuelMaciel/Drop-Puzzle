@@ -1,4 +1,6 @@
-﻿namespace Code.Runtime.Repositories
+﻿using Code.Runtime.Repositories;
+
+namespace Code.Runtime.Interactors
 {
     public interface IInteractor
     {

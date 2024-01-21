@@ -1,23 +1,30 @@
-﻿using Code.Runtime.Repositories;
-using Code.Services.Progress;
-using UnityEngine;
+﻿using Code.Runtime.Logic;
+using Code.Runtime.UI;
 
 namespace Code.Runtime.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
         private readonly SceneLoader _sceneLoader;
-        private readonly IPersistentProgressService _persistentProgressService;
+        private readonly HUD.Factory _hudFactory;
+        private readonly Spawner.Factory _spawnerFactory;
 
-        LoadLevelState(SceneLoader sceneLoader, IPersistentProgressService persistentProgressService)
+        LoadLevelState(SceneLoader sceneLoader, HUD.Factory hudFactory, Spawner.Factory spawnerFactory)
         {
             _sceneLoader = sceneLoader;
-            _persistentProgressService = persistentProgressService;
+            _hudFactory = hudFactory;
+            _spawnerFactory = spawnerFactory;
         }
 
         public void Enter(string payload)
         {
-            _sceneLoader.Load(payload, () => { });
+            _sceneLoader.Load(payload, InitWorld);
+        }
+
+        private void InitWorld()
+        {
+            _hudFactory.Create();
+            _spawnerFactory.Create();
         }
 
         public void Exit()

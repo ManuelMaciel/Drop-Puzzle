@@ -1,5 +1,7 @@
 ﻿public static class InfrastructureAssetPath
 {
-    public static string GameBootstraperPath = "Infrastructure/GameBootstraper";
-    public static string CoroutineRunnerPath = "Infrastructure/CoroutineRunner";
+    public const string GameBootstraperPath = "Infrastructure/GameBootstraper";
+    public const string CoroutineRunnerPath = "Infrastructure/CoroutineRunner";
+    public const string HUDPath = "UI/HUD";
+    public const string ShapeDropper = "Game/ShapeDropper";
 }

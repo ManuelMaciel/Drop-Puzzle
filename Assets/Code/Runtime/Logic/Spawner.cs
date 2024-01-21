@@ -1,11 +1,9 @@
 using System.Collections;
-using Code.Runtime.Logic;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime
+namespace Code.Runtime.Logic
 {
-    //ShapeDropper
     [RequireComponent(typeof(Movement))]
     public class Spawner : MonoBehaviour
     {
@@ -53,5 +51,7 @@ namespace Code.Runtime
 
             return shapeRigidbody;
         }
+        
+        public class Factory : PlaceholderFactory<Spawner> { }
     }
 }

@@ -24,8 +24,6 @@ namespace Code.Runtime.Infrastructure.States
             ProgressInitializer progressInitializer =
                 new ProgressInitializer(_persistentProgressService.InteractorContainer, _shapeScoreConfig);
             
-            _persistentProgressService.InteractorContainer.Get<ScoreInteractor>().AddScore(5);
-
             _gameStateMachine.Enter<LoadLevelState, string>(SceneName.Gameplay.ToString());
         }
 

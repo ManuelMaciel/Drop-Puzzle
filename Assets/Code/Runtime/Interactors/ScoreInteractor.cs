@@ -1,7 +1,8 @@
 ﻿using System;
 using Code.Runtime.Configs;
+using Code.Runtime.Repositories;
 
-namespace Code.Runtime.Repositories
+namespace Code.Runtime.Interactors
 {
     public class ScoreInteractor : PayloadInteractor<ScoreRepository, ShapeScoreConfig>
     {
