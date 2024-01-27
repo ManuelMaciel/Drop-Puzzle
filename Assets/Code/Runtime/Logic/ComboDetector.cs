@@ -6,37 +6,48 @@ using Zenject;
 
 namespace Code.Runtime.Logic
 {
-    public class ComboDetector : ITickable
+    public class ComboDetector : MonoBehaviour
     {
         private const float TimeToEndCombo = 0.5f;
 
-        private readonly ScoreInteractor _scoreInteractor;
-        private readonly ILogService _logService;
-
         private int comboCount;
         private float time;
+        
+        private ShapeInteractor _shapeInteractor;
+        private ScoreInteractor _scoreInteractor;
+        private MoneyInteractor _moneyInteractor;
 
-        public ComboDetector(IPersistentProgressService progressService, ILogService logService)
+        private ILogService _logService;
+        private IPersistentProgressService _progressService;
+
+        [Inject]
+        public void Construct(IPersistentProgressService progressService, ILogService logService)
         {
+            _progressService = progressService;
             _logService = logService;
-            _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
-
-            _scoreInteractor.OnScoreIncreased += ShapesCombined;
         }
 
-        private void ShapesCombined(int score)
+        private void Start()
         {
-            comboCount++;
+            _scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
+            _shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
+            _moneyInteractor = _progressService.InteractorContainer.Get<MoneyInteractor>();
 
-            time = 0;
+            _shapeInteractor.OnShapeCombined += OnShapesCombined;
         }
 
-        public void Tick()
+        private void OnDisable()
+        {
+            if (_shapeInteractor != null) 
+                _shapeInteractor.OnShapeCombined -= OnShapesCombined;
+        }
+
+        public void Update()
         {
             if (time >= TimeToEndCombo)
             {
                 EndCombo();
-                
+
                 comboCount = 0;
             }
             else time += Time.deltaTime;
@@ -44,9 +55,19 @@ namespace Code.Runtime.Logic
 
         private void EndCombo()
         {
-            if(comboCount < 2) return;
+            if (comboCount < 2) return;
             
+            _scoreInteractor.AddScore(comboCount * 5);
+            _moneyInteractor.AddCoins(comboCount);
+
             _logService.Log("End Combo: " + comboCount + "X");
+        }
+
+        private void OnShapesCombined()
+        {
+            comboCount++;
+
+            time = 0;
         }
     }
 }

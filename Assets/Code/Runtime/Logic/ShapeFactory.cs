@@ -26,7 +26,7 @@ namespace Code.Runtime
             float size = _shapeSizeConfig.Sizes[(int) shapeSize];
             Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
 
-            shape.Construct(shapeSize, this, _progressService.InteractorContainer.Get<ScoreInteractor>());
+            shape.Construct(shapeSize, this, _progressService.InteractorContainer.Get<ShapeInteractor>());
             shape.transform.localScale = new Vector2(size, size);
 
             return shape;

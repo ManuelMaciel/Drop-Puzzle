@@ -16,7 +16,7 @@ namespace Code.Runtime.Interactors
         }
 
         public int GetMaxScore() => _repository.MaxScore;
-
+        
         public int GetCurrentScore() => _repository.Score;
 
         public void AddScore(int score)

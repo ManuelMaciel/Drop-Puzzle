@@ -1,5 +1,4 @@
 ﻿using Code.Runtime.Interactors;
-using Code.Runtime.Repositories;
 using UnityEngine;
 
 namespace Code.Runtime.Logic
@@ -12,11 +11,11 @@ namespace Code.Runtime.Logic
         [SerializeField] private ShapeType _shapeType;
 
         private IShapeFactory _shapeFactory;
-        private ScoreInteractor _scoreInteractor;
+        private ShapeInteractor _shapeInteractor;
 
-        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, ScoreInteractor scoreInteractor)
+        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, ShapeInteractor shapeInteractor)
         {
-            _scoreInteractor = scoreInteractor;
+            _shapeInteractor = shapeInteractor;
             _shapeFactory = shapeFactory;
             ShapeSize = shapeSize;
         }
@@ -34,7 +33,7 @@ namespace Code.Runtime.Logic
                     Destroy(other.gameObject);
 
                     _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize());
-                    _scoreInteractor.AddScoreByShapeSize(ShapeSize);
+                    _shapeInteractor.ShapeCombined();
                 }
             }
         }

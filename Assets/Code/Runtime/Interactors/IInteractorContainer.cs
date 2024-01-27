@@ -8,5 +8,7 @@ namespace Code.Runtime.Repositories
         void CreateInteractor<T, TRepository>(IRepository repository) where T : Interactor<TRepository>, new();
         void CreateInteractor<T, TRepository, TPayload>(IRepository repository, TPayload payload)
             where T : PayloadInteractor<TRepository, TPayload>, new();
+
+        bool TryGet<T>(out IInteractor interactor) where T : class, IInteractor;
     }
 }

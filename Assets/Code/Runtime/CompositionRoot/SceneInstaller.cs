@@ -7,7 +7,7 @@ namespace Code.Runtime.CompositionRoot
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<ComboDetector>().AsSingle();
+            
         }
     }
 }

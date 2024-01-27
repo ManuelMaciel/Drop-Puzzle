@@ -11,9 +11,11 @@ namespace Code.Runtime.UI
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
+        [SerializeField] private TextMeshProUGUI _coinsText;
         
         private IInteractorContainer _interactorContainer;
         private ScoreInteractor _scoreInteractor;
+        private MoneyInteractor _moneyInteractor;
 
         [Inject]
         void Construct(IPersistentProgressService persistentProgressService)
@@ -24,6 +26,7 @@ namespace Code.Runtime.UI
         private void Start()
         {
             InitializeScoreInteractor();
+            InitializeMoneyInteractor();
         }
 
         private void InitializeScoreInteractor()
@@ -34,13 +37,27 @@ namespace Code.Runtime.UI
             
             UpdateScoreText(_scoreInteractor.GetCurrentScore());
         }
+        
+        private void InitializeMoneyInteractor()
+        {
+            _moneyInteractor = _interactorContainer.Get<MoneyInteractor>();
+
+            _moneyInteractor.OnCollectCoins += UpdateCoinsText;
+            
+            UpdateCoinsText(_moneyInteractor.GetCoins());
+        }
 
         private void UpdateScoreText(int score)
         {
             _scoreText.text = score.ToString();
             _maxScoreText.text = _scoreInteractor.GetMaxScore().ToString();
         }
-        
+
+        private void UpdateCoinsText(int coins)
+        {
+            _coinsText.text = coins.ToString();
+        }
+
         public class Factory : PlaceholderFactory<HUD>
         {
         }

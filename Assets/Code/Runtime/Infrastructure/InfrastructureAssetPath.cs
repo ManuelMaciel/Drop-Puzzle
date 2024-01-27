@@ -4,4 +4,5 @@
     public const string CoroutineRunnerPath = "Infrastructure/CoroutineRunner";
     public const string HUDPath = "UI/HUD";
     public const string ShapeDropper = "Game/ShapeDropper";
+    public const string ComboDetector = "Game/ComboDetector";
 }

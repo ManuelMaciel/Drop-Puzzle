@@ -12,6 +12,9 @@ namespace Code.Runtime.Interactors
         public T Get<T>() where T : class, IInteractor =>
             _interactors[typeof(T)] as T;
 
+        public bool TryGet<T>(out IInteractor interactor) where T : class, IInteractor =>
+            _interactors.TryGetValue(typeof(T), out interactor);
+
         public void CreateInteractor<T, TRepository>(IRepository repository) where T : Interactor<TRepository>, new()
         {
             T interactor = new T();
