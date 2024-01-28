@@ -58,7 +58,7 @@ namespace Code.Runtime.UI
             _coinsText.text = coins.ToString();
         }
 
-        public class Factory : PlaceholderFactory<HUD>
+        public class Factory : PlaceholderFactory<string, HUD>
         {
         }
     }

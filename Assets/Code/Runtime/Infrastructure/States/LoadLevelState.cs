@@ -23,7 +23,7 @@ namespace Code.Runtime.Infrastructure.States
 
         private void InitWorld()
         {
-            _hudFactory.Create();
+            _hudFactory.Create(InfrastructureAssetPath.HUDPath);
             _spawnerFactory.Create();
         }
 
