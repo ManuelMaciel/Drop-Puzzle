@@ -32,6 +32,7 @@ namespace Code.Services.SaveLoadService
             PlayerPrefs.SetString(ProgressKey, _playerProgress.ToJson());
         }
 
+        //Оно создает новый объект
         public PlayerProgress LoadProgress()
         {
             _logService.Log("Data loaded");
