@@ -1,4 +1,5 @@
 using System.Collections;
+using Code.Services.SaveLoadService;
 using UnityEngine;
 using Zenject;
 
@@ -13,10 +14,12 @@ namespace Code.Runtime.Logic
 
         private IShapeFactory _shapeFactory;
         private Movement _movement;
+        private ISaveLoadService _saveLoadService;
 
         [Inject]
-        public void Construct(IShapeFactory shapeFactory)
+        public void Construct(IShapeFactory shapeFactory, ISaveLoadService saveLoadService)
         {
+            _saveLoadService = saveLoadService;
             _shapeFactory = shapeFactory;
         }
 
@@ -37,7 +40,7 @@ namespace Code.Runtime.Logic
         private IEnumerator SpawnNextShapeDelay()
         {
             yield return new WaitForSeconds(Delay);
-        
+
             _movement.AddShape(CreateShape());
         }
 

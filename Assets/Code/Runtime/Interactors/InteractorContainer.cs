@@ -15,19 +15,19 @@ namespace Code.Runtime.Interactors
         public bool TryGet<T>(out IInteractor interactor) where T : class, IInteractor =>
             _interactors.TryGetValue(typeof(T), out interactor);
 
-        public void CreateInteractor<T, TRepository>(IRepository repository) where T : Interactor<TRepository>, new()
+        public void CreateInteractor<T, TRepository>(TRepository repository) where T : Interactor<TRepository>, new()
         {
             T interactor = new T();
 
-            ConstructInteractor<T>(interactor, repository);
+            ConstructInteractor<T>(interactor, (IRepository)repository);
         }
 
-        public void CreateInteractor<T, TRepository, TPayload>(IRepository repository, TPayload payload)
+        public void CreateInteractor<T, TRepository, TPayload>(TRepository repository, TPayload payload)
             where T : PayloadInteractor<TRepository, TPayload>, new()
         {
             T interactor = new T();
 
-            ConstructInteractor<T>(interactor, repository);
+            ConstructInteractor<T>(interactor, (IRepository)repository);
 
             interactor.Initialize(payload);
         }

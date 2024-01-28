@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Interactors;
+﻿using Code.Runtime.Extensions;
+using Code.Runtime.Interactors;
 using UnityEngine;
 
 namespace Code.Runtime.Logic

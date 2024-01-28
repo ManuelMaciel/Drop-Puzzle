@@ -1,8 +1,8 @@
 ﻿using Code.Runtime.Infrastructure.States;
 
-namespace Code.Runtime
+namespace Code.Runtime.Extensions
 {
-    public static class Extensions
+    public static class GameExtensions
     {
         public static ShapeSize NextSize(this ShapeSize shapeSize) 
             => (ShapeSize) (((int) shapeSize) + 1);
