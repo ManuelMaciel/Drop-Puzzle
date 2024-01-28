@@ -52,6 +52,6 @@ namespace Code.Runtime.Logic
             return shapeRigidbody;
         }
         
-        public class Factory : PlaceholderFactory<Spawner> { }
+        public class Factory : PlaceholderFactory<string, Spawner> { }
     }
 }

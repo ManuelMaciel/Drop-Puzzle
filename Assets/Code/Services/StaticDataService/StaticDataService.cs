@@ -15,7 +15,6 @@ namespace Code.Services.StaticDataService
 
         private readonly ILogService log;
 
-
         public StaticDataService(ILogService log)
         {
             this.log = log;

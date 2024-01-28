@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Logic;
 using Zenject;
 
-namespace Code.Runtime.CompositionRoot
+namespace Code.Runtime.Installers
 {
     public class SceneInstaller : MonoInstaller
     {

@@ -8,17 +8,21 @@ namespace Code.Runtime.Logic
 {
     public class ShapeFactory : IShapeFactory
     {
+        private readonly IStaticDataService _staticDataService;
         private readonly IPersistentProgressService _progressService;
-        private readonly ShapeSizeConfig _shapeSizeConfig;
-        private readonly Shape _shapePrefab;
+        private ShapeSizeConfig _shapeSizeConfig;
+        private Shape _shapePrefab;
 
         public ShapeFactory(IStaticDataService staticDataService, IPersistentProgressService progressService)
         {
+            _staticDataService = staticDataService;
             _progressService = progressService;
-            _shapeSizeConfig = staticDataService.ShapeSizeConfig;
+        }
 
-            Debug.Log(staticDataService.ShapeSizeConfig);
-            _shapePrefab = _shapeSizeConfig.ShapePrefab;
+        public void Initialize()
+        {
+            _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
+            _shapePrefab = _shapeSizeConfig.ShapePrefab;           
         }
 
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize)

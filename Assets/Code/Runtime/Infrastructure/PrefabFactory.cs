@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
-using Object = UnityEngine.Object;
 
 namespace Code.Runtime.Infrastructure
 {
@@ -21,12 +21,10 @@ namespace Code.Runtime.Infrastructure
             if (prefab == null)
                 throw new Exception($"Prefab not found at path: {path}");
             
-            GameObject newObject = Object.Instantiate(prefab);
-            TComponent component = newObject.GetComponent<TComponent>();
-            
-            _container.Inject(component);
+            GameObject newObject = _container.InstantiatePrefab(prefab);
+            SceneManager.MoveGameObjectToScene(newObject, SceneManager.GetActiveScene());
 
-            return component;
+            return newObject.GetComponent<TComponent>();
         }
     }
 }

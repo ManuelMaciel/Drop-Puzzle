@@ -24,7 +24,7 @@ namespace Code.Runtime.Infrastructure.States
         private void InitWorld()
         {
             _hudFactory.Create(InfrastructureAssetPath.HUDPath);
-            _spawnerFactory.Create();
+            _spawnerFactory.Create(InfrastructureAssetPath.ShapeDropper);
         }
 
         public void Exit()
