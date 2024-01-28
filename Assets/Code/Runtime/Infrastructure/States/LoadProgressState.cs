@@ -1,7 +1,7 @@
-﻿using Code.Runtime.Configs;
-using Code.Runtime.Infrastructure.StateMachines;
+﻿using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
+using CodeBase.Services.StaticDataService;
 
 namespace Code.Runtime.Infrastructure.States
 {
@@ -9,20 +9,20 @@ namespace Code.Runtime.Infrastructure.States
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IPersistentProgressService _persistentProgressService;
-        private readonly ShapeScoreConfig _shapeScoreConfig;
+        private readonly IStaticDataService _staticDataService;
 
         LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService persistentProgressService,
-            ShapeScoreConfig shapeScoreConfig)
+            IStaticDataService staticDataService)
         {
             _gameStateMachine = gameStateMachine;
             _persistentProgressService = persistentProgressService;
-            _shapeScoreConfig = shapeScoreConfig;
+            _staticDataService = staticDataService;
         }
 
         public void Enter()
         {
             ProgressInitializer progressInitializer =
-                new ProgressInitializer(_persistentProgressService.InteractorContainer, _shapeScoreConfig);
+                new ProgressInitializer(_persistentProgressService.InteractorContainer, _staticDataService);
             
             _gameStateMachine.Enter<LoadLevelState, string>(SceneName.Gameplay.ToString());
         }

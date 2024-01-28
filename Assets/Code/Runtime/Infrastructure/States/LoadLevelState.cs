@@ -5,11 +5,11 @@ namespace Code.Runtime.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private readonly SceneLoader _sceneLoader;
+        private readonly ISceneLoader _sceneLoader;
         private readonly HUD.Factory _hudFactory;
         private readonly Spawner.Factory _spawnerFactory;
 
-        LoadLevelState(SceneLoader sceneLoader, HUD.Factory hudFactory, Spawner.Factory spawnerFactory)
+        LoadLevelState(ISceneLoader sceneLoader, HUD.Factory hudFactory, Spawner.Factory spawnerFactory)
         {
             _sceneLoader = sceneLoader;
             _hudFactory = hudFactory;

@@ -1,32 +1,34 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
-using Code.Runtime.Logic;
-using Code.Runtime.Repositories;
 using Code.Services.Progress;
+using CodeBase.Services.StaticDataService;
 using UnityEngine;
-using Zenject;
 
-namespace Code.Runtime
+namespace Code.Runtime.Logic
 {
     public class ShapeFactory : IShapeFactory
     {
-        [Inject] private IPersistentProgressService _progressService;
-
+        private readonly IPersistentProgressService _progressService;
         private readonly ShapeSizeConfig _shapeSizeConfig;
         private readonly Shape _shapePrefab;
 
-        public ShapeFactory(ShapeSizeConfig shapeSizeConfig, Shape shapePrefab)
+        public ShapeFactory(IStaticDataService staticDataService, IPersistentProgressService progressService)
         {
-            _shapeSizeConfig = shapeSizeConfig;
-            _shapePrefab = shapePrefab;
+            _progressService = progressService;
+            _shapeSizeConfig = staticDataService.ShapeSizeConfig;
+
+            Debug.Log(staticDataService.ShapeSizeConfig);
+            _shapePrefab = _shapeSizeConfig.ShapePrefab;
         }
 
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize)
         {
             float size = _shapeSizeConfig.Sizes[(int) shapeSize];
             Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
-
-            shape.Construct(shapeSize, this, _progressService.InteractorContainer.Get<ShapeInteractor>());
+            ScoreInteractor scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
+            ShapeInteractor shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
+            
+            shape.Construct(shapeSize, this, scoreInteractor, shapeInteractor);
             shape.transform.localScale = new Vector2(size, size);
 
             return shape;

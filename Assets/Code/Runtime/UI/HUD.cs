@@ -12,7 +12,7 @@ namespace Code.Runtime.UI
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
         [SerializeField] private TextMeshProUGUI _coinsText;
-        
+
         private IInteractorContainer _interactorContainer;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
@@ -32,18 +32,18 @@ namespace Code.Runtime.UI
         private void InitializeScoreInteractor()
         {
             _scoreInteractor = _interactorContainer.Get<ScoreInteractor>();
-            
+
             _scoreInteractor.OnScoreIncreased += UpdateScoreText;
-            
+
             UpdateScoreText(_scoreInteractor.GetCurrentScore());
         }
-        
+
         private void InitializeMoneyInteractor()
         {
             _moneyInteractor = _interactorContainer.Get<MoneyInteractor>();
 
             _moneyInteractor.OnCollectCoins += UpdateCoinsText;
-            
+
             UpdateCoinsText(_moneyInteractor.GetCoins());
         }
 

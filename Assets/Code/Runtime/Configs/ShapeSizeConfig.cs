@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Runtime.Logic;
 using UnityEngine;
 
 namespace Code.Runtime.Configs
@@ -6,6 +7,7 @@ namespace Code.Runtime.Configs
     [CreateAssetMenu(fileName = "ShapeSizeConfig", menuName = "Configs/ShapeSizeConfig", order = 0)]
     public class ShapeSizeConfig : ScriptableObject
     {
+        public Shape ShapePrefab;
         public ShapeType ShapeType;
         public float[] Sizes;
 

@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Interactors;
+﻿using System;
+using Code.Runtime.Interactors;
 using Code.Services.Progress;
 using CodeBase.Services.LogService;
 using UnityEngine;
@@ -6,13 +7,13 @@ using Zenject;
 
 namespace Code.Runtime.Logic
 {
-    public class ComboDetector : MonoBehaviour
+    public class ComboDetector : ITickable, IInitializable, IDisposable
     {
         private const float TimeToEndCombo = 0.5f;
 
         private int comboCount;
         private float time;
-        
+
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
@@ -27,7 +28,7 @@ namespace Code.Runtime.Logic
             _logService = logService;
         }
 
-        private void Start()
+        public void Initialize()
         {
             _scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
@@ -36,13 +37,13 @@ namespace Code.Runtime.Logic
             _shapeInteractor.OnShapeCombined += OnShapesCombined;
         }
 
-        private void OnDisable()
+        public void Dispose()
         {
-            if (_shapeInteractor != null) 
+            if (_shapeInteractor != null)
                 _shapeInteractor.OnShapeCombined -= OnShapesCombined;
         }
 
-        public void Update()
+        public void Tick()
         {
             if (time >= TimeToEndCombo)
             {
@@ -56,7 +57,7 @@ namespace Code.Runtime.Logic
         private void EndCombo()
         {
             if (comboCount < 2) return;
-            
+
             _scoreInteractor.AddScore(comboCount * 5);
             _moneyInteractor.AddCoins(comboCount);
 

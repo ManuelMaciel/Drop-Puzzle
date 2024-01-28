@@ -12,9 +12,12 @@ namespace Code.Runtime.Logic
 
         private IShapeFactory _shapeFactory;
         private ShapeInteractor _shapeInteractor;
+        private ScoreInteractor _scoreInteractor;
 
-        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, ShapeInteractor shapeInteractor)
+        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, 
+            ScoreInteractor scoreInteractor, ShapeInteractor shapeInteractor)
         {
+            _scoreInteractor = scoreInteractor;
             _shapeInteractor = shapeInteractor;
             _shapeFactory = shapeFactory;
             ShapeSize = shapeSize;
@@ -33,6 +36,7 @@ namespace Code.Runtime.Logic
                     Destroy(other.gameObject);
 
                     _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize());
+                    _scoreInteractor.AddScoreByShapeSize(ShapeSize);
                     _shapeInteractor.ShapeCombined();
                 }
             }

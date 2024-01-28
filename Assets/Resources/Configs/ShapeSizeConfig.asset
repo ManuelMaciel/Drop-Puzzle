@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f694230cccc343cf8600962da736a984, type: 3}
   m_Name: ShapeSizeConfig
   m_EditorClassIdentifier: 
+  ShapePrefab: {fileID: 7618735495974186215, guid: 0fcfccbcb3733f14095311ec22b29b11, type: 3}
   ShapeType: 0
   Sizes:
   - 0.3
