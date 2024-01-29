@@ -13,15 +13,17 @@ namespace Code.Runtime.Infrastructure.States
         private readonly HUD.Factory _hudFactory;
         private readonly Spawner.Factory _spawnerFactory;
         private readonly IShapeFactory _shapeFactory;
+        private readonly IUIFactory _uiFactory;
         private readonly IPersistentProgressService _progressService;
 
         LoadLevelState(ISceneLoader sceneLoader, HUD.Factory hudFactory, Spawner.Factory spawnerFactory,
-            IShapeFactory shapeFactory, IPersistentProgressService progressService)
+            IShapeFactory shapeFactory, IUIFactory uiFactory, IPersistentProgressService progressService)
         {
             _sceneLoader = sceneLoader;
             _hudFactory = hudFactory;
             _spawnerFactory = spawnerFactory;
             _shapeFactory = shapeFactory;
+            _uiFactory = uiFactory;
             _progressService = progressService;
         }
 
@@ -33,7 +35,8 @@ namespace Code.Runtime.Infrastructure.States
         private void InitWorld()
         {
             _hudFactory.Create(InfrastructureAssetPath.HUDPath);
-            _spawnerFactory.Create(InfrastructureAssetPath.ShapeDropper);
+            _spawnerFactory.Create(InfrastructureAssetPath.ShapeDropperPath);
+            _uiFactory.CreateUIRoot();
 
             SpawnLoadedShapes();
         }
@@ -45,8 +48,6 @@ namespace Code.Runtime.Infrastructure.States
             foreach (var shapeData in gameplayShapesInteractor.GetShapesData())
             {
                 _shapeFactory.CreateShape(shapeData.Position.AsUnityVector(), shapeData.ShapeSize, true);
-                GameObject gameObject = new GameObject(shapeData.ShapeSize.ToString());
-                gameObject.transform.position = shapeData.Position.AsUnityVector();
             }
         }
 

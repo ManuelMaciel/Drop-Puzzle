@@ -3,6 +3,7 @@
     public const string GameBootstraperPath = "Infrastructure/GameBootstraper";
     public const string CoroutineRunnerPath = "Infrastructure/CoroutineRunner";
     public const string HUDPath = "UI/HUD";
-    public const string ShapeDropper = "Game/ShapeDropper";
-    public const string ComboDetector = "Game/ComboDetector";
+    public const string UIRootPath = "UI/UIRoot";
+    public const string TestWindowPath = "UI/TestWindow";
+    public const string ShapeDropperPath = "Game/ShapeDropper";
 }

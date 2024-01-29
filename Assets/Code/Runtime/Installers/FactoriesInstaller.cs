@@ -18,6 +18,13 @@ namespace Code.Runtime.Installers
             BindSpawnerFactory();
 
             BindHUDFactory();
+            
+            BindUIFactory();
+        }
+
+        private void BindUIFactory()
+        {
+            Container.BindInterfacesTo<UIFactory>().AsSingle();
         }
 
         private void BindSpawnerFactory()
