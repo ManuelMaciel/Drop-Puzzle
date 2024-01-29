@@ -1,5 +1,6 @@
 ﻿using Code.Runtime.Extensions;
 using Code.Runtime.Interactors;
+using Code.Services.Progress;
 using UnityEngine;
 
 namespace Code.Runtime.Logic
@@ -14,12 +15,14 @@ namespace Code.Runtime.Logic
         private IShapeFactory _shapeFactory;
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
+        private GameplayShapesInteractor _gameplayShapesInteractor;
 
-        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, 
-            ScoreInteractor scoreInteractor, ShapeInteractor shapeInteractor)
+        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, IPersistentProgressService progressService)
         {
-            _scoreInteractor = scoreInteractor;
-            _shapeInteractor = shapeInteractor;
+            _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
+            _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
+            _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
+            
             _shapeFactory = shapeFactory;
             ShapeSize = shapeSize;
         }
@@ -33,14 +36,20 @@ namespace Code.Runtime.Logic
                     Vector3 spawnPosition = this.transform.position;
                     IsCombined = true;
 
-                    Destroy(this.gameObject);
-                    Destroy(other.gameObject);
+                    DestroyShape(this);
+                    DestroyShape(shape);
 
-                    _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize());
+                    _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize(), true);
                     _scoreInteractor.AddScoreByShapeSize(ShapeSize);
                     _shapeInteractor.ShapeCombined();
                 }
             }
+        }
+
+        private void DestroyShape(Shape shape)
+        {
+            _gameplayShapesInteractor.RemoveShape(shape);
+            Destroy(shape.gameObject);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Code.Runtime.Extensions;
+﻿using System.Collections.Generic;
+using Code.Runtime.Extensions;
+using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
 using CodeBase.Services.LogService;
 using UnityEngine;
@@ -10,8 +12,8 @@ namespace Code.Services.SaveLoadService
         private const string ProgressKey = "Progress";
 
         private readonly ILogService _logService;
-
-        // private readonly IEnumerable<IProgressSaver> saverServices;
+        private readonly List<IUpdatebleProgress> _updatebleProgresses = new List<IUpdatebleProgress>();
+        
         private PlayerProgress _playerProgress;
 
         SaveLoadService(ILogService logService)
@@ -24,20 +26,28 @@ namespace Code.Services.SaveLoadService
             _playerProgress = playerProgress;
         }
 
+        public void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress)
+        {
+            _updatebleProgresses.Add(updatebleProgress);
+        }
+
         public void SaveProgress()
         {
-            // foreach (var saver in saverServices) 
-            //     saver.UpdateProgress(_persistentProgressService.Progress);
+            foreach (var progress in _updatebleProgresses) 
+                progress.UpdateProgress();
 
             PlayerPrefs.SetString(ProgressKey, _playerProgress.ToJson());
         }
 
-        //Оно создает новый объект
-        public PlayerProgress LoadProgress()
+        public bool TryLoadProgress(out PlayerProgress playerProgress)
         {
-            _logService.Log("Data loaded");
-            
-            return PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<PlayerProgress>();
+            playerProgress = PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<PlayerProgress>();
+
+            bool dataLoaded = playerProgress != null;
+
+            if(dataLoaded) _logService.Log("Data loaded");
+
+            return dataLoaded;
         }
     }
 }

@@ -22,18 +22,19 @@ namespace Code.Runtime.Logic
         public void Initialize()
         {
             _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
-            _shapePrefab = _shapeSizeConfig.ShapePrefab;           
+            _shapePrefab = _shapeSizeConfig.ShapePrefab;
         }
 
-        public Shape CreateShape(Vector3 at, ShapeSize shapeSize)
+        public Shape CreateShape(Vector3 at, ShapeSize shapeSize, bool isDropped = false)
         {
             float size = _shapeSizeConfig.Sizes[(int) shapeSize];
             Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
-            ScoreInteractor scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
-            ShapeInteractor shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
-            
-            shape.Construct(shapeSize, this, scoreInteractor, shapeInteractor);
+
+            shape.Construct(shapeSize, this, _progressService);
             shape.transform.localScale = new Vector2(size, size);
+
+            if (isDropped)
+                _progressService.InteractorContainer.Get<GameplayShapesInteractor>().AddShape(shape);
 
             return shape;
         }

@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Infrastructure.StateMachines;
+using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
@@ -24,26 +25,30 @@ namespace Code.Runtime.Infrastructure.States
 
         public void Enter()
         {
-            PlayerProgress playerProgress = new PlayerProgress();
-            
-            playerProgress.MoneyRepository.Coins = 999;
-            
+            PlayerProgress playerProgress = InitializePlayerProgress();
+
             InteractorsInitializer.Initialize(playerProgress, _persistentProgressService.InteractorContainer,
                 _staticDataService);
-
-            InitializeSaveLoadService(playerProgress);
-            // playerProgress = _saveLoadService.LoadProgress();
+            
+            _saveLoadService.AddUpdatebleProgress(_persistentProgressService.InteractorContainer
+                .Get<GameplayShapesInteractor>());
 
             _gameStateMachine.Enter<LoadLevelState, string>(SceneName.Gameplay.ToString());
         }
 
-        public void Exit()
+        private PlayerProgress InitializePlayerProgress()
         {
+            if (!_saveLoadService.TryLoadProgress(out PlayerProgress playerProgress))
+            {
+                playerProgress = new PlayerProgress();
+            }
+
+            _saveLoadService.Initialize(playerProgress);
+            return playerProgress;
         }
 
-        private void InitializeSaveLoadService(PlayerProgress playerProgress)
+        public void Exit()
         {
-            _saveLoadService.Initialize(playerProgress);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Repositories;
+﻿using Code.Runtime.Interactors;
+using Code.Runtime.Repositories;
 
 namespace Code.Services.SaveLoadService
 {
@@ -7,6 +8,7 @@ namespace Code.Services.SaveLoadService
         void Initialize(PlayerProgress playerProgress);
 
         void SaveProgress();
-        PlayerProgress LoadProgress();
+        bool TryLoadProgress(out PlayerProgress playerProgress);
+        void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress);
     }
 }

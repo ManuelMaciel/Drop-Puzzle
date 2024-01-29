@@ -1,8 +1,8 @@
 ﻿using Code.Runtime.Configs;
-using Code.Runtime.Interactors;
+using Code.Runtime.Repositories;
 using CodeBase.Services.StaticDataService;
 
-namespace Code.Runtime.Repositories
+namespace Code.Runtime.Interactors
 {
     public static class InteractorsInitializer
     {
@@ -11,6 +11,7 @@ namespace Code.Runtime.Repositories
         {
             interactorContainer.CreateInteractor<ShapeInteractor, ShapeRepository>(playerProgress.ShapeRepository);
             interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository>(playerProgress.MoneyRepository);
+            interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress.GameplayShapesRepository);
             interactorContainer.CreateInteractor<ScoreInteractor, ScoreRepository, ShapeScoreConfig>(playerProgress.ScoreRepository,
                 staticDataService.ShapeScoreConfig);
         }

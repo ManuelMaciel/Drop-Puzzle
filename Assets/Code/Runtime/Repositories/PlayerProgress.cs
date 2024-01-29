@@ -8,5 +8,6 @@ namespace Code.Runtime.Repositories
         public ScoreRepository ScoreRepository = new ScoreRepository();
         public ShapeRepository ShapeRepository = new ShapeRepository();
         public MoneyRepository MoneyRepository = new MoneyRepository();
+        public GameplayShapesRepository GameplayShapesRepository = new GameplayShapesRepository();
     }
 }

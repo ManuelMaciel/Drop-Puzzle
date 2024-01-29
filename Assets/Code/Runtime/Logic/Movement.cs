@@ -1,4 +1,6 @@
 ﻿using System;
+using Code.Runtime.Interactors;
+using Code.Services.Progress;
 using UnityEngine;
 using Zenject;
 
@@ -10,18 +12,27 @@ namespace Code.Runtime.Logic
 
         private ScreenBorders _screenBorders;
         private Rigidbody2D _shapeRigidbody;
+        private Shape _currentShape;
+        
+        private IPersistentProgressService _progressService;
         private IInput _input;
+
         private bool _isDropped;
         private float _halfSize;
-        
+        private GameplayShapesInteractor _gameplayShapesInteractor;
+
         [Inject]
-        public void Construct(IInput input)
+        public void Construct(IInput input, IPersistentProgressService progressService)
         {
             _input = input;
+            _progressService = progressService;
         }
 
         private void Awake() => 
             _screenBorders = new ScreenBorders();
+
+        private void Start() => 
+            _gameplayShapesInteractor = _progressService.InteractorContainer.Get<GameplayShapesInteractor>();
 
         private void Update()
         {
@@ -40,18 +51,21 @@ namespace Code.Runtime.Logic
             if (_input.IsDropped())
             {
                 OnShapeDropped?.Invoke();
-
+                
+                _gameplayShapesInteractor.AddShape(_currentShape);
                 _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
                 _isDropped = true;
             }
         }
 
-        public void AddShape(Rigidbody2D newShape)
+        public void AddShape(Shape newShape)
         {
             Collider2D shapeCollider = newShape.GetComponent<Collider2D>();
-
+            
+            _shapeRigidbody = newShape.GetComponent<Rigidbody2D>();
+            _shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
             _halfSize = shapeCollider.bounds.extents.x;
-            _shapeRigidbody = newShape;
+            _currentShape = newShape;
             _isDropped = false;
         }
     }
