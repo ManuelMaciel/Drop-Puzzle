@@ -9,19 +9,23 @@ namespace Code.Runtime.Infrastructure
     {
         private readonly ICoroutineRunner _coroutineRunner;
 
+        private string _loadedSceneName;
+        
         public SceneLoader(ICoroutineRunner coroutineRunner)
         {
             _coroutineRunner = coroutineRunner;
         }
 
+        public bool IsNameLoadedScene(string sceneName) => 
+            sceneName.Equals(_loadedSceneName);
+
         public void Load(string name, Action onLoaded = null) =>
             _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
         
-        public void Load(int sceneIndex, Action onLoaded = null) =>
-            _coroutineRunner.StartCoroutine(LoadScene(SceneUtility.GetScenePathByBuildIndex(sceneIndex), onLoaded));
-
         public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
+            _loadedSceneName = nextScene;
+            
             if (SceneManager.GetActiveScene().name == nextScene)
             {
                 onLoaded?.Invoke();
@@ -32,7 +36,7 @@ namespace Code.Runtime.Infrastructure
 
             while (!waitNextScene.isDone)
                 yield return null;
-
+            
             onLoaded?.Invoke();
         }
     }

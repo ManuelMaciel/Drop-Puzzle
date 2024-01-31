@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Code.Services.InputService
 {
     public class StandardInput : IInput
     {
+        public event Action OnDrop;
+
         public float GetXPosition()
         {
             Vector3 mousePosition = Input.mousePosition;
@@ -18,7 +21,14 @@ namespace Code.Services.InputService
 
         public bool IsDropped()
         {
-            return Input.GetMouseButtonUp(0);
+            if (Input.GetMouseButtonUp(0))
+            {
+                OnDrop?.Invoke();
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

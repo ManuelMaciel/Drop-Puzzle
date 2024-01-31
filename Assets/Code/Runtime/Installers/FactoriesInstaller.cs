@@ -16,8 +16,6 @@ namespace Code.Runtime.Installers
             BindGameplayBootstrapperFactory();
             
             BindShapeFactory();
-            
-            BindSpawnerFactory();
 
             BindHUDFactory();
             
@@ -28,14 +26,7 @@ namespace Code.Runtime.Installers
         {
             Container.BindInterfacesTo<UIFactory>().AsSingle();
         }
-
-        private void BindSpawnerFactory()
-        {
-            Container
-                .BindFactory<string, Spawner, Spawner.Factory>()
-                .FromFactory<Infrastructure.PrefabFactory<Spawner>>();
-        }
-
+        
         private void BindHUDFactory()
         {
             Container

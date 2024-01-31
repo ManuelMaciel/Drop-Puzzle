@@ -38,7 +38,7 @@ namespace Code.Runtime.Infrastructure.States
             _saveLoadService.AddUpdatebleProgress(_persistentProgressService.InteractorContainer
                 .Get<GameplayShapesInteractor>());
 
-            _sceneLoader.Load(SceneName.Gameplay.ToString(), CreateGameplayBootstrapper);
+            _sceneLoader.Load(SceneName.Gameplay.ToString());
         }
 
         private PlayerProgress InitializePlayerProgress()
@@ -51,9 +51,6 @@ namespace Code.Runtime.Infrastructure.States
             _saveLoadService.Initialize(playerProgress);
             return playerProgress;
         }
-
-        private void CreateGameplayBootstrapper() => 
-            _gameplayBootstrapperFactory.Create(InfrastructureAssetPath.GameplayBootstrapperPath);
 
         public void Exit()
         {

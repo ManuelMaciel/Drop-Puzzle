@@ -34,6 +34,12 @@ namespace Code.Runtime.Logic
         private void Start() => 
             _gameplayShapesInteractor = _progressService.InteractorContainer.Get<GameplayShapesInteractor>();
 
+        private void OnEnable() => 
+            _input.OnDrop += Drop;
+
+        private void OnDisable() => 
+            _input.OnDrop -= Drop;
+
         private void Update()
         {
             if(_isDropped) return;
@@ -47,15 +53,15 @@ namespace Code.Runtime.Logic
                 _shapeRigidbody.position = new Vector2(clampXPosition, 
                     _shapeRigidbody.position.y);
             }
+        }
 
-            if (_input.IsDropped())
-            {
-                OnShapeDropped?.Invoke();
+        private void Drop()
+        {
+            OnShapeDropped?.Invoke();
                 
-                _gameplayShapesInteractor.AddShape(_currentShape);
-                _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
-                _isDropped = true;
-            }
+            _gameplayShapesInteractor.AddShape(_currentShape);
+            _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            _isDropped = true;
         }
 
         public void AddShape(Shape newShape)

@@ -26,7 +26,7 @@ namespace Code.Runtime.Infrastructure.States
             _staticDataService.Initialize();
             _shapeFactory.Initialize();
 
-            _sceneLoader.Load(SceneName.Bootstrap.Index(), ToLoadProgressState);
+            _sceneLoader.Load(SceneName.Bootstrap.ToString(), ToLoadProgressState);
         }
 
         private void ToLoadProgressState() =>
