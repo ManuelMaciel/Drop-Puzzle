@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Logic;
+﻿using Code.Runtime.Infrastructure;
+using Code.Runtime.Logic;
 using Zenject;
 
 namespace Code.Runtime.Installers
@@ -7,10 +8,20 @@ namespace Code.Runtime.Installers
     {
         public override void InstallBindings()
         {
+            // BindInput();
+
             BindComboDetector();
+            
+            BindStatesFactory();
         }
 
-        private void BindComboDetector() => 
+        private void BindComboDetector() =>
             Container.BindInterfacesTo<ComboDetector>().AsSingle();
+
+        // private void BindInput() => 
+        //     Container.BindInterfacesTo<MobileInput>().AsSingle();
+
+        private void BindStatesFactory() =>
+            Container.BindInterfacesTo<StatesFactory>().AsSingle();
     }
 }

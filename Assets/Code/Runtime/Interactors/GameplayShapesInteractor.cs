@@ -3,7 +3,6 @@ using System.Linq;
 using Code.Runtime.Extensions;
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
-using UnityEngine;
 
 namespace Code.Runtime.Interactors
 {
@@ -23,7 +22,7 @@ namespace Code.Runtime.Interactors
                 Position = shape.transform.position.AsVectorData(),
                 ShapeSize = shape.ShapeSize
             };
-            
+
             _shapesData.Add(shape, shapeData);
         }
 
@@ -34,11 +33,6 @@ namespace Code.Runtime.Interactors
 
         public void UpdateProgress()
         {
-            foreach (var shape in _shapesData.Keys)
-            {
-                Debug.Log(shape.transform.position);
-            }
-            
             _repository.ShapesData = _shapesData.ToDictionary(
                 k => k.Key,
                 d => new GameplayShapesRepository.ShapeData()
@@ -46,13 +40,6 @@ namespace Code.Runtime.Interactors
                     Position = d.Key.transform.position.AsVectorData(),
                     ShapeSize = d.Value.ShapeSize
                 }).Values.ToList();
-            
-            Debug.Log("=====================================");
-
-            foreach (var shapeData in _repository.ShapesData)
-            {
-                Debug.Log(shapeData.Position.x + " " + shapeData.Position.y + " " + shapeData.Position.z);
-            }
         }
     }
 }

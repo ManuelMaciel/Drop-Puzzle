@@ -11,7 +11,9 @@ namespace Code.Runtime.Installers
         {
             BindStatesFactory();
             
-            BindGameBootstraperFactory();
+            BindGameBootstrapperFactory();
+            
+            BindGameplayBootstrapperFactory();
             
             BindShapeFactory();
             
@@ -31,21 +33,28 @@ namespace Code.Runtime.Installers
         {
             Container
                 .BindFactory<string, Spawner, Spawner.Factory>()
-                .FromFactory<Code.Runtime.Infrastructure.PrefabFactory<Spawner>>();
+                .FromFactory<Infrastructure.PrefabFactory<Spawner>>();
         }
 
         private void BindHUDFactory()
         {
             Container
                 .BindFactory<string, HUD, HUD.Factory>()
-                .FromFactory<Code.Runtime.Infrastructure.PrefabFactory<HUD>>();
+                .FromFactory<Infrastructure.PrefabFactory<HUD>>();
         }
 
-        private void BindGameBootstraperFactory()
+        private void BindGameBootstrapperFactory()
         {
             Container
                 .BindFactory<GameBootstrapper, GameBootstrapper.Factory>()
-                .FromComponentInNewPrefabResource(InfrastructureAssetPath.GameBootstraperPath);
+                .FromComponentInNewPrefabResource(InfrastructureAssetPath.GameBootstrapperPath);
+        }
+        
+        private void BindGameplayBootstrapperFactory()
+        {
+            Container
+                .BindFactory<string, GameplayBootstrapper, GameplayBootstrapper.Factory>()
+                .FromFactory<Infrastructure.PrefabFactory<GameplayBootstrapper>>();
         }
 
         private void BindShapeFactory()
