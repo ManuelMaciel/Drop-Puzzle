@@ -38,7 +38,7 @@ namespace Code.Runtime.Infrastructure.States
             _saveLoadService.AddUpdatebleProgress(_persistentProgressService.InteractorContainer
                 .Get<GameplayShapesInteractor>());
 
-            _sceneLoader.Load(SceneName.Gameplay.ToString());
+            _sceneLoader.Load(SceneName.Menu.ToString());
         }
 
         private PlayerProgress InitializePlayerProgress()

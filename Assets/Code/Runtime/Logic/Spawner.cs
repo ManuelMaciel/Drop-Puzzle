@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Code.Runtime.Logic
 {
-    [RequireComponent(typeof(Movement))]
+    [RequireComponent(typeof(ShapeDropper))]
     public class Spawner : MonoBehaviour
     {
         private const float Delay = 1f;
@@ -15,7 +15,8 @@ namespace Code.Runtime.Logic
         private IShapeFactory _shapeFactory;
         private ISaveLoadService _saveLoadService;
 
-        private Movement _movement;
+        private ShapeDropper _shapeDropper;
+        private int _lastRandomSizeIndex;
 
         [Inject]
         public void Construct(IShapeFactory shapeFactory, ISaveLoadService saveLoadService)
@@ -26,14 +27,16 @@ namespace Code.Runtime.Logic
 
         private void Awake()
         {
-            _movement = GetComponent<Movement>();
-            _movement.AddShape(CreateShape());
+            _shapeDropper = GetComponent<ShapeDropper>();
 
-            _movement.OnShapeDropped += SpawnNextShape;
+            _shapeDropper.Initialize();
+            _shapeDropper.AddShape(CreateShape());
+
+            _shapeDropper.OnShapeDropped += SpawnNextShape;
         }
 
         private void OnDestroy() =>
-            _movement.OnShapeDropped += SpawnNextShape;
+            _shapeDropper.OnShapeDropped += SpawnNextShape;
 
         private void SpawnNextShape() =>
             StartCoroutine(SpawnNextShapeDelay());
@@ -41,16 +44,28 @@ namespace Code.Runtime.Logic
         private IEnumerator SpawnNextShapeDelay()
         {
             yield return new WaitForSeconds(Delay);
-            
-            _movement.AddShape(CreateShape());
+
+            _shapeDropper.AddShape(CreateShape());
         }
 
         private Shape CreateShape()
         {
-            ShapeSize shapeSize = (ShapeSize) Random.Range(0, 2);
+            ShapeSize shapeSize = GetRandomShape();
             Shape shape = _shapeFactory.CreateShape(spawnPoint.position, shapeSize);
-            
+
             return shape;
+        }
+
+        private ShapeSize GetRandomShape()
+        {
+            int randomIndex = 0;
+
+            do
+            {
+                randomIndex = Random.Range(0, 4);
+            } while (_lastRandomSizeIndex == randomIndex);
+
+            return (ShapeSize) (_lastRandomSizeIndex = randomIndex);
         }
 
         public class Factory : PlaceholderFactory<string, Spawner>

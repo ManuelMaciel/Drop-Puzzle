@@ -27,7 +27,8 @@ namespace Code.Runtime.Logic
 
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize, bool isDropped = false)
         {
-            float size = _shapeSizeConfig.Sizes[(int) shapeSize];
+            int shapeIndex = (int)shapeSize;
+            float size = _shapeSizeConfig.Sizes[shapeIndex];
             Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
 
             shape.Construct(shapeSize, this, _progressService);

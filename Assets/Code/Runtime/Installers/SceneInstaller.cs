@@ -19,8 +19,6 @@ namespace Code.Runtime.Installers
             BindStatesFactory();
             
             BindSpawnerFactory();
-            
-            Debug.Log("SceneInstaller");
         }
 
         private void BindComboDetector() =>

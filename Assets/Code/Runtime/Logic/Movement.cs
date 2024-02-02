@@ -1,6 +1,4 @@
-﻿using System;
-using Code.Runtime.Interactors;
-using Code.Services.Progress;
+﻿using Code.Runtime.Interactors;
 using UnityEngine;
 using Zenject;
 
@@ -8,41 +6,24 @@ namespace Code.Runtime.Logic
 {
     public class Movement : MonoBehaviour
     {
-        public event Action OnShapeDropped;
-
         private ScreenBorders _screenBorders;
         private Rigidbody2D _shapeRigidbody;
-        private Shape _currentShape;
-        
-        private IPersistentProgressService _progressService;
-        private IInput _input;
 
-        private bool _isDropped;
+        private IInput _input;
+        
         private float _halfSize;
         private GameplayShapesInteractor _gameplayShapesInteractor;
 
         [Inject]
-        public void Construct(IInput input, IPersistentProgressService progressService)
-        {
+        public void Construct(IInput input) => 
             _input = input;
-            _progressService = progressService;
-        }
 
-        private void Awake() => 
+        private void Awake() =>
             _screenBorders = new ScreenBorders();
-
-        private void Start() => 
-            _gameplayShapesInteractor = _progressService.InteractorContainer.Get<GameplayShapesInteractor>();
-
-        private void OnEnable() => 
-            _input.OnDrop += Drop;
-
-        private void OnDisable() => 
-            _input.OnDrop -= Drop;
-
+        
         private void Update()
         {
-            if(_isDropped) return;
+            if(_shapeRigidbody == null) return;
 
             if (_input.IsPress())
             {
@@ -50,29 +31,22 @@ namespace Code.Runtime.Logic
                     _screenBorders.LeftSide + _halfSize,
                     _screenBorders.RightSide - _halfSize);
                 
-                _shapeRigidbody.position = new Vector2(clampXPosition, 
+                _shapeRigidbody.position = new Vector2(clampXPosition,
                     _shapeRigidbody.position.y);
             }
         }
-
-        private void Drop()
+        
+        public void AddShape(Rigidbody2D shapeRigidbody)
         {
-            OnShapeDropped?.Invoke();
-                
-            _gameplayShapesInteractor.AddShape(_currentShape);
-            _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
-            _isDropped = true;
+            Collider2D shapeCollider = shapeRigidbody.GetComponent<Collider2D>();
+
+            _shapeRigidbody = shapeRigidbody;
+            _halfSize = shapeCollider.bounds.extents.x;
         }
 
-        public void AddShape(Shape newShape)
+        public void RemoveShape()
         {
-            Collider2D shapeCollider = newShape.GetComponent<Collider2D>();
-            
-            _shapeRigidbody = newShape.GetComponent<Rigidbody2D>();
-            _shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            _halfSize = shapeCollider.bounds.extents.x;
-            _currentShape = newShape;
-            _isDropped = false;
+            _shapeRigidbody = null;
         }
     }
 }
