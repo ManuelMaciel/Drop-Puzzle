@@ -14,13 +14,16 @@ namespace Code.Runtime.Logic
 
         private IShapeFactory _shapeFactory;
         private ISaveLoadService _saveLoadService;
+        private IShapeDeterminantor _shapeDeterminantor;
 
         private ShapeDropper _shapeDropper;
         private int _lastRandomSizeIndex;
 
         [Inject]
-        public void Construct(IShapeFactory shapeFactory, ISaveLoadService saveLoadService)
+        public void Construct(IShapeFactory shapeFactory, ISaveLoadService saveLoadService,
+            IShapeDeterminantor shapeDeterminantor)
         {
+            _shapeDeterminantor = shapeDeterminantor;
             _saveLoadService = saveLoadService;
             _shapeFactory = shapeFactory;
         }
@@ -50,24 +53,11 @@ namespace Code.Runtime.Logic
 
         private Shape CreateShape()
         {
-            ShapeSize shapeSize = GetRandomShape();
-            Shape shape = _shapeFactory.CreateShape(spawnPoint.position, shapeSize);
-
+            Shape shape = _shapeFactory.CreateShape(spawnPoint.position, _shapeDeterminantor.GetShape());
+            
             return shape;
         }
-
-        private ShapeSize GetRandomShape()
-        {
-            int randomIndex = 0;
-
-            do
-            {
-                randomIndex = Random.Range(0, 4);
-            } while (_lastRandomSizeIndex == randomIndex);
-
-            return (ShapeSize) (_lastRandomSizeIndex = randomIndex);
-        }
-
+        
         public class Factory : PlaceholderFactory<string, Spawner>
         {
         }

@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Interactors;
+using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
 using TMPro;
@@ -12,21 +13,40 @@ namespace Code.Runtime.UI
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
         [SerializeField] private TextMeshProUGUI _coinsText;
+        [SerializeField] private TextMeshProUGUI _nextShapeSize;
 
+        private IShapeDeterminantor _shapeDeterminantor;
         private IInteractorContainer _interactorContainer;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
+        private Spawner _spawner;
 
         [Inject]
-        void Construct(IPersistentProgressService persistentProgressService)
+        void Construct(IPersistentProgressService persistentProgressService, IShapeDeterminantor shapeDeterminantor)
         {
             _interactorContainer = persistentProgressService.InteractorContainer;
+            _shapeDeterminantor = shapeDeterminantor;
         }
 
         private void Start()
         {
             InitializeScoreInteractor();
             InitializeMoneyInteractor();
+            InitializeTextNextShape();
+        }
+
+        private void OnDestroy()
+        {
+            _shapeDeterminantor.OnShapeChanged -= UpdateTextNextShape;
+            _scoreInteractor.OnScoreIncreased -= UpdateScoreText;
+            _moneyInteractor.OnCollectCoins -= UpdateCoinsText;
+        }
+
+        private void InitializeTextNextShape()
+        {
+            _shapeDeterminantor.OnShapeChanged += UpdateTextNextShape;
+            
+            UpdateTextNextShape();
         }
 
         private void InitializeScoreInteractor()
@@ -45,6 +65,11 @@ namespace Code.Runtime.UI
             _moneyInteractor.OnCollectCoins += UpdateCoinsText;
 
             UpdateCoinsText(_moneyInteractor.GetCoins());
+        }
+
+        private void UpdateTextNextShape()
+        {
+            _nextShapeSize.text = _shapeDeterminantor.NextShapeSize.ToString();
         }
 
         private void UpdateScoreText(int score)
