@@ -9,6 +9,9 @@ namespace Code.Services.SaveLoadService
 
         void SaveProgress();
         bool TryLoadProgress(out PlayerProgress playerProgress);
+        
         void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress);
+        void RemoveUpdatebleProgress(IUpdatebleProgress updatebleProgress);
+        void ClearUpdatebleProgress();
     }
 }

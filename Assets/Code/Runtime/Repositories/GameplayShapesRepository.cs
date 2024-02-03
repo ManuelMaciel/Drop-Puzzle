@@ -9,9 +9,9 @@ namespace Code.Runtime.Repositories
         public List<ShapeData> ShapesData = new List<ShapeData>();
         
         [Serializable]
-        public struct ShapeData
+        public class ShapeData
         {
-            public int Id;
+            public string Id;
             public Vector3Data Position;
             public ShapeSize ShapeSize;
         }

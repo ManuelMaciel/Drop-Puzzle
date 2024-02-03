@@ -6,7 +6,7 @@ using Code.Services.Progress;
 
 namespace Code.Runtime.Infrastructure.States
 {
-    public class LoadLevelState : IState
+    public class LoadGameplayLevelState : IState, IDeletebleState
     {
         private readonly HUD.Factory _hudFactory;
         private readonly Spawner.Factory _spawnerFactory;
@@ -14,7 +14,7 @@ namespace Code.Runtime.Infrastructure.States
         private readonly IUIFactory _uiFactory;
         private readonly IPersistentProgressService _progressService;
 
-        LoadLevelState(HUD.Factory hudFactory, Spawner.Factory spawnerFactory,
+        LoadGameplayLevelState(HUD.Factory hudFactory, Spawner.Factory spawnerFactory,
             IShapeFactory shapeFactory, IUIFactory uiFactory, IPersistentProgressService progressService)
         {
             _hudFactory = hudFactory;
@@ -44,7 +44,7 @@ namespace Code.Runtime.Infrastructure.States
 
             foreach (var shapeData in gameplayShapesInteractor.GetShapesData())
             {
-                _shapeFactory.CreateShape(shapeData.Position.AsUnityVector(), shapeData.ShapeSize, true);
+                _shapeFactory.CreateShapeFromLoadedData(shapeData.Position.AsUnityVector(), shapeData.ShapeSize, shapeData.Id);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using Code.Runtime.Infrastructure;
+﻿using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,19 +11,19 @@ namespace Code.Runtime.UI
         [SerializeField] private Button button;
         [SerializeField] private SceneName nextScene;
 
-        private ISceneLoader _sceneLoader;
+        private GameStateMachine _gameStateMachine;
 
         [Inject]
-        void Construct(ISceneLoader sceneLoader) => 
-            _sceneLoader = sceneLoader;
+        void Construct(GameStateMachine gameStateMachine) =>
+            _gameStateMachine = gameStateMachine;
 
-        private void OnEnable() => 
+        private void OnEnable() =>
             button.onClick.AddListener(ChangeState);
 
-        private void OnDisable() => 
+        private void OnDisable() =>
             button.onClick.RemoveListener(ChangeState);
 
-        private void ChangeState() => 
-            _sceneLoader.Load(nextScene.ToString());
+        private void ChangeState() =>
+            _gameStateMachine.Enter<LoadSceneState, string>(nextScene.ToString());
     }
 }

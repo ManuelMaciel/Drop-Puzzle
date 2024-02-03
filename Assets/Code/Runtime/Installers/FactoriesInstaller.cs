@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Infrastructure;
+using Code.Runtime.Infrastructure.Bootstrappers;
 using Code.Runtime.Logic;
 using Code.Runtime.UI;
 using Zenject;
@@ -12,8 +13,6 @@ namespace Code.Runtime.Installers
             BindStatesFactory();
             
             BindGameBootstrapperFactory();
-            
-            BindGameplayBootstrapperFactory();
             
             BindShapeFactory();
 
@@ -41,13 +40,6 @@ namespace Code.Runtime.Installers
                 .FromComponentInNewPrefabResource(InfrastructureAssetPath.GameBootstrapperPath);
         }
         
-        private void BindGameplayBootstrapperFactory()
-        {
-            Container
-                .BindFactory<string, GameplayBootstrapper, GameplayBootstrapper.Factory>()
-                .FromFactory<Infrastructure.PrefabFactory<GameplayBootstrapper>>();
-        }
-
         private void BindShapeFactory()
         {
             Container.BindInterfacesTo<ShapeFactory>().AsSingle();

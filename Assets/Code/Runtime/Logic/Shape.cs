@@ -1,14 +1,16 @@
-﻿using Code.Runtime.Extensions;
+﻿using System;
+using Code.Runtime.Extensions;
 using Code.Runtime.Interactors;
 using Code.Services.Progress;
 using UnityEngine;
 
 namespace Code.Runtime.Logic
 {
-    public class Shape : MonoBehaviour
+    public class Shape : MonoBehaviour, IUpdatebleProgress
     {
         public ShapeSize ShapeSize { get; private set; }
         public bool IsCombined { get; private set; }
+        public string ShapeId { get; private set; }
 
         [SerializeField] private ShapeType _shapeType;
 
@@ -16,15 +18,19 @@ namespace Code.Runtime.Logic
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private GameplayShapesInteractor _gameplayShapesInteractor;
+        private Action _onDestroyed;
 
-        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory, IPersistentProgressService progressService)
+        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory,
+            IPersistentProgressService progressService, Action onDestroyed, string shapeId = null)
         {
+            _onDestroyed = onDestroyed;
             _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
             _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
-            
+
             _shapeFactory = shapeFactory;
             ShapeSize = shapeSize;
+            ShapeId = shapeId;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -50,6 +56,10 @@ namespace Code.Runtime.Logic
         {
             _gameplayShapesInteractor.RemoveShape(shape);
             Destroy(shape.gameObject);
+            _onDestroyed?.Invoke();
         }
+
+        public void UpdateProgress(IPersistentProgressService persistentProgressService) =>
+            persistentProgressService.InteractorContainer.Get<GameplayShapesInteractor>().UpdateShapeData(this);
     }
 }

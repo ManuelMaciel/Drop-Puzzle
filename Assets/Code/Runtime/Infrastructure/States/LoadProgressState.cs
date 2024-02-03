@@ -14,18 +14,15 @@ namespace Code.Runtime.Infrastructure.States
         private readonly IStaticDataService _staticDataService;
         private readonly ISaveLoadService _saveLoadService;
         private readonly ISceneLoader _sceneLoader;
-        private readonly GameplayBootstrapper.Factory _gameplayBootstrapperFactory;
 
         LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService persistentProgressService,
-            IStaticDataService staticDataService, ISaveLoadService saveLoadService, ISceneLoader sceneLoader,
-            GameplayBootstrapper.Factory gameplayBootstrapperFactory)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService, ISceneLoader sceneLoader)
         {
             _gameStateMachine = gameStateMachine;
             _persistentProgressService = persistentProgressService;
             _staticDataService = staticDataService;
             _saveLoadService = saveLoadService;
             _sceneLoader = sceneLoader;
-            _gameplayBootstrapperFactory = gameplayBootstrapperFactory;
         }
 
         public void Enter()
@@ -34,10 +31,7 @@ namespace Code.Runtime.Infrastructure.States
 
             InteractorsInitializer.Initialize(playerProgress, _persistentProgressService.InteractorContainer,
                 _staticDataService);
-
-            _saveLoadService.AddUpdatebleProgress(_persistentProgressService.InteractorContainer
-                .Get<GameplayShapesInteractor>());
-
+            
             _sceneLoader.Load(SceneName.Menu.ToString());
         }
 

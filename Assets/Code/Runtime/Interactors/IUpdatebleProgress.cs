@@ -1,7 +1,9 @@
-﻿namespace Code.Runtime.Interactors
+﻿using Code.Services.Progress;
+
+namespace Code.Runtime.Interactors
 {
     public interface IUpdatebleProgress
     {
-        void UpdateProgress();
+        void UpdateProgress(IPersistentProgressService persistentProgressService);
     }
 }

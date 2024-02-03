@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Code.Runtime.Extensions;
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
 
 namespace Code.Runtime.Interactors
 {
-    public class GameplayShapesInteractor : Interactor<GameplayShapesRepository>, IUpdatebleProgress
+    public class GameplayShapesInteractor : Interactor<GameplayShapesRepository>
     {
-        private Dictionary<Shape, GameplayShapesRepository.ShapeData> _shapesData =
-            new Dictionary<Shape, GameplayShapesRepository.ShapeData>();
-
         public IEnumerable<GameplayShapesRepository.ShapeData> GetShapesData()
             => _repository.ShapesData;
 
@@ -18,28 +14,30 @@ namespace Code.Runtime.Interactors
         {
             var shapeData = new GameplayShapesRepository.ShapeData()
             {
-                Id = shape.GetInstanceID(),
+                Id = shape.ShapeId,
                 Position = shape.transform.position.AsVectorData(),
                 ShapeSize = shape.ShapeSize
             };
 
-            _shapesData.Add(shape, shapeData);
+            if(_repository.ShapesData.Contains(shapeData)) return;
+
+            _repository.ShapesData.Add(shapeData);
         }
 
         public void RemoveShape(Shape shape)
         {
-            _shapesData.Remove(shape);
+            _repository.ShapesData.RemoveAll(data => data.Id == shape.ShapeId);
         }
 
-        public void UpdateProgress()
+        public void UpdateShapeData(Shape shape)
         {
-            _repository.ShapesData = _shapesData.ToDictionary(
-                k => k.Key,
-                d => new GameplayShapesRepository.ShapeData()
-                {
-                    Position = d.Key.transform.position.AsVectorData(),
-                    ShapeSize = d.Value.ShapeSize
-                }).Values.ToList();
+            GameplayShapesRepository.ShapeData existingShapeData = _repository.ShapesData.Find(data => data.Id == shape.ShapeId);
+            
+            if (existingShapeData != null)
+            {
+                existingShapeData.Position = shape.transform.position.AsVectorData();
+                existingShapeData.ShapeSize = shape.ShapeSize;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Code.Runtime.Extensions;
 using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
+using Code.Services.Progress;
 using CodeBase.Services.LogService;
 using UnityEngine;
 
@@ -12,13 +13,15 @@ namespace Code.Services.SaveLoadService
         private const string ProgressKey = "Progress";
 
         private readonly ILogService _logService;
+        private readonly IPersistentProgressService _progressService;
         private readonly List<IUpdatebleProgress> _updatebleProgresses = new List<IUpdatebleProgress>();
         
         private PlayerProgress _playerProgress;
 
-        SaveLoadService(ILogService logService)
+        SaveLoadService(ILogService logService, IPersistentProgressService progressService)
         {
             _logService = logService;
+            _progressService = progressService;
         }
 
         public void Initialize(PlayerProgress playerProgress)
@@ -26,15 +29,19 @@ namespace Code.Services.SaveLoadService
             _playerProgress = playerProgress;
         }
 
-        public void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress)
-        {
+        public void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress) => 
             _updatebleProgresses.Add(updatebleProgress);
-        }
+
+        public void RemoveUpdatebleProgress(IUpdatebleProgress updatebleProgress) => 
+            _updatebleProgresses.Remove(updatebleProgress);
+
+        public void ClearUpdatebleProgress() => 
+            _updatebleProgresses.Clear();
 
         public void SaveProgress()
         {
             foreach (var progress in _updatebleProgresses) 
-                progress.UpdateProgress();
+                progress.UpdateProgress(_progressService);
 
             PlayerPrefs.SetString(ProgressKey, _playerProgress.ToJson());
         }
