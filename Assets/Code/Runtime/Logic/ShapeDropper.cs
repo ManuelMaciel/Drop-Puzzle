@@ -14,6 +14,7 @@ namespace Code.Runtime.Logic
         private Shape _currentShape;
         private Movement _shapeMovement;
         private Rigidbody2D _shapeRigidbody;
+        private Collider2D _shapeCollider;
         private GameplayShapesInteractor _gameplayShapesInteractor;
         private IPersistentProgressService _progressService;
         private IInput _input;
@@ -39,13 +40,13 @@ namespace Code.Runtime.Logic
 
         public void AddShape(Shape newShape)
         {
-            Collider2D shapeCollider = newShape.GetComponent<Collider2D>();
+            _shapeCollider = newShape.GetComponent<Collider2D>();
             _shapeRigidbody = newShape.GetComponent<Rigidbody2D>();
             _currentShape = newShape;
-            
+
             _shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            
-            _shapeMovement.AddShape(_shapeRigidbody);
+            _shapeMovement.AddShape(_shapeRigidbody, _shapeCollider);
+            _shapeCollider.enabled = false;
         }
 
         private void Drop()
@@ -54,6 +55,7 @@ namespace Code.Runtime.Logic
             
             OnShapeDropped?.Invoke();
 
+            _shapeCollider.enabled = true;
             _shapeMovement.RemoveShape();
             _gameplayShapesInteractor.AddShape(_currentShape);
             _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;

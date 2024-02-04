@@ -36,10 +36,8 @@ namespace Code.Runtime.Logic
             }
         }
         
-        public void AddShape(Rigidbody2D shapeRigidbody)
+        public void AddShape(Rigidbody2D shapeRigidbody, Collider2D shapeCollider)
         {
-            Collider2D shapeCollider = shapeRigidbody.GetComponent<Collider2D>();
-
             _shapeRigidbody = shapeRigidbody;
             _halfSize = shapeCollider.bounds.extents.x;
         }

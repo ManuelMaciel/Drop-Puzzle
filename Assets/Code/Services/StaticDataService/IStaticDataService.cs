@@ -7,5 +7,6 @@ namespace CodeBase.Services.StaticDataService
         void Initialize();
         ShapeSizeConfig ShapeSizeConfig { get; }
         ShapeScoreConfig ShapeScoreConfig { get; }
+        PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; }
     }
 }

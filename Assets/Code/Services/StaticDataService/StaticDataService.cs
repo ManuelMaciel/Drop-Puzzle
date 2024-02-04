@@ -9,9 +9,11 @@ namespace Code.Services.StaticDataService
     {
         private const string ShapeSizeConfigPath = "Configs/ShapeSizeConfig";
         private const string ShapeScoreConfigPath = "Configs/ShapeScoreConfig";
+        private const string PurchasedBackgroundsConfigPath = "Configs/PurchasedBackgroundsConfig";
 
         public ShapeSizeConfig ShapeSizeConfig { get; private set; }
         public ShapeScoreConfig ShapeScoreConfig { get; private set; }
+        public PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; private set; }
 
         private readonly ILogService log;
 
@@ -22,10 +24,23 @@ namespace Code.Services.StaticDataService
 
         public void Initialize()
         {
-            ShapeSizeConfig = Resources.Load<ShapeSizeConfig>(ShapeSizeConfigPath);
-            ShapeScoreConfig = Resources.Load<ShapeScoreConfig>(ShapeScoreConfigPath);
-            
+            ShapeSizeConfig = LoadResource<ShapeSizeConfig>(ShapeSizeConfigPath);
+            ShapeScoreConfig = LoadResource<ShapeScoreConfig>(ShapeScoreConfigPath);
+            PurchasedBackgroundsConfig = LoadResource<PurchasedBackgroundsConfig>(PurchasedBackgroundsConfigPath);
+
             log.Log("Static data loaded");
+        }
+
+        private T LoadResource<T>(string path) where T : Object
+        {
+            T loadResource = Resources.Load<T>(path);
+
+            if (loadResource == null)
+            {
+                log.LogError($"Failed to load with path: {path}");
+            }
+            
+            return loadResource;
         }
     }
 }
