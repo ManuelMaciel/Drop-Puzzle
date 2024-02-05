@@ -9,5 +9,6 @@ namespace Code.Runtime.Repositories
         public ShapeRepository ShapeRepository = new ShapeRepository();
         public MoneyRepository MoneyRepository = new MoneyRepository();
         public GameplayShapesRepository GameplayShapesRepository = new GameplayShapesRepository();
+        public PurchasesRepository PurchasesRepository = new PurchasesRepository();
     }
 }

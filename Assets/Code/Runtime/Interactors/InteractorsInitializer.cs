@@ -11,9 +11,31 @@ namespace Code.Runtime.Interactors
         {
             interactorContainer.CreateInteractor<ShapeInteractor, ShapeRepository>(playerProgress.ShapeRepository);
             interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository>(playerProgress.MoneyRepository);
-            interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress.GameplayShapesRepository);
-            interactorContainer.CreateInteractor<ScoreInteractor, ScoreRepository, ShapeScoreConfig>(playerProgress.ScoreRepository,
+            interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress
+                .GameplayShapesRepository);
+
+            RegisterPurchasesInteractor(playerProgress, interactorContainer, staticDataService);
+            RegisterScoreInteractor(playerProgress, interactorContainer, staticDataService);
+        }
+
+        private static void RegisterScoreInteractor(PlayerProgress playerProgress,
+            IInteractorContainer interactorContainer,
+            IStaticDataService staticDataService)
+        {
+            interactorContainer.CreateInteractor<ScoreInteractor, ScoreRepository, ShapeScoreConfig>(
+                playerProgress.ScoreRepository,
                 staticDataService.ShapeScoreConfig);
+        }
+
+        private static void RegisterPurchasesInteractor(PlayerProgress playerProgress,
+            IInteractorContainer interactorContainer,
+            IStaticDataService staticDataService)
+        {
+            interactorContainer.CreateInteractor<PurchasesInteractor, PurchasesRepository, PurchasesInteractor.Payload>(
+                playerProgress.PurchasesRepository,
+                new PurchasesInteractor.Payload(
+                    staticDataService.PurchasedBackgroundsConfig,
+                    interactorContainer.Get<MoneyInteractor>()));
         }
     }
 }
