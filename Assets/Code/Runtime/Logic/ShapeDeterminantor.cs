@@ -31,10 +31,10 @@ namespace Code.Runtime.Logic
 
         private void SetNextShapeSize()
         {
+            OnShapeChanged?.Invoke();
+            
             CurrentShapeSize = NextShapeSize;
             NextShapeSize = GetRandomShape();
-            
-            OnShapeChanged?.Invoke();
         }
 
         private ShapeSize GetRandomShape()

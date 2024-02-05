@@ -10,14 +10,16 @@ namespace Code.Runtime.Configs
         public Shape ShapePrefab;
         public ShapeType ShapeType;
         public float[] Sizes;
+        public Sprite[] Sprites;
 
         private void OnValidate()
         {
             int sizes = Enum.GetNames(typeof(ShapeSize)).Length;
-            if (Sizes.Length < sizes)
-            {
+            if (Sizes.Length < sizes) 
                 Sizes = new float[sizes];
-            }
+
+            if (Sprites.Length < sizes) 
+                Sprites = new Sprite[sizes];
         }
     }
 }

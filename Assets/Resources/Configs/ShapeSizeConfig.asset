@@ -23,3 +23,12 @@ MonoBehaviour:
   - 1.5
   - 1.8
   - 2
+  Sprites:
+  - {fileID: -512162003, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: 1535763610, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: -1028223535, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: 1744088539, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: -1613195491, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: -1792728108, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: 1941428516, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}
+  - {fileID: -1322407422, guid: 200c445d4672c5b48b66958a67ef7e79, type: 3}

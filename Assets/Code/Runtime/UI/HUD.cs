@@ -2,30 +2,36 @@
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
+using CodeBase.Services.StaticDataService;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Code.Runtime.UI
 {
     public class HUD : MonoBehaviour
     {
+        [SerializeField] private Image _nextShapeImage;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
         [SerializeField] private TextMeshProUGUI _coinsText;
-        [SerializeField] private TextMeshProUGUI _nextShapeSize;
         [SerializeField] private GameObject _gameplayContent;
         [SerializeField] private GameObject _loseContent;
-        
+
         private IShapeDeterminantor _shapeDeterminantor;
         private IInteractorContainer _interactorContainer;
+        private IStaticDataService _staticDataService;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
         private Spawner _spawner;
 
         [Inject]
-        void Construct(IPersistentProgressService persistentProgressService, IShapeDeterminantor shapeDeterminantor)
+        void Construct(IPersistentProgressService persistentProgressService,
+            IShapeDeterminantor shapeDeterminantor,
+            IStaticDataService staticDataService)
         {
+            _staticDataService = staticDataService;
             _interactorContainer = persistentProgressService.InteractorContainer;
             _shapeDeterminantor = shapeDeterminantor;
         }
@@ -36,10 +42,10 @@ namespace Code.Runtime.UI
             InitializeMoneyInteractor();
             InitializeTextNextShape();
         }
-        
+
         private void OnDestroy()
         {
-            _shapeDeterminantor.OnShapeChanged -= UpdateTextNextShape;
+            _shapeDeterminantor.OnShapeChanged -= UpdateImageNextShape;
             _scoreInteractor.OnScoreIncreased -= UpdateScoreText;
             _moneyInteractor.OnCollectCoins -= UpdateCoinsText;
         }
@@ -52,9 +58,9 @@ namespace Code.Runtime.UI
 
         private void InitializeTextNextShape()
         {
-            _shapeDeterminantor.OnShapeChanged += UpdateTextNextShape;
+            _shapeDeterminantor.OnShapeChanged += UpdateImageNextShape;
 
-            UpdateTextNextShape();
+            UpdateImageNextShape();
         }
 
         private void InitializeScoreInteractor()
@@ -75,9 +81,10 @@ namespace Code.Runtime.UI
             UpdateCoinsText(_moneyInteractor.GetCoins());
         }
 
-        private void UpdateTextNextShape()
+        private void UpdateImageNextShape()
         {
-            _nextShapeSize.text = _shapeDeterminantor.NextShapeSize.ToString();
+            _nextShapeImage.sprite =
+                _staticDataService.ShapeSizeConfig.Sprites[(int) _shapeDeterminantor.NextShapeSize];
         }
 
         private void UpdateScoreText(int score)
