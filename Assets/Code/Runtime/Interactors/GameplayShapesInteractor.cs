@@ -10,6 +10,9 @@ namespace Code.Runtime.Interactors
         public IEnumerable<GameplayShapesRepository.ShapeData> GetShapesData()
             => _repository.ShapesData;
 
+        public void ClearShapesData() => 
+            _repository.ShapesData.Clear();
+
         public void AddShape(Shape shape)
         {
             var shapeData = new GameplayShapesRepository.ShapeData()

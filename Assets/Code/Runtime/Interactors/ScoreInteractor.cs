@@ -15,9 +15,14 @@ namespace Code.Runtime.Interactors
             _shapeScoreConfig = shapeScoreConfig;
         }
 
-        public int GetMaxScore() => _repository.MaxScore;
-        
-        public int GetCurrentScore() => _repository.Score;
+        public int GetMaxScore() =>
+            _repository.MaxScore;
+
+        public int GetCurrentScore() =>
+            _repository.Score;
+
+        public void ResetCurrentScore() => 
+            _repository.Score = 0;
 
         public void AddScore(int score)
         {

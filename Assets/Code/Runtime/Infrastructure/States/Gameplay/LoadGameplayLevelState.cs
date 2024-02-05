@@ -6,15 +6,15 @@ using Code.Services.Progress;
 
 namespace Code.Runtime.Infrastructure.States
 {
-    public class LoadGameplayLevelState : IState, IDeletebleState
+    public class LoadGameplayLevelState : IState
     {
-        private readonly HUD.Factory _hudFactory;
-        private readonly Spawner.Factory _spawnerFactory;
+        private readonly PrefabFactory<HUD> _hudFactory;
+        private readonly PrefabFactory<Spawner> _spawnerFactory;
         private readonly IShapeFactory _shapeFactory;
         private readonly IUIFactory _uiFactory;
         private readonly IPersistentProgressService _progressService;
 
-        LoadGameplayLevelState(HUD.Factory hudFactory, Spawner.Factory spawnerFactory,
+        LoadGameplayLevelState(PrefabFactory<HUD> hudFactory, PrefabFactory<Spawner> spawnerFactory,
             IShapeFactory shapeFactory, IUIFactory uiFactory, IPersistentProgressService progressService)
         {
             _hudFactory = hudFactory;

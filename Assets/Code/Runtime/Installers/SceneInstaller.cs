@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Infrastructure;
+using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Logic;
 using Code.Runtime.UI;
 using Code.Services.InputService;
@@ -13,6 +14,8 @@ namespace Code.Runtime.Installers
 
         public override void InstallBindings()
         {
+            BindGameplayStateMachine();
+            
             BindInput();
 
             BindComboDetector();
@@ -24,6 +27,11 @@ namespace Code.Runtime.Installers
             BindHUDFactory();
 
             BindShapeDeterminantor();
+        }
+
+        private void BindGameplayStateMachine()
+        {
+            Container.Bind<GameplayStateMachine>().AsSingle();
         }
 
         private void BindShapeDeterminantor()
@@ -43,16 +51,12 @@ namespace Code.Runtime.Installers
         
         private void BindSpawnerFactory()
         {
-            Container
-                .BindFactory<string, Spawner, Spawner.Factory>()
-                .FromFactory<Infrastructure.PrefabFactory<Spawner>>();
+            Container.Bind<Infrastructure.PrefabFactory<Spawner>>().AsSingle();
         }
         
         private void BindHUDFactory()
         {
-            Container
-                .BindFactory<string, HUD, HUD.Factory>()
-                .FromFactory<Infrastructure.PrefabFactory<HUD>>();
+            Container.Bind<Infrastructure.PrefabFactory<HUD>>().AsSingle();
         }
 
     }

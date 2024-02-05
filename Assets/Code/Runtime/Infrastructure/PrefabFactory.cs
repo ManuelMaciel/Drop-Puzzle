@@ -7,6 +7,8 @@ namespace Code.Runtime.Infrastructure
 {
     public class PrefabFactory<TComponent> : IFactory<string, TComponent>
     {
+        public TComponent InstantiatedPrefab { get; private set; }
+        
         private readonly DiContainer _container;
 
         public PrefabFactory(DiContainer container)
@@ -23,8 +25,9 @@ namespace Code.Runtime.Infrastructure
             
             GameObject newObject = _container.InstantiatePrefab(prefab);
             SceneManager.MoveGameObjectToScene(newObject, SceneManager.GetActiveScene());
+            InstantiatedPrefab = newObject.GetComponent<TComponent>();
 
-            return newObject.GetComponent<TComponent>();
+            return InstantiatedPrefab;
         }
     }
 }

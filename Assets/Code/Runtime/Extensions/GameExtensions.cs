@@ -9,7 +9,7 @@ namespace Code.Runtime.Extensions
         {
             int nextSize = (((int) shapeSize) + 1);
 
-            if (Enum.GetNames(typeof(ShapeSize)).Length < nextSize)
+            if (Enum.GetNames(typeof(ShapeSize)).Length <= nextSize)
             {
                 nextSize = 0;
             }

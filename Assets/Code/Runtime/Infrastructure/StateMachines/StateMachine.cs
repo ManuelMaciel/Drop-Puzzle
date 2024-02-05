@@ -32,7 +32,6 @@ namespace Code.Runtime.Infrastructure.StateMachines
                 return state;
             
             _activeState?.Exit();
-            TryRemoveState();
             _activeState = state;
 
             return state;
@@ -40,11 +39,5 @@ namespace Code.Runtime.Infrastructure.StateMachines
 
         private TState GetState<TState>() where TState : class, IExitableState =>
             _states[typeof(TState)] as TState;
-
-        private void TryRemoveState()
-        {
-            if (_activeState is IDeletebleState)
-                _states.Remove(_activeState.GetType());
-        }
     }
 }

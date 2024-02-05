@@ -57,9 +57,5 @@ namespace Code.Runtime.Logic
             
             return shape;
         }
-        
-        public class Factory : PlaceholderFactory<string, Spawner>
-        {
-        }
     }
 }

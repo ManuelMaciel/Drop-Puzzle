@@ -14,7 +14,9 @@ namespace Code.Runtime.UI
         [SerializeField] private TextMeshProUGUI _maxScoreText;
         [SerializeField] private TextMeshProUGUI _coinsText;
         [SerializeField] private TextMeshProUGUI _nextShapeSize;
-
+        [SerializeField] private GameObject _gameplayContent;
+        [SerializeField] private GameObject _loseContent;
+        
         private IShapeDeterminantor _shapeDeterminantor;
         private IInteractorContainer _interactorContainer;
         private ScoreInteractor _scoreInteractor;
@@ -34,7 +36,7 @@ namespace Code.Runtime.UI
             InitializeMoneyInteractor();
             InitializeTextNextShape();
         }
-
+        
         private void OnDestroy()
         {
             _shapeDeterminantor.OnShapeChanged -= UpdateTextNextShape;
@@ -42,10 +44,16 @@ namespace Code.Runtime.UI
             _moneyInteractor.OnCollectCoins -= UpdateCoinsText;
         }
 
+        public void ChangeToLose()
+        {
+            _gameplayContent.SetActive(false);
+            _loseContent.SetActive(true);
+        }
+
         private void InitializeTextNextShape()
         {
             _shapeDeterminantor.OnShapeChanged += UpdateTextNextShape;
-            
+
             UpdateTextNextShape();
         }
 
@@ -81,10 +89,6 @@ namespace Code.Runtime.UI
         private void UpdateCoinsText(int coins)
         {
             _coinsText.text = coins.ToString();
-        }
-
-        public class Factory : PlaceholderFactory<string, HUD>
-        {
         }
     }
 }
