@@ -17,7 +17,8 @@ namespace Code.Runtime.UI.Windows
         private IPersistentProgressService _persistentProgressService;
 
         private PurchasesInteractor _purchasesInteractor;
-        private Dictionary<BackgroundType, PurchaseElement> _purchaseBackgroundsElement =
+
+        private Dictionary<BackgroundType, PurchaseElement> _purchaseBackgroundElements =
             new Dictionary<BackgroundType, PurchaseElement>();
 
         [Inject]
@@ -35,6 +36,7 @@ namespace Code.Runtime.UI.Windows
             _purchasesInteractor = _persistentProgressService.InteractorContainer.Get<PurchasesInteractor>();
 
             _purchasesInteractor.OnPurchasedBackground += UpdatePurchasedBackground;
+            _purchasesInteractor.OnSelectedBackground += UpdateSelectedBackground;
 
             foreach (PurchasedBackground purchasedBackground in _staticDataService.PurchasedBackgroundsConfig
                 .PurchasedBackgrounds)
@@ -42,20 +44,36 @@ namespace Code.Runtime.UI.Windows
                 PurchaseElement purchaseElement = Instantiate(purchaseElementPrefab, purchasedBackgroundsContainer);
                 BackgroundType backgroundType = purchasedBackground.BackgroundType;
 
-                purchaseElement.Initialize(purchasedBackground.Background, purchasedBackground.Price);
-                _purchaseBackgroundsElement.Add(backgroundType, purchaseElement);
+                purchaseElement.Initialize(
+                    purchasedBackground.Background,
+                    purchasedBackground.Price,
+                    () => _purchasesInteractor.PurchaseBackground(backgroundType),
+                    () => _purchasesInteractor.SelectBackground(backgroundType));
+                
+                _purchaseBackgroundElements.Add(backgroundType, purchaseElement);
 
-                purchaseElement.OnPurchased += () => { _purchasesInteractor.PurchaseBackground(backgroundType); };
-
-                if (_purchasesInteractor.IsPurchasedBackground(backgroundType)) purchaseElement.Purchased();
+                if (_purchasesInteractor.IsPurchasedBackground(backgroundType)) purchaseElement.Purchase();
+                if (_purchasesInteractor.IsSelectedBackground(backgroundType)) purchaseElement.Select();
             }
         }
 
-        private void UpdatePurchasedBackground()
+        private void OnDestroy()
         {
-            foreach (KeyValuePair<BackgroundType, PurchaseElement> purchaseElement in _purchaseBackgroundsElement)
-                if (_purchasesInteractor.IsPurchasedBackground(purchaseElement.Key))
-                    purchaseElement.Value.Purchased();
+            _purchasesInteractor.OnPurchasedBackground -= UpdatePurchasedBackground;
+            _purchasesInteractor.OnSelectedBackground -= UpdateSelectedBackground;
+        }
+
+        private void UpdateSelectedBackground(BackgroundType backgroundType)
+        {
+            foreach (var purchaseBackgroundsElement in _purchaseBackgroundElements.Values)
+                purchaseBackgroundsElement.Unselect();
+
+            _purchaseBackgroundElements[backgroundType].Select();
+        }
+
+        private void UpdatePurchasedBackground(BackgroundType backgroundType)
+        {
+            _purchaseBackgroundElements[backgroundType].Purchase();
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Code.Runtime.Repositories
     public class PurchasesRepository : IRepository
     {
         public List<BackgroundType> PurchasedBackgrounds = new List<BackgroundType>();
+        public BackgroundType SelectedBackground;
     }
 }

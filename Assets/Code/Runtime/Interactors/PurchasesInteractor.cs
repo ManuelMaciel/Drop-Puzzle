@@ -6,7 +6,8 @@ namespace Code.Runtime.Interactors
 {
     public class PurchasesInteractor : PayloadInteractor<PurchasesRepository, PurchasesInteractor.Payload>
     {
-        public event Action OnPurchasedBackground;
+        public event Action<BackgroundType> OnPurchasedBackground;
+        public event Action<BackgroundType> OnSelectedBackground;
 
         private PurchasedBackgroundsConfig _purchasedBackgroundsConfig;
         private MoneyInteractor _moneyInteractor;
@@ -15,6 +16,15 @@ namespace Code.Runtime.Interactors
         {
             _purchasedBackgroundsConfig = payload.PurchasedBackgroundsConfig;
             _moneyInteractor = payload.MoneyInteractor;
+        }
+
+        public void SelectBackground(BackgroundType backgroundType)
+        {
+            if (!IsPurchasedBackground(backgroundType)) return;
+
+            _repository.SelectedBackground = backgroundType;
+            
+            OnSelectedBackground?.Invoke(backgroundType);
         }
 
         public void PurchaseBackground(BackgroundType purchasedBackground)
@@ -30,11 +40,17 @@ namespace Code.Runtime.Interactors
         public bool IsPurchasedBackground(BackgroundType purchasedBackground) =>
             _repository.PurchasedBackgrounds.Contains(purchasedBackground);
 
+        public bool IsSelectedBackground(BackgroundType backgroundType) =>
+            _repository.SelectedBackground == backgroundType;
+
+        public BackgroundType GetSelectedBackground() => 
+            _repository.SelectedBackground;
+
         private void AddBackground(BackgroundType purchasedBackground)
         {
             _repository.PurchasedBackgrounds.Add(purchasedBackground);
 
-            OnPurchasedBackground?.Invoke();
+            OnPurchasedBackground?.Invoke(purchasedBackground);
         }
 
         public class Payload

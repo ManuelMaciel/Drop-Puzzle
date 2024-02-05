@@ -50,6 +50,7 @@ namespace Code.Runtime.Infrastructure.States
         {
             playerProgress.MoneyRepository.Coins = 999;
             playerProgress.PurchasesRepository.PurchasedBackgrounds.Add(BackgroundType.Default);
+            playerProgress.PurchasesRepository.SelectedBackground = BackgroundType.Default;
         }
 
         public void Exit()
