@@ -5,10 +5,16 @@ namespace Code.Runtime.Repositories
     [Serializable]
     public class PlayerProgress
     {
+        public GameplayData GameplayData = new GameplayData();
+        public PurchasesRepository PurchasesRepository = new PurchasesRepository();
+    }
+
+    [Serializable]
+    public class GameplayData
+    {
         public ScoreRepository ScoreRepository = new ScoreRepository();
         public ShapeRepository ShapeRepository = new ShapeRepository();
         public MoneyRepository MoneyRepository = new MoneyRepository();
-        public GameplayShapesRepository GameplayShapesRepository = new GameplayShapesRepository();
-        public PurchasesRepository PurchasesRepository = new PurchasesRepository();
+        public GameplayShapesRepository GameplayShapesRepository = new GameplayShapesRepository();        
     }
 }

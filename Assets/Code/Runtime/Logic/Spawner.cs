@@ -63,6 +63,7 @@ namespace Code.Runtime.Logic
             _shapeDropper.AddShape(CreateShape());
 
             dropLine.gameObject.SetActive(true);
+            _saveLoadService.SaveProgress();
         }
 
         private Shape CreateShape()

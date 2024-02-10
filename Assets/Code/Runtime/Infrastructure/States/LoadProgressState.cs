@@ -28,7 +28,7 @@ namespace Code.Runtime.Infrastructure.States
             PlayerProgress playerProgress = InitializePlayerProgress();
 
             InteractorsInitializer.Initialize(playerProgress, _persistentProgressService.InteractorContainer,
-                _staticDataService);
+                _staticDataService, _saveLoadService);
 
             _sceneLoader.Load(SceneName.Menu.ToString());
         }
@@ -48,7 +48,7 @@ namespace Code.Runtime.Infrastructure.States
 
         private void FirstLoadGameData(PlayerProgress playerProgress)
         {
-            playerProgress.MoneyRepository.Coins = 999;
+            playerProgress.GameplayData.MoneyRepository.Coins = 999;
             playerProgress.PurchasesRepository.PurchasedBackgrounds.Add(BackgroundType.Default);
             playerProgress.PurchasesRepository.SelectedBackground = BackgroundType.Default;
         }

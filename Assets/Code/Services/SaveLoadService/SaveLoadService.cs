@@ -1,27 +1,28 @@
 ﻿using System.Collections.Generic;
-using Code.Runtime.Extensions;
 using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
 using CodeBase.Services.LogService;
-using UnityEngine;
 
 namespace Code.Services.SaveLoadService
 {
     public class SaveLoadService : ISaveLoadService
     {
-        private const string ProgressKey = "Progress";
+        public const string ProgressKey = "Progress";
 
         private readonly ILogService _logService;
         private readonly IPersistentProgressService _progressService;
         private readonly List<IUpdatebleProgress> _updatebleProgresses = new List<IUpdatebleProgress>();
-        
+
         private PlayerProgress _playerProgress;
+        private BinarySaver<PlayerProgress> _binarySaver;
 
         SaveLoadService(ILogService logService, IPersistentProgressService progressService)
         {
             _logService = logService;
             _progressService = progressService;
+
+            _binarySaver = new BinarySaver<PlayerProgress>();
         }
 
         public void Initialize(PlayerProgress playerProgress)
@@ -29,30 +30,30 @@ namespace Code.Services.SaveLoadService
             _playerProgress = playerProgress;
         }
 
-        public void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress) => 
+        public void AddUpdatebleProgress(IUpdatebleProgress updatebleProgress) =>
             _updatebleProgresses.Add(updatebleProgress);
 
-        public void RemoveUpdatebleProgress(IUpdatebleProgress updatebleProgress) => 
+        public void RemoveUpdatebleProgress(IUpdatebleProgress updatebleProgress) =>
             _updatebleProgresses.Remove(updatebleProgress);
 
-        public void ClearUpdatebleProgress() => 
+        public void ClearUpdatebleProgress() =>
             _updatebleProgresses.Clear();
 
         public void SaveProgress()
         {
-            foreach (var progress in _updatebleProgresses) 
+            foreach (var progress in _updatebleProgresses)
                 progress.UpdateProgress(_progressService);
 
-            PlayerPrefs.SetString(ProgressKey, _playerProgress.ToJson());
+            _binarySaver.Save(ProgressKey, _playerProgress);
         }
 
         public bool TryLoadProgress(out PlayerProgress playerProgress)
         {
-            playerProgress = PlayerPrefs.GetString(ProgressKey)?.ToDeserialized<PlayerProgress>();
+            playerProgress = _binarySaver.Load(ProgressKey);
 
             bool dataLoaded = playerProgress != null;
-
-            if(dataLoaded) _logService.Log("Data loaded");
+            
+            if (dataLoaded) _logService.Log("Data loaded");
 
             return dataLoaded;
         }

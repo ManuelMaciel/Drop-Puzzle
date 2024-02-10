@@ -1,5 +1,6 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Repositories;
+using Code.Services.SaveLoadService;
 using CodeBase.Services.StaticDataService;
 
 namespace Code.Runtime.Interactors
@@ -7,14 +8,16 @@ namespace Code.Runtime.Interactors
     public static class InteractorsInitializer
     {
         public static void Initialize(PlayerProgress playerProgress, IInteractorContainer interactorContainer,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService)
         {
-            interactorContainer.CreateInteractor<ShapeInteractor, ShapeRepository>(playerProgress.ShapeRepository);
-            interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository>(playerProgress.MoneyRepository);
+            interactorContainer.CreateInteractor<ShapeInteractor, ShapeRepository>(playerProgress.GameplayData
+                .ShapeRepository);
+            interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository>(playerProgress.GameplayData
+                .MoneyRepository);
             interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress
-                .GameplayShapesRepository);
+                .GameplayData.GameplayShapesRepository);
 
-            RegisterPurchasesInteractor(playerProgress, interactorContainer, staticDataService);
+            RegisterPurchasesInteractor(playerProgress, interactorContainer, staticDataService, saveLoadService);
             RegisterScoreInteractor(playerProgress, interactorContainer, staticDataService);
         }
 
@@ -23,19 +26,19 @@ namespace Code.Runtime.Interactors
             IStaticDataService staticDataService)
         {
             interactorContainer.CreateInteractor<ScoreInteractor, ScoreRepository, ShapeScoreConfig>(
-                playerProgress.ScoreRepository,
+                playerProgress.GameplayData.ScoreRepository,
                 staticDataService.ShapeScoreConfig);
         }
 
         private static void RegisterPurchasesInteractor(PlayerProgress playerProgress,
             IInteractorContainer interactorContainer,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService)
         {
             interactorContainer.CreateInteractor<PurchasesInteractor, PurchasesRepository, PurchasesInteractor.Payload>(
                 playerProgress.PurchasesRepository,
                 new PurchasesInteractor.Payload(
                     staticDataService.PurchasedBackgroundsConfig,
-                    interactorContainer.Get<MoneyInteractor>()));
+                    interactorContainer.Get<MoneyInteractor>(), saveLoadService));
         }
     }
 }
