@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Infrastructure;
+using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Logic;
 using Code.Runtime.UI;
@@ -27,6 +28,14 @@ namespace Code.Runtime.Installers
             BindHUDFactory();
 
             BindShapeDeterminantor();
+
+            BindGlobalGameObjectPool();
+        }
+
+        // Need to refactor
+        private void BindGlobalGameObjectPool()
+        {
+            Container.BindInterfacesTo<GlobalGameObjectPool>().AsSingle();
         }
 
         private void BindGameplayStateMachine()
