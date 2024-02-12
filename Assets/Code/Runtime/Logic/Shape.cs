@@ -1,7 +1,9 @@
 ﻿using System;
 using Code.Runtime.Extensions;
+using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
 using Code.Services.Progress;
+using Code.Services.SaveLoadService;
 using UnityEngine;
 
 namespace Code.Runtime.Logic
@@ -18,19 +20,34 @@ namespace Code.Runtime.Logic
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private GameplayShapesInteractor _gameplayShapesInteractor;
+        private IGameObjectPool<Shape> _shapePool;
+        private Rigidbody2D _rigidbody;
         private Action _onDestroyed;
+        private ISaveLoadService _saveLoadService;
 
-        public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory,
-            IPersistentProgressService progressService, Action onDestroyed, string shapeId = null)
+        private void Start()
         {
-            _onDestroyed = onDestroyed;
+            _rigidbody = this.GetComponent<Rigidbody2D>();
+        }
+
+        public void Construct(IShapeFactory shapeFactory,
+            IPersistentProgressService progressService, IGameObjectPool<Shape> shapePool,
+            ISaveLoadService saveLoadService)
+        {
+            _saveLoadService = saveLoadService;
+            _shapePool = shapePool;
             _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
             _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
 
             _shapeFactory = shapeFactory;
+        }
+
+        public void Initialize(ShapeSize shapeSize, string shapeId = null)
+        {
             ShapeSize = shapeSize;
             ShapeId = shapeId;
+            IsCombined = false;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -54,8 +71,11 @@ namespace Code.Runtime.Logic
 
         private void DestroyShape(Shape shape)
         {
+            _saveLoadService.RemoveUpdatebleProgress(shape);
             _gameplayShapesInteractor.RemoveShape(shape);
-            Destroy(shape.gameObject);
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
+            _shapePool.Return(shape);
             _onDestroyed?.Invoke();
         }
 

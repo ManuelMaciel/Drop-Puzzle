@@ -13,8 +13,6 @@ namespace Code.Runtime.Installers
             BindStatesFactory();
             
             BindGameBootstrapperFactory();
-            
-            BindShapeFactory();
 
             BindUIFactory();
         }
@@ -31,11 +29,6 @@ namespace Code.Runtime.Installers
                 .FromComponentInNewPrefabResource(InfrastructureAssetPath.GameBootstrapperPath);
         }
         
-        private void BindShapeFactory()
-        {
-            Container.BindInterfacesTo<ShapeFactory>().AsSingle();
-        }
-
         private void BindStatesFactory()
         {
             Container.BindInterfacesTo<StatesFactory>().AsSingle();

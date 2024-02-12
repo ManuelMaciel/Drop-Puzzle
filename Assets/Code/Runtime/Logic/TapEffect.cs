@@ -13,7 +13,7 @@ namespace Code.Runtime.Logic
         private bool _isPressed;
         private IInput _input;
         private IGlobalGameObjectPool _globalGameObjectPool;
-        private GameObjectPool<ParticleSystem> _gameObjectPool;
+        private IGameObjectPool<ParticleSystem> _gameObjectPool;
 
         [Inject]
         public void Construct(IInput input, IGlobalGameObjectPool globalGameObjectPool)
@@ -25,14 +25,14 @@ namespace Code.Runtime.Logic
         private void Start()
         {
             _gameObjectPool = new GameObjectPool<ParticleSystem>(_particleSystem, 5, _globalGameObjectPool);
+            _gameObjectPool.Initialize();
         }
 
         private void Update()
         {
             if (_input.IsPress() && !_isPressed)
             {
-                ParticleSystem instantiate = _gameObjectPool.Get();
-                instantiate.transform.position = _input.GetPosition();
+                ParticleSystem instantiate = _gameObjectPool.Get(_input.GetPosition());
                 instantiate.Play();
                 StartCoroutine(CheckIfPlay(instantiate, () => _gameObjectPool.Return(instantiate)));
                 

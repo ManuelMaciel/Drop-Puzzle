@@ -4,7 +4,7 @@ using Code.Runtime.Logic;
 using Code.Runtime.UI;
 using Code.Services.Progress;
 
-namespace Code.Runtime.Infrastructure.States
+namespace Code.Runtime.Infrastructure.States.Gameplay
 {
     public class LoadGameplayLevelState : IState
     {

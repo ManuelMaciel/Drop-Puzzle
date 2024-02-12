@@ -1,11 +1,11 @@
 ﻿using System;
 using Code.Runtime.Configs;
+using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
 using CodeBase.Services.StaticDataService;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Code.Runtime.Logic
 {
@@ -14,30 +14,32 @@ namespace Code.Runtime.Logic
         private readonly IStaticDataService _staticDataService;
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
+
         private ShapeSizeConfig _shapeSizeConfig;
-        private Shape _shapePrefab;
+        private ShapePool _shapesPool;
 
         public ShapeFactory(IStaticDataService staticDataService,
-            IPersistentProgressService progressService, ISaveLoadService saveLoadService)
+            IPersistentProgressService progressService, ISaveLoadService saveLoadService,
+            IGlobalGameObjectPool globalGameObjectPool)
         {
             _staticDataService = staticDataService;
             _progressService = progressService;
             _saveLoadService = saveLoadService;
+
+            _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
+
+            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, 20, globalGameObjectPool,
+                (shape) => shape.Construct(this, progressService, _shapesPool, saveLoadService));
+            _shapesPool.Initialize();
         }
 
-        public void Initialize()
-        {
-            _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
-            _shapePrefab = _shapeSizeConfig.ShapePrefab;
-        }
-        
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize, bool isDropped = false)
         {
             string shapeId = Guid.NewGuid().ToString();
-            
+
             Shape shape = InstantiateShape(at, shapeSize, shapeId);
 
-            if(isDropped) 
+            if (isDropped)
                 _progressService.InteractorContainer.Get<GameplayShapesInteractor>().AddShape(shape);
 
             return shape;
@@ -52,9 +54,10 @@ namespace Code.Runtime.Logic
 
         private Shape InstantiateShape(Vector3 at, ShapeSize shapeSize, string shapeId)
         {
-            int shapeIndex = (int) shapeSize;
+            int shapeIndex = (int)shapeSize;
             float size = _shapeSizeConfig.Sizes[shapeIndex];
-            Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
+            Shape shape = _shapesPool.Get(at);
+            shape.transform.eulerAngles = Vector3.zero;
             shape.GetComponentInChildren<SpriteRenderer>().sprite = _shapeSizeConfig.Sprites[shapeIndex];
 
             InitializeShape(shapeSize, shape, shapeId, size);
@@ -63,10 +66,9 @@ namespace Code.Runtime.Logic
 
         private void InitializeShape(ShapeSize shapeSize, Shape shape, string newShapeId, float size)
         {
-            shape.Construct(shapeSize, this, _progressService,
-                () => _saveLoadService.RemoveUpdatebleProgress(shape),
-                newShapeId);
+            shape.Initialize(shapeSize, newShapeId);
             shape.transform.localScale = new Vector2(size, size);
+
             _saveLoadService.AddUpdatebleProgress(shape);
         }
     }
