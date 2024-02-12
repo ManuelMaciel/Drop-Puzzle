@@ -9,9 +9,14 @@ namespace Code.Services.InputService
 
         public float GetXPosition()
         {
+            return GetPosition().x;
+        }
+
+        public Vector2 GetPosition()
+        {
             Vector3 mousePosition = Input.mousePosition;
             
-            return Camera.main.ScreenToWorldPoint(mousePosition).x;
+            return Camera.main.ScreenToWorldPoint(mousePosition);
         }
 
         public bool IsPress()

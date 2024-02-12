@@ -39,7 +39,7 @@ public class OverflowDetector : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        SpriteRenderer spriteRenderer = collider.GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = collider.GetComponentInChildren<SpriteRenderer>();
 
         float flashDuration = 4f;
         float elapsedTime = 0f;

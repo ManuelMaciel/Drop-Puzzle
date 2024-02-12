@@ -13,10 +13,15 @@ namespace Code.Services.InputService
 
         public float GetXPosition()
         {
+            return GetPosition().x;
+        }
+
+        public Vector2 GetPosition()
+        {
             if (_isPressed)
-                return Camera.main.ScreenToWorldPoint(_touchPosition).x;
+                return Camera.main.ScreenToWorldPoint(_touchPosition);
             else
-                return 0f;
+                return new Vector2();
         }
 
         public bool IsPress() => _isPressed == true;

@@ -55,7 +55,7 @@ namespace Code.Runtime.Logic
             int shapeIndex = (int) shapeSize;
             float size = _shapeSizeConfig.Sizes[shapeIndex];
             Shape shape = Object.Instantiate(_shapePrefab, at, Quaternion.identity);
-            shape.GetComponent<SpriteRenderer>().sprite = _shapeSizeConfig.Sprites[shapeIndex];
+            shape.GetComponentInChildren<SpriteRenderer>().sprite = _shapeSizeConfig.Sprites[shapeIndex];
 
             InitializeShape(shapeSize, shape, shapeId, size);
             return shape;
