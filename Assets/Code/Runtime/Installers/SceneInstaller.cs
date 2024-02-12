@@ -30,6 +30,8 @@ namespace Code.Runtime.Installers
             BindShapeDeterminantor();
 
             BindGlobalGameObjectPool();
+
+            BindShapeFactory();
         }
 
         // Need to refactor
@@ -68,5 +70,9 @@ namespace Code.Runtime.Installers
             Container.Bind<Infrastructure.PrefabFactory<HUD>>().AsSingle();
         }
 
+        private void BindShapeFactory()
+        {
+            Container.BindInterfacesTo<ShapeFactory>().AsSingle();
+        }
     }
 }

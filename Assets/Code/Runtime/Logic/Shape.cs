@@ -18,7 +18,13 @@ namespace Code.Runtime.Logic
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private GameplayShapesInteractor _gameplayShapesInteractor;
+        private Rigidbody2D _rigidbody;
         private Action _onDestroyed;
+
+        private void Start()
+        {
+            _rigidbody = this.GetComponent<Rigidbody2D>();
+        }
 
         public void Construct(ShapeSize shapeSize, IShapeFactory shapeFactory,
             IPersistentProgressService progressService, Action onDestroyed, string shapeId = null)
@@ -55,7 +61,9 @@ namespace Code.Runtime.Logic
         private void DestroyShape(Shape shape)
         {
             _gameplayShapesInteractor.RemoveShape(shape);
-            Destroy(shape.gameObject);
+            _rigidbody.inertia = 0f;
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.angularVelocity = 0f;
             _onDestroyed?.Invoke();
         }
 

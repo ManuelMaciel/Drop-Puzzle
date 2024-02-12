@@ -10,21 +10,17 @@ namespace Code.Runtime.Infrastructure.States
         private readonly ISceneLoader _sceneLoader;
         private readonly IStaticDataService _staticDataService;
         private readonly GameStateMachine _gameStateMachine;
-        private readonly IShapeFactory _shapeFactory;
-
         public BootstrapState(ISceneLoader sceneLoader, IStaticDataService staticDataService,
-            GameStateMachine gameStateMachine, IShapeFactory shapeFactory)
+            GameStateMachine gameStateMachine)
         {
             _sceneLoader = sceneLoader;
             _staticDataService = staticDataService;
             _gameStateMachine = gameStateMachine;
-            _shapeFactory = shapeFactory;
         }
 
         public void Enter()
         {
             _staticDataService.Initialize();
-            _shapeFactory.Initialize();
 
             _sceneLoader.Load(SceneName.Bootstrap.ToString(), ToLoadProgressState);
         }

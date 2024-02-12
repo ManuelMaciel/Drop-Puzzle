@@ -47,7 +47,6 @@ namespace Code.Runtime.Logic
             _shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
             _shapeMovement.AddShape(_shapeRigidbody, _shapeCollider);
             _shapeCollider.enabled = false;
-            _shapeCollider.transform.SetParent(this.transform);
         }
 
         private void Drop()
@@ -60,7 +59,6 @@ namespace Code.Runtime.Logic
             _shapeMovement.RemoveShape();
             _gameplayShapesInteractor.AddShape(_currentShape);
             _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
-            _shapeCollider.transform.parent = null;
 
             _currentShape = null;
         }

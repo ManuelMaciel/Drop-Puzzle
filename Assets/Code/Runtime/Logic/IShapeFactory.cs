@@ -6,6 +6,5 @@ namespace Code.Runtime.Logic
     {
         Shape CreateShape(Vector3 at, ShapeSize shapeSize, bool isDropped = false);
         Shape CreateShapeFromLoadedData(Vector3 at, ShapeSize shapeSize, string shapeId);
-        void Initialize();
     }
 }
