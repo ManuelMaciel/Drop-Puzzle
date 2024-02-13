@@ -1,17 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class ScreenSizer : MonoBehaviour
 {
     [SerializeField] private Collider2D rightObstacle;
     [SerializeField] private Collider2D leftObstacle;
-    
-    private Camera _camera;
-
-    private void Awake()
-    {
-        _camera = GetComponent<Camera>();
-    }
+    [SerializeField] private SpriteRenderer dropBoxSpriteRenderer;
+    [SerializeField] private Camera camera;
 
     private void Start()
     {
@@ -28,12 +22,23 @@ public class ScreenSizer : MonoBehaviour
         float leftEdge = rightBounds.min.x;
         
         AdjustCameraSize(leftEdge, rightEdge);
+        AdjustWidth(dropBoxSpriteRenderer);
     }
 
     private void AdjustCameraSize(float leftEdge, float rightEdge)
     {
         float cameraWidth = rightEdge - leftEdge;
         
-        _camera.orthographicSize = (cameraWidth * Screen.height / Screen.width * 0.5f) * -1;
+        camera.orthographicSize = (cameraWidth * Screen.height / Screen.width * 0.5f) * -1;
+    }
+    
+    private void AdjustWidth(SpriteRenderer spriteRenderer)
+    {
+        float worldScreenHeight = Camera.main.orthographicSize * 2.0f;
+        float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
+        float spriteWidth = spriteRenderer.sprite.bounds.size.x;
+        float scaleX = worldScreenWidth / spriteWidth;
+        
+        spriteRenderer.transform.localScale = new Vector3(scaleX, spriteRenderer.transform.localScale.y, 1f);
     }
 }

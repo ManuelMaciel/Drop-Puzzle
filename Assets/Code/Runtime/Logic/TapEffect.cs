@@ -24,7 +24,8 @@ namespace Code.Runtime.Logic
 
         private void Start()
         {
-            _gameObjectPool = new GameObjectPool<ParticleSystem>(_particleSystem, 5, _globalGameObjectPool);
+            _gameObjectPool = new GameObjectPool<ParticleSystem>(_particleSystem,Constants.PreCountTapParticles,
+                _globalGameObjectPool);
             _gameObjectPool.Initialize();
         }
 
@@ -35,7 +36,7 @@ namespace Code.Runtime.Logic
                 ParticleSystem instantiate = _gameObjectPool.Get(_input.GetPosition());
                 instantiate.Play();
                 StartCoroutine(CheckIfPlay(instantiate, () => _gameObjectPool.Return(instantiate)));
-                
+
                 _isPressed = true;
             }
 

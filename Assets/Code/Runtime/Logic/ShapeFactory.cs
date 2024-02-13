@@ -28,7 +28,7 @@ namespace Code.Runtime.Logic
 
             _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
 
-            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, 20, globalGameObjectPool,
+            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, Constants.PreCountShapes, globalGameObjectPool,
                 (shape) => shape.Construct(this, progressService, _shapesPool, saveLoadService));
             _shapesPool.Initialize();
         }

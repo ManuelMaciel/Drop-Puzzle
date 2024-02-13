@@ -32,8 +32,12 @@ namespace Code.Runtime.Logic
         private void OnEnable() => 
             _input.OnDrop += Drop;
 
-        private void OnDisable() => 
+        private void OnDisable()
+        {
+            _currentShape.gameObject.SetActive(false);
+            
             _input.OnDrop -= Drop;
+        }
 
         public void Initialize() => 
             _shapeMovement = this.GetComponent<Movement>();

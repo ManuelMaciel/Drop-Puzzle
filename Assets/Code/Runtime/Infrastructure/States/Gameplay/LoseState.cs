@@ -1,7 +1,9 @@
-﻿using Code.Runtime.Interactors;
+﻿using System.Collections;
+using Code.Runtime.Interactors;
 using Code.Runtime.Logic;
 using Code.Runtime.UI;
 using Code.Services.Progress;
+using UnityEngine;
 
 namespace Code.Runtime.Infrastructure.States.Gameplay
 {
@@ -10,27 +12,58 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         private readonly PrefabFactory<Spawner> _spawnerFactory;
         private readonly PrefabFactory<HUD> _hudFactory;
         private readonly IPersistentProgressService _progressService;
+        private readonly ICoroutineRunner _coroutineRunner;
 
+        private Camera mainCamera;
+        private float initialSize;
+        private float targetSize = 6f;
+        private float changeDuration = 1.5f;
+        
         public LoseState(PrefabFactory<Spawner> spawnerFactory, PrefabFactory<HUD> hudFactory,
-            IPersistentProgressService progressService)
+            IPersistentProgressService progressService, ICoroutineRunner coroutineRunner)
         {
             _spawnerFactory = spawnerFactory;
             _hudFactory = hudFactory;
             _progressService = progressService;
+            _coroutineRunner = coroutineRunner;
         }
 
         public void Enter()
         {
+            mainCamera = Camera.main;
+            initialSize = mainCamera.orthographicSize;
+            
             _spawnerFactory.InstantiatedPrefab.gameObject.SetActive(false);
 
+            _hudFactory.InstantiatedPrefab.ChangeToLose();
+            
             _progressService.InteractorContainer.Get<GameplayShapesInteractor>().ClearShapesData();
             _progressService.InteractorContainer.Get<ScoreInteractor>().ResetCurrentScore();
-            
-            _hudFactory.InstantiatedPrefab.ChangeToLose();
+
+            _coroutineRunner.StartCoroutine(ChangeCameraSize());
         }
 
         public void Exit()
         {
+        }
+        
+        IEnumerator ChangeCameraSize()
+        {
+            _hudFactory.InstantiatedPrefab.gameObject.SetActive(false);
+            
+            float timeElapsed = 0f;
+            while (timeElapsed < changeDuration)
+            {
+                float newSize = Mathf.Lerp(initialSize, targetSize, timeElapsed / changeDuration);
+                mainCamera.orthographicSize = newSize;
+
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            mainCamera.orthographicSize = targetSize;
+            
+            _hudFactory.InstantiatedPrefab.gameObject.SetActive(true);
         }
     }
 }
