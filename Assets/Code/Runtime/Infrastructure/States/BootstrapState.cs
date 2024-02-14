@@ -1,6 +1,5 @@
-﻿using Code.Runtime.Extensions;
-using Code.Runtime.Infrastructure.StateMachines;
-using Code.Runtime.Logic;
+﻿using Code.Runtime.Infrastructure.StateMachines;
+using Code.Services.WindowsService;
 using CodeBase.Services.StaticDataService;
 
 namespace Code.Runtime.Infrastructure.States
@@ -10,17 +9,21 @@ namespace Code.Runtime.Infrastructure.States
         private readonly ISceneLoader _sceneLoader;
         private readonly IStaticDataService _staticDataService;
         private readonly GameStateMachine _gameStateMachine;
+        private readonly IWindowService _windowService;
+
         public BootstrapState(ISceneLoader sceneLoader, IStaticDataService staticDataService,
-            GameStateMachine gameStateMachine)
+            GameStateMachine gameStateMachine, IWindowService windowService)
         {
             _sceneLoader = sceneLoader;
             _staticDataService = staticDataService;
             _gameStateMachine = gameStateMachine;
+            _windowService = windowService;
         }
 
         public void Enter()
         {
             _staticDataService.Initialize();
+            _windowService.Initialize();
 
             _sceneLoader.Load(SceneName.Bootstrap.ToString(), ToLoadProgressState);
         }

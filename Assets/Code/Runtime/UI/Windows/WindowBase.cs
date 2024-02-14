@@ -13,8 +13,7 @@ namespace Code.Runtime.UI.Windows
 
         protected IInteractorContainer _interactorContainer => _persistentProgressService.InteractorContainer;
         protected IPersistentProgressService _persistentProgressService;
-
-        private IWindowService _windowService;
+        protected IWindowService _windowService;
 
         [Inject]
         public void Construct(IPersistentProgressService persistentProgressService, IWindowService windowService)

@@ -11,7 +11,6 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         private readonly PrefabFactory<HUD> _hudFactory;
         private readonly PrefabFactory<Spawner> _spawnerFactory;
         private readonly IShapeFactory _shapeFactory;
-        private readonly IUIFactory _uiFactory;
         private readonly IPersistentProgressService _progressService;
 
         LoadGameplayLevelState(PrefabFactory<HUD> hudFactory, PrefabFactory<Spawner> spawnerFactory,
@@ -20,7 +19,6 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
             _hudFactory = hudFactory;
             _spawnerFactory = spawnerFactory;
             _shapeFactory = shapeFactory;
-            _uiFactory = uiFactory;
             _progressService = progressService;
         }
 
@@ -33,7 +31,6 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         {
             _hudFactory.Create(InfrastructureAssetPath.HUDPath);
             _spawnerFactory.Create(InfrastructureAssetPath.ShapeDropperPath);
-            _uiFactory.CreateUIRoot();
 
             SpawnLoadedShapes();
         }

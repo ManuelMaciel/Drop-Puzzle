@@ -1,45 +1,41 @@
 ﻿using System.Collections.Generic;
 using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
-using Code.Services.Progress;
 using CodeBase.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.UI.Windows
 {
-    public class ShopWindow : MonoBehaviour
+    public class ShopWindow : WindowBase
     {
         [SerializeField] private Transform purchasedBackgroundsContainer;
         [SerializeField] private PurchaseElement purchaseElementPrefab;
 
         private IStaticDataService _staticDataService;
-        private IPersistentProgressService _persistentProgressService;
-
         private PurchasesInteractor _purchasesInteractor;
 
         private Dictionary<BackgroundType, PurchaseElement> _purchaseBackgroundElements =
             new Dictionary<BackgroundType, PurchaseElement>();
 
         [Inject]
-        public void Construct(IStaticDataService staticDataService,
-            IPersistentProgressService persistentProgressService)
+        public void Construct(IStaticDataService staticDataService)
         {
             _staticDataService = staticDataService;
-            _persistentProgressService = persistentProgressService;
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            if (_staticDataService == null) return;
+            _purchasesInteractor.OnPurchasedBackground -= UpdatePurchasedBackground;
+            _purchasesInteractor.OnSelectedBackground -= UpdateSelectedBackground;
+        }
 
+        protected override void Initialize()
+        {
             _purchasesInteractor = _persistentProgressService.InteractorContainer.Get<PurchasesInteractor>();
 
-            _purchasesInteractor.OnPurchasedBackground += UpdatePurchasedBackground;
-            _purchasesInteractor.OnSelectedBackground += UpdateSelectedBackground;
-
             foreach (PurchasedBackground purchasedBackground in _staticDataService.PurchasedBackgroundsConfig
-                .PurchasedBackgrounds)
+                         .PurchasedBackgrounds)
             {
                 PurchaseElement purchaseElement = Instantiate(purchaseElementPrefab, purchasedBackgroundsContainer);
                 BackgroundType backgroundType = purchasedBackground.BackgroundType;
@@ -57,7 +53,13 @@ namespace Code.Runtime.UI.Windows
             }
         }
 
-        private void OnDestroy()
+        protected override void SubscribeUpdates()
+        {
+            _purchasesInteractor.OnPurchasedBackground += UpdatePurchasedBackground;
+            _purchasesInteractor.OnSelectedBackground += UpdateSelectedBackground;
+        }
+
+        protected override void Cleanup()
         {
             _purchasesInteractor.OnPurchasedBackground -= UpdatePurchasedBackground;
             _purchasesInteractor.OnSelectedBackground -= UpdateSelectedBackground;

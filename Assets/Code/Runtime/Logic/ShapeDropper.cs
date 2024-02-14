@@ -29,17 +29,18 @@ namespace Code.Runtime.Logic
         private void Start() =>
             _gameplayShapesInteractor = _progressService.InteractorContainer.Get<GameplayShapesInteractor>();
 
-        private void OnEnable() => 
+        private void OnEnable() =>
             _input.OnDrop += Drop;
 
         private void OnDisable()
         {
-            _currentShape.gameObject.SetActive(false);
-            
+            if (_currentShape != null)
+                _currentShape.gameObject.SetActive(false);
+
             _input.OnDrop -= Drop;
         }
 
-        public void Initialize() => 
+        public void Initialize() =>
             _shapeMovement = this.GetComponent<Movement>();
 
         public void AddShape(Shape newShape)
@@ -55,8 +56,8 @@ namespace Code.Runtime.Logic
 
         private void Drop()
         {
-            if(_currentShape == null) return;
-            
+            if (_currentShape == null) return;
+
             OnShapeDropped?.Invoke();
 
             _shapeCollider.enabled = true;

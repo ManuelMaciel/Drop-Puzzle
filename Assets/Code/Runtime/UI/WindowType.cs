@@ -4,5 +4,7 @@
     {
         Unknown = 0,
         Test = 1,
+        RestartGame = 2,
+        Shop = 3,
     }
 }

@@ -19,6 +19,11 @@ namespace Code.Services.WindowsService
             _uiFactory = uiFactory;
         }
 
+        public void Initialize()
+        {
+            _uiFactory.CreateUIRoot();
+        }
+
         public void Open(WindowType windowType, bool returnPage = false)
         {
             SetWindow(windowType, returnPage);
@@ -28,7 +33,13 @@ namespace Code.Services.WindowsService
                 case WindowType.Unknown:
                     break;
                 case WindowType.Test:
-                    _currentWindow = _uiFactory.CreateTest();
+                    _currentWindow = _uiFactory.CreateWindow<TestWindow>();
+                    break;
+                case WindowType.RestartGame:
+                    _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>();
+                    break;
+                case WindowType.Shop:
+                    _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
                     break;
             }
         }
@@ -57,10 +68,10 @@ namespace Code.Services.WindowsService
             if (_currentWindow != null)
             {
                 if (returnPage) _previousPages.Add(_currentWindowType);
-                
+
                 DestroyWindow();
             }
-            
+
             _currentWindowType = windowType;
         }
     }

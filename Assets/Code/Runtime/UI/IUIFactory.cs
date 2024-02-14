@@ -5,6 +5,6 @@ namespace Code.Runtime.UI
     public interface IUIFactory
     {
         void CreateUIRoot();
-        WindowBase CreateTest();
+        T CreateWindow<T>() where T : WindowBase;
     }
 }
