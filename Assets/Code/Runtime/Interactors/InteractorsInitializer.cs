@@ -16,6 +16,8 @@ namespace Code.Runtime.Interactors
                 .MoneyRepository);
             interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress
                 .GameplayData.GameplayShapesRepository);
+            interactorContainer.CreateInteractor<SettingsInteractor, SettingsRepository>(playerProgress
+                .SettingsRepository);
 
             RegisterPurchasesInteractor(playerProgress, interactorContainer, staticDataService, saveLoadService);
             RegisterScoreInteractor(playerProgress, interactorContainer, staticDataService);

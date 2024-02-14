@@ -6,6 +6,7 @@ namespace Code.Runtime.Repositories
     public class PlayerProgress
     {
         public GameplayData GameplayData = new GameplayData();
+        public SettingsRepository SettingsRepository = new SettingsRepository();
         public PurchasesRepository PurchasesRepository = new PurchasesRepository();
     }
 

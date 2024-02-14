@@ -1,15 +1,15 @@
-﻿using UnityEditor;
+﻿using Code.Services.SaveLoadService;
+using UnityEditor;
 using UnityEngine;
 
 namespace Code.Editor
 {
     public class Tools 
     {
-        [MenuItem("Tools/ClearPrefs")]
-        public static void ClearPrefs()
+        [MenuItem("Tools/ClearSaves")]
+        public static void ClearSaves()
         {
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.Save();
+            SaveUtility.DeleteAllSaves();
         }
     }
 }

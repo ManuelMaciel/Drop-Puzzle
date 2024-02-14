@@ -9,7 +9,5 @@ namespace Code.Services.SaveLoadService
         void Save(string key, T data);
 
         T Load(string key);
-
-        void DeleteSave(string filePath);
     }
 }

@@ -7,7 +7,7 @@ namespace Code.Runtime.Interactors
         void Construct(IRepository repository);
     }
 
-    public abstract class Interactor<TRepository> : IInteractor
+    public abstract class Interactor<TRepository> : IInteractor where TRepository : IRepository
     {
         protected TRepository _repository;
         

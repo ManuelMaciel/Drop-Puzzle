@@ -16,8 +16,6 @@ namespace Code.Runtime.Configs
         private void OnValidate()
         {
             Array arrayTypes = Enum.GetValues(typeof(BackgroundType));
-
-            Debug.Log(PurchasedBackgrounds.Count < arrayTypes.Length);
             
             if (PurchasedBackgrounds == null || PurchasedBackgrounds.Count < arrayTypes.Length)
             {

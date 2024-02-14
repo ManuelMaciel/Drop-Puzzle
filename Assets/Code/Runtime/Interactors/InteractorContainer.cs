@@ -15,7 +15,7 @@ namespace Code.Runtime.Interactors
         public bool TryGet<T>(out IInteractor interactor) where T : class, IInteractor =>
             _interactors.TryGetValue(typeof(T), out interactor);
 
-        public void CreateInteractor<T, TRepository>(TRepository repository) where T : Interactor<TRepository>, new()
+        public void CreateInteractor<T, TRepository>(TRepository repository) where T : Interactor<TRepository>, new() where TRepository : IRepository
         {
             T interactor = new T();
 

@@ -2,20 +2,18 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Code.Services.SaveLoadService;
-using UnityEngine;
 
 public class BinarySaver<T> : ISaver<T> where T : class
 {
-    private readonly string _saveDirectory;
     private readonly BinaryFormatter _formatter;
+    
     public BinarySaver()
     {
-        _saveDirectory = Application.persistentDataPath + "/Saves/";
-        Directory.CreateDirectory(_saveDirectory);
+        Directory.CreateDirectory(SaveUtility.SaveDirectory);
         _formatter = new BinaryFormatter();
     }
 
-    public IEnumerable<string> GetAll => Directory.GetFiles(_saveDirectory);
+    public IEnumerable<string> GetAll => Directory.GetFiles(SaveUtility.SaveDirectory);
 
     public void Save(string key, T data)
     {
@@ -45,17 +43,9 @@ public class BinarySaver<T> : ISaver<T> where T : class
 
         return null;
     }
-
+    
     private string GetPath(string key)
     {
-        return _saveDirectory + key + ".dat";
-    }
-
-    public void DeleteSave(string filePath)
-    {
-        if (File.Exists(filePath))
-        {
-            File.Delete(filePath);
-        }
+        return SaveUtility.SaveDirectory + key + ".dat";
     }
 }
