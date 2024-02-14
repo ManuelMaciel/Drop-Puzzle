@@ -60,6 +60,8 @@ namespace Code.Runtime.Logic
 
             _scoreInteractor.AddScore(comboCount * 5);
             _moneyInteractor.AddCoins(comboCount);
+            
+            Handheld.Vibrate();
 
             _logService.Log("End Combo: " + comboCount + "X");
         }

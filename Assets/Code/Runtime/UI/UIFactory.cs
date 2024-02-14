@@ -25,20 +25,20 @@ namespace Code.Runtime.UI
             _instantiator = instantiator;
         }
 
-        public void CreateUIRoot()
+        public void CreateWindowsRoot()
         {
-            _uiRoot = InstantiateWindow<Transform>(InfrastructureAssetPath.UIRootPath);
+            _uiRoot = Instantiate<Transform>(InfrastructureAssetPath.WindowsRootPath);
         }
         
         public T CreateWindow<T>() where T : WindowBase
         {
             T instantiateWindow =
-                InstantiateWindow<T>(windowsPath[typeof(T)], _uiRoot);
+                Instantiate<T>(windowsPath[typeof(T)], _uiRoot);
 
             return instantiateWindow;
         }
 
-        private T InstantiateWindow<T>(string path, Transform parent = null) where T : Object
+        private T Instantiate<T>(string path, Transform parent = null) where T : Object
         {
             T prefab = Resources.Load<T>(path);
             return _instantiator.InstantiatePrefabForComponent<T>(prefab, parent);

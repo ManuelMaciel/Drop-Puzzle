@@ -4,7 +4,7 @@ namespace Code.Runtime.UI
 {
     public interface IUIFactory
     {
-        void CreateUIRoot();
+        void CreateWindowsRoot();
         T CreateWindow<T>() where T : WindowBase;
     }
 }

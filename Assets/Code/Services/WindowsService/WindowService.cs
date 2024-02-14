@@ -2,7 +2,6 @@
 using System.Linq;
 using Code.Runtime.UI;
 using Code.Runtime.UI.Windows;
-using UnityEngine;
 
 namespace Code.Services.WindowsService
 {
@@ -12,7 +11,8 @@ namespace Code.Services.WindowsService
         private WindowBase _currentWindow;
         private WindowType _currentWindowType;
 
-        private List<WindowType> _previousPages = new List<WindowType>();
+        private List<WindowType> _previousPages = new();
+        private Dictionary<WindowType, WindowBase> _createdWindows = new();
 
         public WindowService(IUIFactory uiFactory)
         {
@@ -21,13 +21,15 @@ namespace Code.Services.WindowsService
 
         public void Initialize()
         {
-            _uiFactory.CreateUIRoot();
+            _uiFactory.CreateWindowsRoot();
         }
 
         public void Open(WindowType windowType, bool returnPage = false)
         {
             SetWindow(windowType, returnPage);
 
+            if(TryShowCreatedWindow(windowType)) return;
+            
             switch (windowType)
             {
                 case WindowType.Unknown:
@@ -42,6 +44,22 @@ namespace Code.Services.WindowsService
                     _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
                     break;
             }
+            
+            _createdWindows.Add(windowType, _currentWindow);
+        }
+
+        private bool TryShowCreatedWindow(WindowType windowType)
+        {
+            bool isCreatedWindow = (_createdWindows.TryGetValue(windowType, out WindowBase windowObject));
+
+            if(isCreatedWindow)
+            {
+                windowObject.gameObject.SetActive(true);
+
+                _currentWindow = windowObject;
+            }
+
+            return isCreatedWindow;
         }
 
         public void Close()
@@ -58,7 +76,7 @@ namespace Code.Services.WindowsService
 
         private void DestroyWindow()
         {
-            Object.Destroy(_currentWindow.gameObject);
+            _currentWindow.gameObject.SetActive(false);
 
             _currentWindow = null;
         }

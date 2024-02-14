@@ -11,6 +11,8 @@ namespace Code.Runtime.Infrastructure.Bootstrappers
              InitializeGameStateMachine();
              
              Application.targetFrameRate = 60;
+             
+             DontDestroyOnLoad(this.gameObject);
         }
 
         private void InitializeGameStateMachine()
