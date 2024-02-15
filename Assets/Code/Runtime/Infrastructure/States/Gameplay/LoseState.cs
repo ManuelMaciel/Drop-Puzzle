@@ -36,10 +36,13 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
             _spawnerFactory.InstantiatedPrefab.gameObject.SetActive(false);
 
             _hudFactory.InstantiatedPrefab.ChangeToLose();
+
+            ScoreInteractor scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
             
             _progressService.InteractorContainer.Get<GameplayShapesInteractor>().ClearShapesData();
-            _progressService.InteractorContainer.Get<ScoreInteractor>().ResetCurrentScore();
+            _progressService.InteractorContainer.Get<RankingInteractor>().AddRecord(scoreInteractor.GetCurrentScore());
 
+            scoreInteractor.ResetCurrentScore();
             _coroutineRunner.StartCoroutine(ChangeCameraSize());
         }
 

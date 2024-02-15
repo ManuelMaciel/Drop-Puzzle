@@ -1692,7 +1692,7 @@ GameObject:
   - component: {fileID: 4875731774792563730}
   - component: {fileID: 2524159152245333651}
   m_Layer: 5
-  m_Name: OpenTestWindowButton
+  m_Name: OpenSettingsWindowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ReturnPage: 0
   Button: {fileID: 2524159152245333651}
-  WindowType: 1
+  WindowType: 4
 --- !u!114 &1726125795482895705
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace Code.Runtime.UI
             [typeof(RestartGameWindow)] = InfrastructureAssetPath.RestartGameWindowPath,
             [typeof(ShopWindow)] = InfrastructureAssetPath.ShopWindowPath,
             [typeof(SettingsWindow)] = InfrastructureAssetPath.SettingsWindowPath,
+            [typeof(RankingWindow)] = InfrastructureAssetPath.RankingWindowPath,
         };
 
         UIFactory(IInstantiator instantiator)

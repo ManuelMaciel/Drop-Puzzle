@@ -48,6 +48,9 @@ namespace Code.Services.WindowsService
                 case WindowType.Settings:
                     _currentWindow = _uiFactory.CreateWindow<SettingsWindow>();
                     break;
+                case WindowType.Rankings:
+                    _currentWindow = _uiFactory.CreateWindow<RankingWindow>();
+                    break;
             }
             
             _createdWindows.Add(windowType, _currentWindow);

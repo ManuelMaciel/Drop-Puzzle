@@ -25,14 +25,14 @@ namespace Code.Runtime.UI.Windows
         private void Awake() =>
             Initialize();
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             CloseButton.onClick.AddListener(_windowService.Close);
             
             SubscribeUpdates();
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             CloseButton.onClick.RemoveListener(_windowService.Close);
             

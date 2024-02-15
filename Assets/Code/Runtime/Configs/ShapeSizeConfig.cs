@@ -21,5 +21,8 @@ namespace Code.Runtime.Configs
             if (Sprites.Length < sizes) 
                 Sprites = new Sprite[sizes];
         }
+
+        public int ShapesCount() =>
+            Sizes.Length;
     }
 }
