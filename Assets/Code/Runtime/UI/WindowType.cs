@@ -6,5 +6,6 @@
         Test = 1,
         RestartGame = 2,
         Shop = 3,
+        Settings = 4,
     }
 }

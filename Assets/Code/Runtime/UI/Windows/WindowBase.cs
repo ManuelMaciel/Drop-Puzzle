@@ -21,26 +21,22 @@ namespace Code.Runtime.UI.Windows
             _persistentProgressService = persistentProgressService;
             _windowService = windowService;
         }
-        
-        private void Awake()
-        {
-            OnAwake();
-        }
 
-        private void Start()
-        {
+        private void Awake() =>
             Initialize();
+
+        private void OnEnable()
+        {
+            CloseButton.onClick.AddListener(_windowService.Close);
+            
             SubscribeUpdates();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
+            CloseButton.onClick.RemoveListener(_windowService.Close);
+            
             Cleanup();
-        }
-
-        protected virtual void OnAwake()
-        {
-            CloseButton.onClick.AddListener(_windowService.Close);
         }
 
         protected abstract void Initialize();

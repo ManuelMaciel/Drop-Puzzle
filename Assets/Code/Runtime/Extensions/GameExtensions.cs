@@ -7,19 +7,19 @@ namespace Code.Runtime.Extensions
     {
         public static ShapeSize NextSize(this ShapeSize shapeSize)
         {
-            int nextSize = (((int) shapeSize) + 1);
+            int nextSize = (((int)shapeSize) + 1);
 
             if (Enum.GetNames(typeof(ShapeSize)).Length <= nextSize)
             {
                 nextSize = 0;
             }
 
-            return (ShapeSize) nextSize;
+            return (ShapeSize)nextSize;
         }
 
         public static int Index(this SceneName sceneName)
         {
-            return (int) sceneName;
+            return (int)sceneName;
         }
     }
 }

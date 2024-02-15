@@ -7,5 +7,6 @@
     public const string TestWindowPath = "UI/TestWindow";
     public const string RestartGameWindowPath = "UI/RestartGameWindow";
     public const string ShopWindowPath = "UI/ShopWindow";
+    public const string SettingsWindowPath = "UI/SettingsWindow";
     public const string ShapeDropperPath = "Game/ShapeDropper";
 }

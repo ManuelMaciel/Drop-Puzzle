@@ -2,27 +2,29 @@
 using System.Linq;
 using Code.Runtime.UI;
 using Code.Runtime.UI.Windows;
+using CodeBase.Services.LogService;
 
 namespace Code.Services.WindowsService
 {
     public class WindowService : IWindowService
     {
-        private IUIFactory _uiFactory;
+        private readonly IUIFactory _uiFactory;
+        private readonly ILogService _logService;
+        
         private WindowBase _currentWindow;
         private WindowType _currentWindowType;
 
         private List<WindowType> _previousPages = new();
         private Dictionary<WindowType, WindowBase> _createdWindows = new();
 
-        public WindowService(IUIFactory uiFactory)
+        public WindowService(IUIFactory uiFactory, ILogService logService)
         {
             _uiFactory = uiFactory;
+            _logService = logService;
         }
 
-        public void Initialize()
-        {
+        public void Initialize() => 
             _uiFactory.CreateWindowsRoot();
-        }
 
         public void Open(WindowType windowType, bool returnPage = false)
         {
@@ -42,6 +44,9 @@ namespace Code.Services.WindowsService
                     break;
                 case WindowType.Shop:
                     _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
+                    break;
+                case WindowType.Settings:
+                    _currentWindow = _uiFactory.CreateWindow<SettingsWindow>();
                     break;
             }
             
@@ -64,6 +69,13 @@ namespace Code.Services.WindowsService
 
         public void Close()
         {
+            if (_currentWindow == null)
+            {
+                _logService.LogError("Window is closed");
+                
+                return;
+            }
+            
             DestroyWindow();
 
             if (_previousPages.Count > 0)
