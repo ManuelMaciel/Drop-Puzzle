@@ -429,6 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc7df0871c14661ba70b23456389f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVfx: {fileID: 446820939785250268, guid: 9cff28e8d1074aa4ea9df6f9ad2415ad, type: 3}
+  tapVfx: {fileID: 19800000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
   mobileInput: {fileID: 838131470175959770}
 --- !u!1 &377950319
 GameObject:
@@ -942,7 +944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e08731cc7e4748a0c4aeda3204cca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particleSystem: {fileID: 19800000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
 --- !u!4 &1446888369
 Transform:
   m_ObjectHideFlags: 0

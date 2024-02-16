@@ -57,15 +57,15 @@ namespace Code.Runtime.UI.Windows
         }
 
         private void SortByToday() =>
-            DrawRanking(SortByDate.Today);
+            DrawRanking(RankingInteractor.SortByDate.Today);
 
         private void SortByWeek() =>
-            DrawRanking(SortByDate.Week);
+            DrawRanking(RankingInteractor.SortByDate.Week);
 
         private void SortByAllTime() =>
-            DrawRanking(SortByDate.AllTime);
+            DrawRanking(RankingInteractor.SortByDate.AllTime);
 
-        private void DrawRanking(SortByDate sortByDate)
+        private void DrawRanking(RankingInteractor.SortByDate sortByDate)
         {
             ClearRankElementsContainer(); 
 

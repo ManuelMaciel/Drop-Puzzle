@@ -11,6 +11,8 @@ namespace Code.Runtime.Installers
 {
     public class SceneInstaller : MonoInstaller
     {
+        [SerializeField] private ParticleSystem deathVfx;
+        [SerializeField] private ParticleSystem tapVfx;
         [SerializeField] private MobileInput mobileInput;
 
         public override void InstallBindings()
@@ -32,6 +34,15 @@ namespace Code.Runtime.Installers
             BindGlobalGameObjectPool();
 
             BindShapeFactory();
+
+            BindParticlesFactory();
+        }
+
+        private void BindParticlesFactory()
+        {
+            Container.BindInterfacesTo<ParticlesFactory>()
+                .AsSingle()
+                .WithArguments(tapVfx, deathVfx);
         }
 
         // Need to refactor

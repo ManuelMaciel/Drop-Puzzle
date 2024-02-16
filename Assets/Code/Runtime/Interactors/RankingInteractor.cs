@@ -11,7 +11,7 @@ namespace Code.Runtime.Interactors
         {
             _repository.RecordsData.Add(new RecordData()
             {
-                RecordDate = DateTime.Now.AddDays(5),
+                RecordDate = DateTime.Now,
                 Score = score,
             });
         }
@@ -45,12 +45,12 @@ namespace Code.Runtime.Interactors
             return _repository.RecordsData
                 .Where(r => r.RecordDate.Date >= startDate.Date && r.RecordDate.Date < endDate.Date);
         }
-    }
-
-    public enum SortByDate
-    {
-        Today,
-        Week,
-        AllTime
+        
+        public enum SortByDate
+        {
+            Today,
+            Week,
+            AllTime
+        }
     }
 }

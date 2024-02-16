@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States;
 using Code.Runtime.Infrastructure.States.Gameplay;
+using Code.Runtime.Logic;
 using UnityEngine;
 using Zenject;
 
@@ -32,6 +33,7 @@ public class OverflowDetector : MonoBehaviour
         if (timers.ContainsKey(other))
         {
             StopCoroutine(timers[other]);
+            other.GetComponentInChildren<ShapeAnimator>().StopPulseAnimation();
             timers.Remove(other);
         }
     }
@@ -39,20 +41,15 @@ public class OverflowDetector : MonoBehaviour
     private IEnumerator StartTimerToLose(Collider2D collider)
     {
         yield return new WaitForSeconds(2f);
+        
+        ShapeAnimator shapeAnimator = collider.GetComponentInChildren<ShapeAnimator>();
 
-        SpriteRenderer spriteRenderer = collider.GetComponentInChildren<SpriteRenderer>();
-
-        float flashDuration = 4f;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < flashDuration)
-        {
-            float lerpValue = Mathf.PingPong(elapsedTime, 1f);
-            spriteRenderer.color = Color.Lerp(Color.red, Color.white, lerpValue);
-
-            yield return null;
-            elapsedTime += Time.deltaTime;
-        }
+        shapeAnimator.PlayPulseAnimation();
+        
+        yield return new WaitForSeconds(4f);
+        
+        shapeAnimator.StopPulseAnimation();
+        shapeAnimator.PlayDeathAnimation();
         
         _gameplayStateMachine.Enter<LoseState>();
     }

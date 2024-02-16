@@ -1,59 +1,31 @@
-﻿using System;
-using System.Collections;
-using Code.Runtime.Infrastructure.ObjectPool;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic
 {
     public class TapEffect : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem _particleSystem;
-
-        private bool _isPressed;
+        private IParticlesFactory _particlesFactory;
         private IInput _input;
-        private IGlobalGameObjectPool _globalGameObjectPool;
-        private IGameObjectPool<ParticleSystem> _gameObjectPool;
+        private bool _isPressed;
 
         [Inject]
-        public void Construct(IInput input, IGlobalGameObjectPool globalGameObjectPool)
+        public void Construct(IInput input, IParticlesFactory particlesFactory)
         {
-            _globalGameObjectPool = globalGameObjectPool;
+            _particlesFactory = particlesFactory;
             _input = input;
         }
-
-        private void Start()
-        {
-            _gameObjectPool = new GameObjectPool<ParticleSystem>(_particleSystem,Constants.PreCountTapParticles,
-                _globalGameObjectPool);
-            _gameObjectPool.Initialize();
-        }
-
+        
         private void Update()
         {
             if (_input.IsPress() && !_isPressed)
             {
-                ParticleSystem instantiate = _gameObjectPool.Get(_input.GetPosition());
-                instantiate.Play();
-                StartCoroutine(CheckIfPlay(instantiate, () => _gameObjectPool.Return(instantiate)));
-
+                _particlesFactory.CreateTapVfx(_input.GetPosition());
+                
                 _isPressed = true;
             }
 
             if (_input.IsDropped()) _isPressed = false;
-        }
-
-        IEnumerator CheckIfPlay(ParticleSystem ps, Action onPlayed)
-        {
-            while (ps != null)
-            {
-                yield return new WaitForSeconds(0.5f);
-                if (!ps.IsAlive(true))
-                {
-                    onPlayed?.Invoke();
-                    break;
-                }
-            }
         }
     }
 }

@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace Code.Runtime.Infrastructure.ObjectPool
 {
     public class GlobalGameObjectPool : IGlobalGameObjectPool
     {
+        private readonly DiContainer _diContainer;
         private const string ObjectPoolsName = "ObjectPools";
 
         private Transform _objectPools;
 
-        public GlobalGameObjectPool()
+        public GlobalGameObjectPool(DiContainer diContainer)
         {
+            _diContainer = diContainer;
             _objectPools = new GameObject(ObjectPoolsName).transform;
         }
 
@@ -18,9 +21,13 @@ namespace Code.Runtime.Infrastructure.ObjectPool
             poolContainer.SetParent(_objectPools);
         }
         
-        public T CreateObject<T>(T @object, Transform poolContainer) where T : Object
+        public T CreateObject<T>(T @object, Transform poolContainer) where T : Component
         {
-            return Object.Instantiate(@object, poolContainer);
+            var instantiate = Object.Instantiate(@object, poolContainer);
+
+            _diContainer.InjectGameObject(instantiate.gameObject);
+            
+            return instantiate;
         }
     }
 }
