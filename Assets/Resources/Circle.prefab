@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3908768750100984836}
   - component: {fileID: 3908768750100984835}
   - component: {fileID: 7618735495974186215}
+  - component: {fileID: 3058297185826447002}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Shape
@@ -85,6 +86,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shapeType: 0
+--- !u!114 &3058297185826447002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908768750100984834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63d05f8d7314f77a1af827d8e57c779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSprite: {fileID: 1664600892, guid: 8e957c91ce855bb4ca3f6b8feaa57e10, type: 3}
+  shapeSpriteRenderer: {fileID: 417992953597663829}
 --- !u!1 &8529078184290851695
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,9 +110,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8943497702540816418}
   - component: {fileID: 417992953597663829}
-  - component: {fileID: 6673656702768763386}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,16 +184,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6673656702768763386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8529078184290851695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e63d05f8d7314f77a1af827d8e57c779, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathSprite: {fileID: 1664600892, guid: 8e957c91ce855bb4ca3f6b8feaa57e10, type: 3}

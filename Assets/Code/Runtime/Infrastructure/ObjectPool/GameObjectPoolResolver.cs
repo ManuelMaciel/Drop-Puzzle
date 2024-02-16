@@ -16,11 +16,9 @@ namespace Code.Runtime.Infrastructure.ObjectPool
 
         protected override T PreloadAction()
         {
-            T @object = base.PreloadAction();
+            GameObject instantiatePrefab = _diContainer.InstantiatePrefab(_poolObject);
 
-            _diContainer.InjectGameObject(@object.gameObject);
-
-            return @object;
+            return instantiatePrefab.GetComponent<T>();
         }
     }
 }

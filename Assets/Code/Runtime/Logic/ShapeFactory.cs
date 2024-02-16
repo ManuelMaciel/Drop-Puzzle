@@ -76,7 +76,7 @@ namespace Code.Runtime.Logic
         {
             _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, Constants.PreCountShapes,
                 gameObjectsPoolContainer, diContainer,
-                (shape) => shape.Construct(this, progressService, _shapesPool, saveLoadService));
+                (shape) => shape.Construct(this, progressService, saveLoadService, _shapesPool));
             _shapesPool.Initialize();
         }
     }

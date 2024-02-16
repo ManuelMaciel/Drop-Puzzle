@@ -5,7 +5,7 @@ namespace Code.Runtime.Infrastructure.ObjectPool
 {
     public class GameObjectPool<T> : IGameObjectPool<T> where T : Component
     {
-        private readonly T _poolObject;
+        protected readonly T _poolObject;
         private readonly int _preloadCount;
         private readonly IGameObjectsPoolContainer _gameObjectsPoolContainer;
 

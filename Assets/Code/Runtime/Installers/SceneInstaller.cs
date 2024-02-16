@@ -2,6 +2,7 @@
 using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Logic;
+using Code.Runtime.Logic.Animation;
 using Code.Runtime.UI;
 using Code.Services.InputService;
 using UnityEngine;
@@ -36,6 +37,13 @@ namespace Code.Runtime.Installers
             BindShapeFactory();
 
             BindParticlesFactory();
+
+            BindActiveShapeAnimatorsHandler();
+        }
+
+        private void BindActiveShapeAnimatorsHandler()
+        {
+            Container.BindInterfacesTo<ActiveShapeAnimatorsHandler>().AsCached();
         }
 
         private void BindParticlesFactory()

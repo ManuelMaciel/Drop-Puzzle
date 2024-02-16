@@ -11,6 +11,7 @@ namespace Code.Runtime.Configs
         public ShapeType ShapeType;
         public float[] Sizes;
         public Sprite[] Sprites;
+        public Sprite[] BlinkSprites;
 
         private void OnValidate()
         {
@@ -20,6 +21,9 @@ namespace Code.Runtime.Configs
 
             if (Sprites.Length < sizes) 
                 Sprites = new Sprite[sizes];
+            
+            if (Sprites.Length < sizes) 
+                BlinkSprites = new Sprite[sizes];
         }
 
         public int ShapesCount() =>

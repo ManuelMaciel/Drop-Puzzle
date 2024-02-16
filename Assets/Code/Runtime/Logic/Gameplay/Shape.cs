@@ -5,6 +5,7 @@ using Code.Runtime.Interactors;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Runtime.Logic
 {
@@ -29,13 +30,13 @@ namespace Code.Runtime.Logic
         {
             _rigidbody = this.GetComponent<Rigidbody2D>();
         }
-
+        
         public void Construct(IShapeFactory shapeFactory,
-            IPersistentProgressService progressService, IGameObjectPool<Shape> shapePool,
-            ISaveLoadService saveLoadService)
+            IPersistentProgressService progressService, ISaveLoadService saveLoadService,
+            IGameObjectPool<Shape> shapePool)
         {
-            _saveLoadService = saveLoadService;
             _shapePool = shapePool;
+            _saveLoadService = saveLoadService;
             _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
             _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
