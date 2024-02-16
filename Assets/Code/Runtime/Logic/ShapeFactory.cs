@@ -6,6 +6,7 @@ using Code.Services.Progress;
 using Code.Services.SaveLoadService;
 using CodeBase.Services.StaticDataService;
 using UnityEngine;
+using Zenject;
 
 namespace Code.Runtime.Logic
 {
@@ -20,7 +21,7 @@ namespace Code.Runtime.Logic
 
         public ShapeFactory(IStaticDataService staticDataService,
             IPersistentProgressService progressService, ISaveLoadService saveLoadService,
-            IGlobalGameObjectPool globalGameObjectPool)
+            IGameObjectsPoolContainer gameObjectsPoolContainer, DiContainer diContainer)
         {
             _staticDataService = staticDataService;
             _progressService = progressService;
@@ -28,9 +29,7 @@ namespace Code.Runtime.Logic
 
             _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
 
-            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, Constants.PreCountShapes, globalGameObjectPool,
-                (shape) => shape.Construct(this, progressService, _shapesPool, saveLoadService));
-            _shapesPool.Initialize();
+            InitializeShapePool(progressService, saveLoadService, gameObjectsPoolContainer, diContainer);
         }
 
         public Shape CreateShape(Vector3 at, ShapeSize shapeSize, bool isDropped = false)
@@ -70,6 +69,15 @@ namespace Code.Runtime.Logic
             shape.transform.localScale = new Vector2(size, size);
 
             _saveLoadService.AddUpdatebleProgress(shape);
+        }
+
+        private void InitializeShapePool(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
+            IGameObjectsPoolContainer gameObjectsPoolContainer, DiContainer diContainer)
+        {
+            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, Constants.PreCountShapes,
+                gameObjectsPoolContainer, diContainer,
+                (shape) => shape.Construct(this, progressService, _shapesPool, saveLoadService));
+            _shapesPool.Initialize();
         }
     }
 }

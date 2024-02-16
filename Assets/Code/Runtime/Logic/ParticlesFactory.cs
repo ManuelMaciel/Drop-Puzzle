@@ -13,14 +13,14 @@ namespace Code.Runtime.Logic
         private GameObjectPool<ParticleSystem> _deathVfxPool;
 
         public ParticlesFactory(ParticleSystem tapVfx, ParticleSystem deathVfx,
-            ICoroutineRunner coroutineRunner, IGlobalGameObjectPool globalGameObjectPool)
+            ICoroutineRunner coroutineRunner, IGameObjectsPoolContainer gameObjectsPoolContainer)
         {
             _coroutineRunner = coroutineRunner;
 
             _tapVfxPool = new GameObjectPool<ParticleSystem>(tapVfx,
-                Constants.PreCountTapParticles, globalGameObjectPool);
+                Constants.PreCountTapParticles, gameObjectsPoolContainer);
             _deathVfxPool = new GameObjectPool<ParticleSystem>(deathVfx,
-                Constants.PreCountTapParticles, globalGameObjectPool);
+                Constants.PreCountTapParticles, gameObjectsPoolContainer);
 
             _tapVfxPool.Initialize();
             _deathVfxPool.Initialize();

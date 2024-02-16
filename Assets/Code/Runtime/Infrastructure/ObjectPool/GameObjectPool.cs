@@ -7,18 +7,18 @@ namespace Code.Runtime.Infrastructure.ObjectPool
     {
         private readonly T _poolObject;
         private readonly int _preloadCount;
-        private readonly IGlobalGameObjectPool _globalGameObjectPool;
+        private readonly IGameObjectsPoolContainer _gameObjectsPoolContainer;
 
         private Queue<T> _pool = new();
         private Transform _poolContainer;
 
-        public GameObjectPool(T @object, int preloadCount, IGlobalGameObjectPool globalGameObjectPool)
+        public GameObjectPool(T @object, int preloadCount, IGameObjectsPoolContainer gameObjectsPoolContainer)
         {
             _poolObject = @object;
             _preloadCount = preloadCount;
-            _globalGameObjectPool = globalGameObjectPool;
+            _gameObjectsPoolContainer = gameObjectsPoolContainer;
 
-            CreatePoolContainer(@object, globalGameObjectPool);
+            _poolContainer = gameObjectsPoolContainer.CreatePoolContainer(@object);
         }
 
         public void Initialize() => SpawnObjects();
@@ -45,22 +45,21 @@ namespace Code.Runtime.Infrastructure.ObjectPool
             _pool.Enqueue(item);
         }
 
-        protected virtual T PreloadAction() =>
-            _globalGameObjectPool.CreateObject(_poolObject, _poolContainer);
+        protected virtual T PreloadAction()
+        {
+            T createdObject = Object.Instantiate(_poolObject);
+
+            _gameObjectsPoolContainer.AddInPoolContainer(createdObject, _poolContainer);
+
+            return createdObject;
+        }
 
         private void ReturnAction(T @object)
             => @object.gameObject.SetActive(false);
 
         private void GetAction(T @object)
             => @object.gameObject.SetActive(true);
-
-        private void CreatePoolContainer(T @object, IGlobalGameObjectPool globalGameObjectPool)
-        {
-            _poolContainer = new GameObject($"{@object.name} ({@object.GetType()})").transform;
-
-            globalGameObjectPool.AddPoolContainer(_poolContainer);
-        }
-
+        
         private void SpawnObjects()
         {
             for (int i = 0; i < _preloadCount; i++)

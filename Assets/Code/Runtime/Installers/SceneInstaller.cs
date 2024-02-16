@@ -18,15 +18,15 @@ namespace Code.Runtime.Installers
         public override void InstallBindings()
         {
             BindGameplayStateMachine();
-            
+
             BindInput();
 
             BindComboDetector();
-            
+
             BindStatesFactory();
-            
+
             BindSpawnerFactory();
-            
+
             BindHUDFactory();
 
             BindShapeDeterminantor();
@@ -48,7 +48,7 @@ namespace Code.Runtime.Installers
         // Need to refactor
         private void BindGlobalGameObjectPool()
         {
-            Container.BindInterfacesTo<GlobalGameObjectPool>().AsSingle();
+            Container.BindInterfacesTo<GameObjectsPoolContainer>().AsSingle();
         }
 
         private void BindGameplayStateMachine()
@@ -64,18 +64,18 @@ namespace Code.Runtime.Installers
         private void BindComboDetector() =>
             Container.BindInterfacesTo<ComboDetector>().AsSingle();
 
-        private void BindInput() => 
+        private void BindInput() =>
             Container.Bind<IInput>().To<MobileInput>()
                 .FromInstance(mobileInput).AsSingle();
 
         private void BindStatesFactory() =>
             Container.BindInterfacesTo<StatesFactory>().AsSingle();
-        
+
         private void BindSpawnerFactory()
         {
             Container.Bind<Infrastructure.PrefabFactory<Spawner>>().AsSingle();
         }
-        
+
         private void BindHUDFactory()
         {
             Container.Bind<Infrastructure.PrefabFactory<HUD>>().AsSingle();
