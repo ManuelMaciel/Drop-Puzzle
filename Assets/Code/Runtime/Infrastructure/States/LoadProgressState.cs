@@ -1,9 +1,10 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
+using Code.Services.AudioService;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
-using CodeBase.Services.StaticDataService;
+using Code.Services.StaticDataService;
 
 namespace Code.Runtime.Infrastructure.States
 {
@@ -13,14 +14,16 @@ namespace Code.Runtime.Infrastructure.States
         private readonly IStaticDataService _staticDataService;
         private readonly ISaveLoadService _saveLoadService;
         private readonly ISceneLoader _sceneLoader;
+        private readonly IAudioService _audioService;
 
         LoadProgressState(IPersistentProgressService persistentProgressService,
-            IStaticDataService staticDataService, ISaveLoadService saveLoadService, ISceneLoader sceneLoader)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService, ISceneLoader sceneLoader, IAudioService audioService)
         {
             _persistentProgressService = persistentProgressService;
             _staticDataService = staticDataService;
             _saveLoadService = saveLoadService;
             _sceneLoader = sceneLoader;
+            _audioService = audioService;
         }
 
         public void Enter()
@@ -29,6 +32,7 @@ namespace Code.Runtime.Infrastructure.States
 
             InteractorsInitializer.Initialize(playerProgress, _persistentProgressService.InteractorContainer,
                 _staticDataService, _saveLoadService);
+            _audioService.Initialize();
 
             _sceneLoader.Load(SceneName.Menu.ToString());
         }

@@ -8,7 +8,7 @@ namespace Code.Runtime.Configs
     [CreateAssetMenu(fileName = "PurchasedBackgroundsConfig", menuName = "Configs/PurchasedBackgroundsConfig")]
     public class PurchasedBackgroundsConfig : ScriptableObject
     {
-        public List<PurchasedBackground> PurchasedBackgrounds = new List<PurchasedBackground>();
+        public List<PurchasedBackground> PurchasedBackgrounds = new();
 
         public PurchasedBackground GetByBackgroundType(BackgroundType backgroundType) => 
             PurchasedBackgrounds.Find(pb => pb.BackgroundType == backgroundType);

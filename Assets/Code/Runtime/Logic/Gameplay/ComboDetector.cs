@@ -1,11 +1,12 @@
 ﻿using System;
 using Code.Runtime.Interactors;
+using Code.Services.AudioService;
 using Code.Services.Progress;
 using CodeBase.Services.LogService;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Gameplay
 {
     public class ComboDetector : ITickable, IInitializable, IDisposable
     {
@@ -17,14 +18,15 @@ namespace Code.Runtime.Logic
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
-        private SettingsInteractor _settingsInteractor;
 
         private ILogService _logService;
         private IPersistentProgressService _progressService;
+        private IAudioService _audioService;
 
         [Inject]
-        public void Construct(IPersistentProgressService progressService, ILogService logService)
+        public void Construct(IPersistentProgressService progressService, ILogService logService, IAudioService audioService)
         {
+            _audioService = audioService;
             _progressService = progressService;
             _logService = logService;
         }
@@ -34,7 +36,6 @@ namespace Code.Runtime.Logic
             _scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
             _moneyInteractor = _progressService.InteractorContainer.Get<MoneyInteractor>();
-            _settingsInteractor = _progressService.InteractorContainer.Get<SettingsInteractor>();
 
             _shapeInteractor.OnShapeCombined += OnShapesCombined;
         }
@@ -62,8 +63,7 @@ namespace Code.Runtime.Logic
 
             _scoreInteractor.AddScore(comboCount * 5);
             _moneyInteractor.AddCoins(comboCount);
-            
-            if(_settingsInteractor.IsEnableVibrate()) Handheld.Vibrate();
+            _audioService.PlayVibrate();
 
             _logService.Log("End Combo: " + comboCount + "X");
         }

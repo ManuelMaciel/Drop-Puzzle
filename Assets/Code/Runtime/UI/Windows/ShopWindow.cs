@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
-using CodeBase.Services.StaticDataService;
+using Code.Services.AudioService;
+using Code.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
@@ -13,14 +14,17 @@ namespace Code.Runtime.UI.Windows
         [SerializeField] private PurchaseElement purchaseElementPrefab;
 
         private IStaticDataService _staticDataService;
+        private IAudioService _audioService;
         private PurchasesInteractor _purchasesInteractor;
+
 
         private Dictionary<BackgroundType, PurchaseElement> _purchaseBackgroundElements =
             new Dictionary<BackgroundType, PurchaseElement>();
 
         [Inject]
-        public void Construct(IStaticDataService staticDataService)
+        public void Construct(IStaticDataService staticDataService, IAudioService audioService)
         {
+            _audioService = audioService;
             _staticDataService = staticDataService;
         }
 
@@ -71,11 +75,13 @@ namespace Code.Runtime.UI.Windows
                 purchaseBackgroundsElement.Unselect();
 
             _purchaseBackgroundElements[backgroundType].Select();
+            _audioService.PlaySfx(SfxType.Pop);
         }
 
         private void UpdatePurchasedBackground(BackgroundType backgroundType)
         {
             _purchaseBackgroundElements[backgroundType].Purchase();
+            _audioService.PlaySfx(SfxType.Pop);
         }
     }
 }

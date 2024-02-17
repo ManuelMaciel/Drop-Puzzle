@@ -1,4 +1,6 @@
-﻿namespace Code.Runtime.Logic
+﻿using Code.Runtime.Logic.Gameplay;
+
+namespace Code.Runtime.Logic
 {
     public interface IActiveShapeAnimatorsHandler
     {

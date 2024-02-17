@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 7801306293375034544}
   - component: {fileID: 8370933756500224190}
   - component: {fileID: 8088931629612713001}
+  - component: {fileID: 700104340473639666}
   m_Layer: 5
   m_Name: RetryButton
   m_TagString: Untagged
@@ -334,6 +335,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &700104340473639666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014642241396599710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d2675c8e6942c18e285e5ae326d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxType: 0
 --- !u!1 &2310206106573972788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,6 +1584,7 @@ GameObject:
   - component: {fileID: 5869206034951584260}
   - component: {fileID: 8216695783502733724}
   - component: {fileID: 3909433409753319983}
+  - component: {fileID: 3821830258957057169}
   m_Layer: 5
   m_Name: LoadMenuButton
   m_TagString: Untagged
@@ -1679,6 +1694,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3821830258957057169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730262445894002029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d2675c8e6942c18e285e5ae326d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxType: 0
 --- !u!1 &7906056461179774222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,6 +1719,7 @@ GameObject:
   - component: {fileID: 6400302100672318424}
   - component: {fileID: 4875731774792563730}
   - component: {fileID: 2524159152245333651}
+  - component: {fileID: 6595394312878823638}
   m_Layer: 5
   m_Name: OpenSettingsWindowButton
   m_TagString: Untagged
@@ -1800,6 +1829,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6595394312878823638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906056461179774222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d2675c8e6942c18e285e5ae326d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxType: 0
 --- !u!1 &7959258993677161087
 GameObject:
   m_ObjectHideFlags: 0

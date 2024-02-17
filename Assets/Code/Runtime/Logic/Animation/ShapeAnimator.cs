@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
-using CodeBase.Services.StaticDataService;
+﻿using System.Collections;
+using Code.Runtime.Logic.Gameplay;
+using Code.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +17,7 @@ namespace Code.Runtime.Logic
         private IActiveShapeAnimatorsHandler _activeShapeAnimatorsHandler;
 
         private Coroutine _pulseCoroutine;
+        private Coroutine _blinkCoroutine;
         private Shape _shape;
         private bool _deathAnimationPlayed;
 
@@ -35,7 +36,7 @@ namespace Code.Runtime.Logic
         private void OnEnable()
         {
             shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.Sprites[(int)_shape.ShapeSize];
-            
+
             _activeShapeAnimatorsHandler.AddShapeAnimator(_shape, this);
         }
 
@@ -49,17 +50,17 @@ namespace Code.Runtime.Logic
             shapeSpriteRenderer.sprite = deathSprite;
             shapeSpriteRenderer.color = Color.white;
             _deathAnimationPlayed = true;
+            if (_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
         }
 
         public void PlayBlinkAnimation()
         {
-            StartCoroutine(BlinkAnimation());
+            if (!_deathAnimationPlayed)
+                _blinkCoroutine = StartCoroutine(BlinkAnimation());
         }
 
-        public void PlayPulseAnimation()
-        {
+        public void PlayPulseAnimation() =>
             _pulseCoroutine = StartCoroutine(PulseAnimation());
-        }
 
         public void StopPulseAnimation()
         {
@@ -86,14 +87,11 @@ namespace Code.Runtime.Logic
 
         private IEnumerator BlinkAnimation()
         {
-            Sprite startSprite = shapeSpriteRenderer.sprite;
-
             shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.BlinkSprites[(int)_shape.ShapeSize];
 
             yield return new WaitForSeconds(1f);
 
-            if (!_deathAnimationPlayed)
-                shapeSpriteRenderer.sprite = startSprite;
+            shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.Sprites[(int)_shape.ShapeSize];
         }
     }
 }

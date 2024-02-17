@@ -12,13 +12,13 @@ namespace Code.Runtime.Infrastructure.StateMachines
         public void Enter<TState>() where TState : class, IState
         {
             IState state = ChangeState<TState>();
-            state.Enter();
+            state?.Enter();
         }
 
         public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>
         {
             TState state = ChangeState<TState>();
-            state.Enter(payload);
+            state?.Enter(payload);
         }
 
         public void RegisterState<TState>(TState state) where TState : IExitableState => 
@@ -27,9 +27,9 @@ namespace Code.Runtime.Infrastructure.StateMachines
         private TState ChangeState<TState>() where TState : class, IExitableState
         {
             TState state = GetState<TState>();
-
+            
             if (state == _activeState) 
-                return state;
+                return null;
             
             _activeState?.Exit();
             _activeState = state;

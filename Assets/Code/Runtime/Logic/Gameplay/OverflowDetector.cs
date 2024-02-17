@@ -1,56 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using Code.Runtime.Infrastructure.StateMachines;
-using Code.Runtime.Infrastructure.States;
 using Code.Runtime.Infrastructure.States.Gameplay;
-using Code.Runtime.Logic;
 using UnityEngine;
 using Zenject;
 
-public class OverflowDetector : MonoBehaviour
+namespace Code.Runtime.Logic.Gameplay
 {
-    private const string ShapeTag = "Shape";
-
-    private Dictionary<Collider2D, Coroutine> timers = new Dictionary<Collider2D, Coroutine>();
-    private GameplayStateMachine _gameplayStateMachine;
-
-    [Inject]
-    public void Construct(GameplayStateMachine gameplayStateMachine)
+    public class OverflowDetector : MonoBehaviour
     {
-        _gameplayStateMachine = gameplayStateMachine;
-    }
+        private const string ShapeTag = "Shape";
+
+        private Dictionary<Collider2D, Coroutine> timers = new Dictionary<Collider2D, Coroutine>();
+        private GameplayStateMachine _gameplayStateMachine;
+
+        [Inject]
+        public void Construct(GameplayStateMachine gameplayStateMachine)
+        {
+            _gameplayStateMachine = gameplayStateMachine;
+        }
     
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag(ShapeTag) && !timers.ContainsKey(other))
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            timers[other] = StartCoroutine(StartTimerToLose(other));
+            if (other.CompareTag(ShapeTag) && !timers.ContainsKey(other))
+            {
+                timers[other] = StartCoroutine(StartTimerToLose(other));
+            }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (timers.ContainsKey(other))
+        private void OnTriggerExit2D(Collider2D other)
         {
-            StopCoroutine(timers[other]);
-            other.GetComponentInChildren<ShapeAnimator>().StopPulseAnimation();
-            timers.Remove(other);
+            if (timers.ContainsKey(other))
+            {
+                StopCoroutine(timers[other]);
+                other.GetComponent<ShapeAnimator>().StopPulseAnimation();
+                timers.Remove(other);
+            }
         }
-    }
 
-    private IEnumerator StartTimerToLose(Collider2D collider)
-    {
-        yield return new WaitForSeconds(2f);
+        private IEnumerator StartTimerToLose(Collider2D collider)
+        {
+            yield return new WaitForSeconds(2f);
         
-        ShapeAnimator shapeAnimator = collider.GetComponentInChildren<ShapeAnimator>();
+            ShapeAnimator shapeAnimator = collider.GetComponent<ShapeAnimator>();
 
-        shapeAnimator.PlayPulseAnimation();
+            shapeAnimator.PlayPulseAnimation();
         
-        yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(4f);
         
-        shapeAnimator.StopPulseAnimation();
-        shapeAnimator.PlayDeathAnimation();
+            shapeAnimator.StopPulseAnimation();
+            shapeAnimator.PlayDeathAnimation();
         
-        _gameplayStateMachine.Enter<LoseState>();
+            _gameplayStateMachine.Enter<LoseState>();
+        }
     }
 }

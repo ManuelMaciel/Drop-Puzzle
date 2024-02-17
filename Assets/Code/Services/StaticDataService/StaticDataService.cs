@@ -1,6 +1,5 @@
 ﻿using Code.Runtime.Configs;
 using CodeBase.Services.LogService;
-using CodeBase.Services.StaticDataService;
 using UnityEngine;
 
 namespace Code.Services.StaticDataService
@@ -10,10 +9,12 @@ namespace Code.Services.StaticDataService
         private const string ShapeSizeConfigPath = "Configs/ShapeSizeConfig";
         private const string ShapeScoreConfigPath = "Configs/ShapeScoreConfig";
         private const string PurchasedBackgroundsConfigPath = "Configs/PurchasedBackgroundsConfig";
+        private const string AudioConfigPath = "Configs/AudioConfig";
 
         public ShapeSizeConfig ShapeSizeConfig { get; private set; }
         public ShapeScoreConfig ShapeScoreConfig { get; private set; }
         public PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; private set; }
+        public AudioConfig AudioConfig { get; private set; }
 
         private readonly ILogService log;
 
@@ -27,6 +28,7 @@ namespace Code.Services.StaticDataService
             ShapeSizeConfig = LoadResource<ShapeSizeConfig>(ShapeSizeConfigPath);
             ShapeScoreConfig = LoadResource<ShapeScoreConfig>(ShapeScoreConfigPath);
             PurchasedBackgroundsConfig = LoadResource<PurchasedBackgroundsConfig>(PurchasedBackgroundsConfigPath);
+            AudioConfig = LoadResource<AudioConfig>(AudioConfigPath);
 
             log.Log("Static data loaded");
         }
@@ -39,7 +41,7 @@ namespace Code.Services.StaticDataService
             {
                 log.LogError($"Failed to load with path: {path}");
             }
-            
+
             return loadResource;
         }
     }

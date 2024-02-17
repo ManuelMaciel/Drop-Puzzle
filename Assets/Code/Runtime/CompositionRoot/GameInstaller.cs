@@ -1,17 +1,21 @@
 using Code.Runtime.Infrastructure;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Installers;
+using Code.Services.AudioService;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
 using Code.Services.StaticDataService;
 using Code.Services.WindowsService;
 using CodeBase.Services.LogService;
+using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.CompositionRoot
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private AudioService _audioService;
+        
         public override void InstallBindings()
         {
             BindCoroutineRunner();
@@ -31,6 +35,15 @@ namespace Code.Runtime.CompositionRoot
             BindWindowService();
         
             BindFactories();
+
+            BindAudioService();
+        }
+
+        private void BindAudioService()
+        {
+            Container.BindInterfacesTo<AudioService>()
+                .FromInstance(_audioService)
+                .AsSingle();
         }
 
         private void BindWindowService()

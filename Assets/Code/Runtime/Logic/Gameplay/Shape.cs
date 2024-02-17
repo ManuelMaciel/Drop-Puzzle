@@ -1,13 +1,15 @@
 ﻿using System;
+using Code.Runtime.Configs;
 using Code.Runtime.Extensions;
 using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
+using Code.Services.AudioService;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Gameplay
 {
     public class Shape : MonoBehaviour, IUpdatebleProgress
     {
@@ -15,8 +17,8 @@ namespace Code.Runtime.Logic
         public bool IsCombined { get; private set; }
         public string ShapeId { get; private set; }
 
-        [SerializeField] private ShapeType _shapeType;
-
+        [Inject] private IAudioService _audioService;
+        
         private IShapeFactory _shapeFactory;
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
@@ -62,7 +64,8 @@ namespace Code.Runtime.Logic
 
                     DestroyShape(this);
                     DestroyShape(shape);
-
+                    
+                    _audioService.PlaySfx(SfxType.CombineShape);
                     _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize(), true);
                     _scoreInteractor.AddScoreByShapeSize(ShapeSize);
                     _shapeInteractor.ShapeCombined();

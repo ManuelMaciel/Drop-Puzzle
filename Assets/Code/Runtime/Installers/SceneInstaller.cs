@@ -3,6 +3,7 @@ using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Logic;
 using Code.Runtime.Logic.Animation;
+using Code.Runtime.Logic.Gameplay;
 using Code.Runtime.UI;
 using Code.Services.InputService;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Code.Runtime.Installers
 {
     public class SceneInstaller : MonoInstaller
     {
+        [SerializeField] private ActiveShapeAnimatorsHandler _activeShapeAnimatorsHandler;
         [SerializeField] private ParticleSystem deathVfx;
         [SerializeField] private ParticleSystem tapVfx;
         [SerializeField] private MobileInput mobileInput;
@@ -43,7 +45,9 @@ namespace Code.Runtime.Installers
 
         private void BindActiveShapeAnimatorsHandler()
         {
-            Container.BindInterfacesTo<ActiveShapeAnimatorsHandler>().AsCached();
+            Container.BindInterfacesTo<ActiveShapeAnimatorsHandler>()
+                .FromInstance(_activeShapeAnimatorsHandler)
+                .AsSingle();
         }
 
         private void BindParticlesFactory()

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Gameplay
 {
     public class Movement : MonoBehaviour
     {

@@ -2,9 +2,10 @@
 using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
+using Code.Runtime.Logic.Gameplay;
 using Code.Services.Progress;
 using Code.Services.SaveLoadService;
-using CodeBase.Services.StaticDataService;
+using Code.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 

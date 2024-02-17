@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
 using Code.Services.Progress;
-using CodeBase.Services.StaticDataService;
+using Code.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 

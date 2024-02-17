@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Code.Runtime.Interactors;
-using Code.Runtime.Logic;
+using Code.Runtime.Logic.Gameplay;
 using Code.Runtime.UI;
 using Code.Services.Progress;
 using UnityEngine;

@@ -46,9 +46,12 @@ namespace Code.Runtime.Logic
 
         private IEnumerator RemoveParticle(ParticleSystem ps, IGameObjectPool<ParticleSystem> pool)
         {
-            while (ps != null)
+            while (true)
             {
                 yield return new WaitForSeconds(0.5f);
+
+                if (ps == null) break;
+                
                 if (!ps.IsAlive(true))
                 {
                     pool.Return(ps);

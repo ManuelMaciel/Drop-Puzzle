@@ -1,5 +1,6 @@
 ﻿using System;
 using Code.Runtime.Logic;
+using Code.Runtime.Logic.Gameplay;
 using UnityEngine;
 
 namespace Code.Runtime.Configs

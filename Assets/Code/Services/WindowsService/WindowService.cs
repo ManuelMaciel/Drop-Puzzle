@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Code.Runtime.Configs;
 using Code.Runtime.UI;
 using Code.Runtime.UI.Windows;
+using Code.Services.AudioService;
 using CodeBase.Services.LogService;
 
 namespace Code.Services.WindowsService
@@ -10,28 +12,32 @@ namespace Code.Services.WindowsService
     {
         private readonly IUIFactory _uiFactory;
         private readonly ILogService _logService;
-        
+        private readonly IAudioService _audioService;
+
         private WindowBase _currentWindow;
         private WindowType _currentWindowType;
 
         private List<WindowType> _previousPages = new();
         private Dictionary<WindowType, WindowBase> _createdWindows = new();
 
-        public WindowService(IUIFactory uiFactory, ILogService logService)
+        public WindowService(IUIFactory uiFactory, ILogService logService, IAudioService audioService)
         {
             _uiFactory = uiFactory;
             _logService = logService;
+            _audioService = audioService;
         }
 
-        public void Initialize() => 
+        public void Initialize() =>
             _uiFactory.CreateWindowsRoot();
 
         public void Open(WindowType windowType, bool returnPage = false)
         {
+            _audioService.PlaySfx(SfxType.PopUp);
+            
             SetWindow(windowType, returnPage);
 
-            if(TryShowCreatedWindow(windowType)) return;
-            
+            if (TryShowCreatedWindow(windowType)) return;
+
             switch (windowType)
             {
                 case WindowType.Unknown:
@@ -52,7 +58,7 @@ namespace Code.Services.WindowsService
                     _currentWindow = _uiFactory.CreateWindow<RankingWindow>();
                     break;
             }
-            
+
             _createdWindows.Add(windowType, _currentWindow);
         }
 
@@ -60,7 +66,7 @@ namespace Code.Services.WindowsService
         {
             bool isCreatedWindow = (_createdWindows.TryGetValue(windowType, out WindowBase windowObject));
 
-            if(isCreatedWindow)
+            if (isCreatedWindow)
             {
                 windowObject.gameObject.SetActive(true);
 
@@ -75,10 +81,10 @@ namespace Code.Services.WindowsService
             if (_currentWindow == null)
             {
                 _logService.LogError("Window is closed");
-                
+
                 return;
             }
-            
+
             DestroyWindow();
 
             if (_previousPages.Count > 0)

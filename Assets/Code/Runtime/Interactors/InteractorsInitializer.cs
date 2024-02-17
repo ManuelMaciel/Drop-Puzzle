@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Repositories;
 using Code.Services.SaveLoadService;
-using CodeBase.Services.StaticDataService;
+using Code.Services.StaticDataService;
 
 namespace Code.Runtime.Interactors
 {

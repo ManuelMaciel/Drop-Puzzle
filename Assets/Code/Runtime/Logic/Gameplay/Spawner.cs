@@ -3,7 +3,7 @@ using Code.Services.SaveLoadService;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Gameplay
 {
     [RequireComponent(typeof(ShapeDropper))]
     public class Spawner : MonoBehaviour

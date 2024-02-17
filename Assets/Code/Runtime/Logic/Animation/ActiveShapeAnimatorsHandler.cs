@@ -1,25 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Code.Runtime.Infrastructure;
+using Code.Runtime.Logic.Gameplay;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Code.Runtime.Logic.Animation
 {
-    //TODO: Change in MonoBehaviour
-    public class ActiveShapeAnimatorsHandler : IActiveShapeAnimatorsHandler
+    public class ActiveShapeAnimatorsHandler : MonoBehaviour, IActiveShapeAnimatorsHandler
     {
-        private readonly ICoroutineRunner _coroutineRunner;
         private Dictionary<Shape, ShapeAnimator> _shapeAnimators = new();
-        private Coroutine _findBlinkShapesCoroutine;
 
-        public ActiveShapeAnimatorsHandler(ICoroutineRunner coroutineRunner)
-        {
-            _coroutineRunner = coroutineRunner;
-            
-            _findBlinkShapesCoroutine = _coroutineRunner.StartCoroutine(FindBlinkShapes());
-        }
+        private void OnEnable() =>
+            StartCoroutine(FindBlinkShapes());
+
+        private void OnDisable() =>
+            StopCoroutine(FindBlinkShapes());
 
         public void AddShapeAnimator(Shape shape, ShapeAnimator shapeAnimator)
         {

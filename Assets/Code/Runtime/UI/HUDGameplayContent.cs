@@ -2,7 +2,7 @@
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
-using CodeBase.Services.StaticDataService;
+using Code.Services.StaticDataService;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

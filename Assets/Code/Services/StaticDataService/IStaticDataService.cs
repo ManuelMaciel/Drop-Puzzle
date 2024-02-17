@@ -1,6 +1,6 @@
 ﻿using Code.Runtime.Configs;
 
-namespace CodeBase.Services.StaticDataService
+namespace Code.Services.StaticDataService
 {
     public interface IStaticDataService
     {
@@ -8,5 +8,6 @@ namespace CodeBase.Services.StaticDataService
         ShapeSizeConfig ShapeSizeConfig { get; }
         ShapeScoreConfig ShapeScoreConfig { get; }
         PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; }
+        AudioConfig AudioConfig { get; }
     }
 }

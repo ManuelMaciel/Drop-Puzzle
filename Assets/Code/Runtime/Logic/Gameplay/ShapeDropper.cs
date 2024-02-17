@@ -1,10 +1,12 @@
 ﻿using System;
+using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
+using Code.Services.AudioService;
 using Code.Services.Progress;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Gameplay
 {
     [RequireComponent(typeof(Movement))]
     public class ShapeDropper : MonoBehaviour
@@ -18,10 +20,12 @@ namespace Code.Runtime.Logic
         private GameplayShapesInteractor _gameplayShapesInteractor;
         private IPersistentProgressService _progressService;
         private IInput _input;
+        private IAudioService _audioService;
 
         [Inject]
-        public void Construct(IInput input, IPersistentProgressService progressService)
+        public void Construct(IInput input, IPersistentProgressService progressService, IAudioService audioService)
         {
+            _audioService = audioService;
             _input = input;
             _progressService = progressService;
         }
@@ -60,6 +64,7 @@ namespace Code.Runtime.Logic
 
             OnShapeDropped?.Invoke();
 
+            _audioService.PlaySfx(SfxType.DropShape);
             _shapeCollider.enabled = true;
             _shapeMovement.RemoveShape();
             _gameplayShapesInteractor.AddShape(_currentShape);
