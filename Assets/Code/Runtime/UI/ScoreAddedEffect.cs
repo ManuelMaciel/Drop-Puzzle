@@ -13,8 +13,9 @@ namespace Code.Runtime.UI
         [SerializeField] private TextMeshProUGUI scoreTextPrefab;
 
         public float moveDuration = 1f;
-        public float fadeDuration = 1f;
-
+        public float scaleDuration = 0.5f;
+        public float delayBeforeShrink = 0.5f;
+        
         private IPersistentProgressService _progressService;
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
@@ -43,8 +44,16 @@ namespace Code.Runtime.UI
             Vector3 screenPos = Camera.main.WorldToScreenPoint(shape.transform.position);
             TextMeshProUGUI scoreText = Instantiate(scoreTextPrefab, screenPos, Quaternion.identity, this.transform);
 
-            scoreText.rectTransform.DOMoveY(scoreText.rectTransform.position.y + 100f, moveDuration)
-                .SetEase(Ease.OutQuad).OnComplete(() => Destroy(scoreText));
+            scoreText.rectTransform.DOMoveY(scoreText.rectTransform.position.y + 100f, moveDuration).SetEase(Ease.OutQuad);
+            
+            // Увеличение масштаба текста
+            scoreText.rectTransform.DOScale(1.5f, scaleDuration);
+
+            // Плавное исчезновение и уменьшение текста
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(delayBeforeShrink)
+                .Append(scoreText.rectTransform.DOScale(0f, scaleDuration))
+                .OnComplete(() => Destroy(scoreText.gameObject));
             
             // scoreText.rectTransform.anchoredPosition = screenPos;
             scoreText.text = $"+{_scoreInteractor.GetScoreByShapeSize(shape.ShapeSize).ToString()}";
