@@ -75,7 +75,7 @@ namespace Code.Runtime.Logic
         private void InitializeShapePool(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
             IGameObjectsPoolContainer gameObjectsPoolContainer, DiContainer diContainer)
         {
-            _shapesPool = new ShapePool(_shapeSizeConfig.ShapePrefab, Constants.PreCountShapes,
+            _shapesPool = new ShapePool(_shapeSizeConfig.shapePrefab, Constants.PreCountShapes,
                 gameObjectsPoolContainer, diContainer,
                 (shape) => shape.Construct(this, progressService, saveLoadService, _shapesPool));
             _shapesPool.Initialize();

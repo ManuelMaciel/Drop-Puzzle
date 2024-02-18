@@ -68,7 +68,7 @@ namespace Code.Runtime.Logic.Gameplay
             _logService.Log("End Combo: " + comboCount + "X");
         }
 
-        private void OnShapesCombined()
+        private void OnShapesCombined(IShapeBase shape)
         {
             comboCount++;
 

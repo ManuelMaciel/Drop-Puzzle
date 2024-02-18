@@ -2,13 +2,14 @@
 using Code.Runtime.Logic;
 using Code.Runtime.Logic.Gameplay;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Runtime.Configs
 {
     [CreateAssetMenu(fileName = "ShapeSizeConfig", menuName = "Configs/ShapeSizeConfig", order = 0)]
     public class ShapeSizeConfig : ScriptableObject
     {
-        public Shape ShapePrefab;
+        [FormerlySerializedAs("shapeBasePrefab")] [FormerlySerializedAs("ShapePrefab")] public Shape shapePrefab;
         public ShapeType ShapeType;
         public float[] Sizes;
         public Sprite[] Sprites;

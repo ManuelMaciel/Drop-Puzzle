@@ -28,19 +28,19 @@ namespace Code.Runtime.Interactors
             _repository.ShapesData.Add(shapeData);
         }
 
-        public void RemoveShape(Shape shape)
+        public void RemoveShape(IShapeBase shapeBase)
         {
-            _repository.ShapesData.RemoveAll(data => data.Id == shape.ShapeId);
+            _repository.ShapesData.RemoveAll(data => data.Id == shapeBase.ShapeId);
         }
 
-        public void UpdateShapeData(Shape shape)
+        public void UpdateShapeData(IShapeBase shapeBase)
         {
-            GameplayShapesRepository.ShapeData existingShapeData = _repository.ShapesData.Find(data => data.Id == shape.ShapeId);
+            GameplayShapesRepository.ShapeData existingShapeData = _repository.ShapesData.Find(data => data.Id == shapeBase.ShapeId);
             
             if (existingShapeData != null)
             {
-                existingShapeData.Position = shape.transform.position.AsVectorData();
-                existingShapeData.ShapeSize = shape.ShapeSize;
+                existingShapeData.Position = shapeBase.transform.position.AsVectorData();
+                existingShapeData.ShapeSize = shapeBase.ShapeSize;
             }
         }
     }

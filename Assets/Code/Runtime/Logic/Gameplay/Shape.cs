@@ -11,79 +11,77 @@ using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
-    public class Shape : MonoBehaviour, IUpdatebleProgress
+    public class Shape : MonoBehaviour, IShapeBase
     {
-        public ShapeSize ShapeSize { get; private set; }
-        public bool IsCombined { get; private set; }
-        public string ShapeId { get; private set; }
+    public ShapeSize ShapeSize { get; private set; }
+    public bool IsCombined { get; private set; }
+    public string ShapeId { get; private set; }
+    [Inject] private IAudioService _audioService;
+    private IShapeFactory _shapeFactory;
+    private ShapeInteractor _shapeInteractor;
+    private ScoreInteractor _scoreInteractor;
+    private GameplayShapesInteractor _gameplayShapesInteractor;
+    private IGameObjectPool<Shape> _shapePool;
+    private Rigidbody2D _rigidbody;
+    private Action _onDestroyed;
+    private ISaveLoadService _saveLoadService;
 
-        [Inject] private IAudioService _audioService;
-        
-        private IShapeFactory _shapeFactory;
-        private ShapeInteractor _shapeInteractor;
-        private ScoreInteractor _scoreInteractor;
-        private GameplayShapesInteractor _gameplayShapesInteractor;
-        private IGameObjectPool<Shape> _shapePool;
-        private Rigidbody2D _rigidbody;
-        private Action _onDestroyed;
-        private ISaveLoadService _saveLoadService;
+    private void Start()
+    {
+        _rigidbody = this.GetComponent<Rigidbody2D>();
+    }
 
-        private void Start()
+    public void Construct(IShapeFactory shapeFactory,
+        IPersistentProgressService progressService, ISaveLoadService saveLoadService,
+        IGameObjectPool<Shape> shapePool)
+    {
+        _shapePool = shapePool;
+        _saveLoadService = saveLoadService;
+        _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
+        _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
+        _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
+
+        _shapeFactory = shapeFactory;
+    }
+
+    public void Initialize(ShapeSize shapeSize, string shapeId = null)
+    {
+        ShapeSize = shapeSize;
+        ShapeId = shapeId;
+        IsCombined = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.TryGetComponent(out Shape shape))
         {
-            _rigidbody = this.GetComponent<Rigidbody2D>();
-        }
-        
-        public void Construct(IShapeFactory shapeFactory,
-            IPersistentProgressService progressService, ISaveLoadService saveLoadService,
-            IGameObjectPool<Shape> shapePool)
-        {
-            _shapePool = shapePool;
-            _saveLoadService = saveLoadService;
-            _scoreInteractor = progressService.InteractorContainer.Get<ScoreInteractor>();
-            _shapeInteractor = progressService.InteractorContainer.Get<ShapeInteractor>();
-            _gameplayShapesInteractor = progressService.InteractorContainer.Get<GameplayShapesInteractor>();
-
-            _shapeFactory = shapeFactory;
-        }
-
-        public void Initialize(ShapeSize shapeSize, string shapeId = null)
-        {
-            ShapeSize = shapeSize;
-            ShapeId = shapeId;
-            IsCombined = false;
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.TryGetComponent(out Shape shape))
+            if (!shape.IsCombined && shape.ShapeSize == this.ShapeSize)
             {
-                if (!shape.IsCombined && shape.ShapeSize == this.ShapeSize)
-                {
-                    Vector3 spawnPosition = this.transform.position;
-                    IsCombined = true;
-
-                    DestroyShape(this);
-                    DestroyShape(shape);
-                    
-                    _audioService.PlaySfx(SfxType.CombineShape);
-                    _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize(), true);
-                    _scoreInteractor.AddScoreByShapeSize(ShapeSize);
-                    _shapeInteractor.ShapeCombined();
-                }
+                Vector3 spawnPosition = this.transform.position;
+                IsCombined = true;
+                
+                _audioService.PlaySfx(SfxType.CombineShape);
+                _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize(), true);
+                _scoreInteractor.AddScoreByShapeSize(ShapeSize);
+                _shapeInteractor.ShapeCombined(shape);
+                
+                DestroyShape(this);
+                DestroyShape(shape);
             }
         }
+    }
 
-        private void DestroyShape(Shape shape)
-        {
-            _saveLoadService.RemoveUpdatebleProgress(shape);
-            _gameplayShapesInteractor.RemoveShape(shape);
-            _rigidbody.velocity = Vector2.zero;
-            _rigidbody.angularVelocity = 0f;
-            _shapePool.Return(shape);
-            _onDestroyed?.Invoke();
-        }
+    private void DestroyShape(Shape shape)
+    {
+        _saveLoadService.RemoveUpdatebleProgress(shape);
+        _gameplayShapesInteractor.RemoveShape(shape);
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.angularVelocity = 0f;
+        _shapePool.Return(shape);
+        _onDestroyed?.Invoke();
+    }
 
-        public void UpdateProgress(IPersistentProgressService persistentProgressService) =>
-            persistentProgressService.InteractorContainer.Get<GameplayShapesInteractor>().UpdateShapeData(this);
+    public void UpdateProgress(IPersistentProgressService persistentProgressService) =>
+        persistentProgressService.InteractorContainer.Get<GameplayShapesInteractor>().UpdateShapeData(this);
     }
 }

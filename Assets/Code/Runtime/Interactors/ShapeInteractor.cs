@@ -1,17 +1,18 @@
 ﻿using System;
+using Code.Runtime.Logic.Gameplay;
 using Code.Runtime.Repositories;
 
 namespace Code.Runtime.Interactors
 {
     public class ShapeInteractor : Interactor<ShapeRepository>
     {
-        public event Action OnShapeCombined;
+        public event Action<IShapeBase> OnShapeCombined;
 
-        public void ShapeCombined()
+        public void ShapeCombined(IShapeBase shape)
         {
             _repository.CollectedShapes++;
             
-            OnShapeCombined?.Invoke();
+            OnShapeCombined?.Invoke(shape);
         }
     }
 }

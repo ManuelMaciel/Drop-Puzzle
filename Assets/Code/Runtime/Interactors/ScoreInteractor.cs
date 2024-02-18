@@ -7,7 +7,7 @@ namespace Code.Runtime.Interactors
     public class ScoreInteractor : PayloadInteractor<ScoreRepository, ShapeScoreConfig>
     {
         public event Action<int> OnScoreIncreased;
-        
+
         private ShapeScoreConfig _shapeScoreConfig;
 
         public override void Initialize(ShapeScoreConfig shapeScoreConfig)
@@ -21,7 +21,7 @@ namespace Code.Runtime.Interactors
         public int GetCurrentScore() =>
             _repository.Score;
 
-        public void ResetCurrentScore() => 
+        public void ResetCurrentScore() =>
             _repository.Score = 0;
 
         public void AddScore(int score)
@@ -32,13 +32,14 @@ namespace Code.Runtime.Interactors
 
             if (_repository.Score > _repository.MaxScore)
                 _repository.MaxScore = _repository.Score;
-            
+
             OnScoreIncreased?.Invoke(_repository.Score);
         }
 
-        public void AddScoreByShapeSize(ShapeSize shapeSize)
-        {
+        public void AddScoreByShapeSize(ShapeSize shapeSize) =>
             AddScore(_shapeScoreConfig.Scores[(int)shapeSize]);
-        }
+
+        public int GetScoreByShapeSize(ShapeSize shapeSize) =>
+            _shapeScoreConfig.Scores[(int)shapeSize];
     }
 }
