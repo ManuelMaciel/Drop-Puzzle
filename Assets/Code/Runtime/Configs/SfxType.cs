@@ -6,5 +6,8 @@
         PopUp,
         DropShape,
         CombineShape,
+        Combo,
+        ShapeDeath,
+        Lose
     }
 }

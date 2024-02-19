@@ -61,7 +61,7 @@ namespace Code.Services.AudioService
 
             SfxData sfxData = _staticDataService.AudioConfig.SfxsData.Find(sd => sd.SfxType == sfxType);
 
-            _audioSource.PlayOneShot(sfxData.Sfx);
+            _audioSource.PlayOneShot(sfxData.Sfx, sfxData.Volume);
         }
 
         private void OnChangeAmbientMode(bool isEnable)

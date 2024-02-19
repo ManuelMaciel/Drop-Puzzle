@@ -24,7 +24,8 @@ namespace Code.Runtime.Configs
 
                     SfxsData.Add(new SfxData()
                     {
-                        SfxType = sfxType
+                        SfxType = sfxType,
+                        Volume = 1,
                     });
                 }
             }
@@ -36,5 +37,6 @@ namespace Code.Runtime.Configs
     {
         public SfxType SfxType;
         public AudioClip Sfx;
+        [Range(0f, 1f)] public float Volume;
     }
 }

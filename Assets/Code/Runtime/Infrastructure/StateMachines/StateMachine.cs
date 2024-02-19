@@ -28,7 +28,7 @@ namespace Code.Runtime.Infrastructure.StateMachines
         {
             TState state = GetState<TState>();
             
-            if (state == _activeState) 
+            if (state is not IReExitableState && state == _activeState) 
                 return null;
             
             _activeState?.Exit();

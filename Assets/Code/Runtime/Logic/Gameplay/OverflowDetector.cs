@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States.Gameplay;
+using Code.Services.AudioService;
 using UnityEngine;
 using Zenject;
 
@@ -13,10 +15,12 @@ namespace Code.Runtime.Logic.Gameplay
 
         private Dictionary<Collider2D, Coroutine> timers = new Dictionary<Collider2D, Coroutine>();
         private GameplayStateMachine _gameplayStateMachine;
+        private IAudioService _audioService;
 
         [Inject]
-        public void Construct(GameplayStateMachine gameplayStateMachine)
+        public void Construct(GameplayStateMachine gameplayStateMachine, IAudioService audioService)
         {
+            _audioService = audioService;
             _gameplayStateMachine = gameplayStateMachine;
         }
     
@@ -50,6 +54,7 @@ namespace Code.Runtime.Logic.Gameplay
         
             shapeAnimator.StopPulseAnimation();
             shapeAnimator.PlayDeathAnimation();
+            _audioService.PlaySfx(SfxType.ShapeDeath);
         
             _gameplayStateMachine.Enter<LoseState>();
         }
