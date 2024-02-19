@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Code.Runtime.Infrastructure.ObjectPool
 {
-    public class ShapePool : GameObjectPoolResolver<Shape>
+    public class ShapePool : ComponentPoolResolver<Shape>
     {
         private readonly Action<Shape> _onCreateShape;
 
