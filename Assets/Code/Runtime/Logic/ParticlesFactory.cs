@@ -9,17 +9,17 @@ namespace Code.Runtime.Logic
     {
         private ICoroutineRunner _coroutineRunner;
 
-        private GameObjectPool<ParticleSystem> _tapVfxPool;
-        private GameObjectPool<ParticleSystem> _deathVfxPool;
+        private IGameObjectPool<ParticleSystem> _tapVfxPool;
+        private IGameObjectPool<ParticleSystem> _deathVfxPool;
 
         public ParticlesFactory(ParticleSystem tapVfx, ParticleSystem deathVfx,
             ICoroutineRunner coroutineRunner, IGameObjectsPoolContainer gameObjectsPoolContainer)
         {
             _coroutineRunner = coroutineRunner;
 
-            _tapVfxPool = new GameObjectPool<ParticleSystem>(tapVfx,
+            _tapVfxPool = new ComponentPool<ParticleSystem>(tapVfx,
                 Constants.PreCountTapParticles, gameObjectsPoolContainer);
-            _deathVfxPool = new GameObjectPool<ParticleSystem>(deathVfx,
+            _deathVfxPool = new ComponentPool<ParticleSystem>(deathVfx,
                 Constants.PreCountTapParticles, gameObjectsPoolContainer);
 
             _tapVfxPool.Initialize();

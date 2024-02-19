@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Code.Runtime.Infrastructure.ObjectPool;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Code.Runtime.UI
 {
     public class CoinsEffect : MonoBehaviour
     {
-        [SerializeField] private GameObject coinPrefab;
+        private const int PreloadCoinsCount = 10;
+        
+        [SerializeField] private RectTransform coinPrefab;
         [SerializeField] private RectTransform coinWalletField;
 
         [Space] [Header("Animation settings")] [SerializeField] [Range(0.5f, 0.9f)]
@@ -19,9 +21,22 @@ namespace Code.Runtime.UI
         [SerializeField] float spread;
 
         private Vector3 _targetPosition;
+        private IGameObjectsPoolContainer _gameObjectsPoolContainer;
+        private IObjectPool<RectTransform> _coinsPool;
 
-        private void Start() =>
+
+        [Inject]
+        public void Construct(IGameObjectsPoolContainer gameObjectsPoolContainer)
+        {
+            _gameObjectsPoolContainer = gameObjectsPoolContainer;
+        }
+
+        private void Start()
+        {
             _targetPosition = coinWalletField.position;
+            _coinsPool = new ComponentPool<RectTransform>(coinPrefab, PreloadCoinsCount, _gameObjectsPoolContainer);
+            _coinsPool.Initialize();
+        }
 
         public void AddCoins(Vector3 collectedCoinPosition, int amount) =>
             Animate(collectedCoinPosition, amount);
@@ -30,30 +45,17 @@ namespace Code.Runtime.UI
         {
             for (int i = 0; i < amount; i++)
             {
-                //extract a coin from the pool
-                GameObject coin = Instantiate(coinPrefab, this.transform);
-                coin.SetActive(true);
+                RectTransform coinTransform = _coinsPool.Get();
+                coinTransform.SetParent(this.transform);
 
-                //move coin to the collected coin pos
-                coin.transform.position = collectedCoinPosition + new Vector3(Random.Range(-spread, spread), 0f, 0f);
+                coinTransform.position = collectedCoinPosition + new Vector3(Random.Range(-spread, spread), 0f, 0f);
 
-                //animate coin to target position
                 float duration = Random.Range(minAnimDuration, maxAnimDuration);
-                
-                // Создаем анимацию перемещения монетки к целевой позиции
+
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(coin.transform.DOMove(_targetPosition, duration)
-                    .SetEase(easeType));
-
-                // Уменьшаем размер монетки до 0 за 0.5 секунд до исчезновения
-                sequence.Insert(duration - 0.5f, coin.transform.DOScale(Vector3.zero, 0.5f));
-
-                // Выполняем действия по завершению анимации
-                sequence.OnComplete(() =>
-                {
-                    coin.SetActive(false);
-                    Destroy(coin);
-                });
+                sequence.Append(coinTransform.DOMove(_targetPosition, duration).SetEase(easeType));
+                sequence.Insert(duration - 0.5f, coinTransform.DOScale(Vector3.zero, 0.5f));
+                sequence.OnComplete(() => _coinsPool.Return(coinTransform));
             }
         }
     }

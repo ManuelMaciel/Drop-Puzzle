@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ab1c8b405a49fa819c0e8788b6f99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 4607893972347538076, guid: 73dacfe18c3695f49b3c2822461845e7, type: 3}
+  coinPrefab: {fileID: 3346699100786501712, guid: 73dacfe18c3695f49b3c2822461845e7, type: 3}
   coinWalletField: {fileID: 4908212720107918265}
   minAnimDuration: 0.7
   maxAnimDuration: 1.8

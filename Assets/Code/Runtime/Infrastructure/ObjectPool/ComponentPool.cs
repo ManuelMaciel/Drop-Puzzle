@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Code.Runtime.Infrastructure.ObjectPool
 {
-    public class GameObjectPool<T> : IGameObjectPool<T> where T : Component
+    public class ComponentPool<T> : IGameObjectPool<T> where T : Component
     {
         protected readonly T _poolObject;
         private readonly int _preloadCount;
@@ -12,7 +12,7 @@ namespace Code.Runtime.Infrastructure.ObjectPool
         private Queue<T> _pool = new();
         private Transform _poolContainer;
 
-        public GameObjectPool(T @object, int preloadCount, IGameObjectsPoolContainer gameObjectsPoolContainer)
+        public ComponentPool(T @object, int preloadCount, IGameObjectsPoolContainer gameObjectsPoolContainer)
         {
             _poolObject = @object;
             _preloadCount = preloadCount;
@@ -42,6 +42,7 @@ namespace Code.Runtime.Infrastructure.ObjectPool
         public void Return(T item)
         {
             ReturnAction(item);
+            ReturnToPoolContainer(item);
             _pool.Enqueue(item);
         }
 
@@ -49,17 +50,20 @@ namespace Code.Runtime.Infrastructure.ObjectPool
         {
             T createdObject = Object.Instantiate(_poolObject);
 
-            _gameObjectsPoolContainer.AddInPoolContainer(createdObject, _poolContainer);
+            ReturnToPoolContainer(createdObject);
 
             return createdObject;
         }
+
+        protected void ReturnToPoolContainer(T createdObject) =>
+            _gameObjectsPoolContainer.AddInPoolContainer(createdObject.transform, _poolContainer);
 
         private void ReturnAction(T @object)
             => @object.gameObject.SetActive(false);
 
         private void GetAction(T @object)
             => @object.gameObject.SetActive(true);
-        
+
         private void SpawnObjects()
         {
             for (int i = 0; i < _preloadCount; i++)

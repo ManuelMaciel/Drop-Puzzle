@@ -3,11 +3,11 @@ using Zenject;
 
 namespace Code.Runtime.Infrastructure.ObjectPool
 {
-    public class GameObjectPoolResolver<T> : GameObjectPool<T> where T : Component
+    public class ComponentPoolResolver<T> : ComponentPool<T> where T : Component
     {
         private readonly DiContainer _diContainer;
 
-        public GameObjectPoolResolver(T @object, int preloadCount, IGameObjectsPoolContainer gameObjectsPoolContainer,
+        public ComponentPoolResolver(T @object, int preloadCount, IGameObjectsPoolContainer gameObjectsPoolContainer,
             DiContainer diContainer) :
             base(@object, preloadCount, gameObjectsPoolContainer)
         {
@@ -17,8 +17,11 @@ namespace Code.Runtime.Infrastructure.ObjectPool
         protected override T PreloadAction()
         {
             GameObject instantiatePrefab = _diContainer.InstantiatePrefab(_poolObject);
+            T component = instantiatePrefab.GetComponent<T>();
+            
+            ReturnToPoolContainer(component);
 
-            return instantiatePrefab.GetComponent<T>();
+            return component;
         }
     }
 }
