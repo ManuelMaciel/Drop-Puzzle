@@ -1,5 +1,6 @@
 ﻿using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
+using Code.Runtime.UI.Effects;
 using Code.Services.Progress;
 using Code.Services.StaticDataService;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Code.Runtime.UI
     {
         [SerializeField] private HUDGameplayContent _hudGameplayContent;
         [SerializeField] private HUDLoseContent _hudLoseContent;
+        [SerializeField] private CoinsEffect _coinsEffect;
 
         [SerializeField] private GameObject _gameplayContent;
         [SerializeField] private GameObject _loseContent;
@@ -23,7 +25,7 @@ namespace Code.Runtime.UI
             IInteractorContainer interactorContainer = persistentProgressService.InteractorContainer;
 
             _hudGameplayContent.Construct(shapeDeterminantor, interactorContainer,
-                staticDataService);
+                staticDataService, _coinsEffect);
             _hudLoseContent.Construct(interactorContainer);
             
             SwitchContent(true);

@@ -394,9 +394,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textPrefab: {fileID: 7044873055015675037, guid: afd47f73e3ef71049acb51e67009ce46, type: 3}
   coinsEffect: {fileID: 7650840878119650483}
-  moveDuration: 1
+  moveScoreDuration: 1
   scaleDuration: 0.5
-  delayBeforeShrink: 0.5
+  scaleScoreAnimation: 1.5
+  scaleComboAnimation: 2
+  comboTextRotateOffset: 10
+  comboRotationLoopCount: 3
+  comboTextRotateDuration: 0.2
   comboTextBorderOffset: 250
   scoreTextAnimationYOffset: 100
 --- !u!1 &2310206106573972788
@@ -1334,6 +1338,7 @@ MonoBehaviour:
   maxAnimDuration: 1.8
   easeType: 7
   spread: 0.5
+  scaleDuration: 0.5
 --- !u!1 &7137900548379155697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2059,7 +2064,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -2117,12 +2122,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hudGameplayContent:
     _nextShapeImage: {fileID: 5785758913016643760}
+    _coinTransform: {fileID: 4908212720107918265}
     _scoreText: {fileID: 2199024774090084928}
     _maxScoreText: {fileID: 1302888357394911410}
     _coinsText: {fileID: 5954639902461574652}
   _hudLoseContent:
     _scoreText: {fileID: 67767239907298696}
     _maxScoreText: {fileID: 3992153732754692807}
+  _coinsEffect: {fileID: 7650840878119650483}
   _gameplayContent: {fileID: 7959258993677161087}
   _loseContent: {fileID: 2595932168504797277}
 --- !u!114 &7147834593989937884

@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.UI
+namespace Code.Runtime.UI.Effects
 {
     public class TextEffects : MonoBehaviour
     {
