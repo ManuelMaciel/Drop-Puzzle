@@ -9,21 +9,20 @@ namespace Code.Runtime.UI
     public class CoinsEffect : MonoBehaviour
     {
         private const int PreloadCoinsCount = 10;
-        
+
         [SerializeField] private RectTransform coinPrefab;
         [SerializeField] private RectTransform coinWalletField;
 
-        [Space] [Header("Animation settings")] [SerializeField] [Range(0.5f, 0.9f)]
-        float minAnimDuration;
-
-        [SerializeField] [Range(0.9f, 2f)] float maxAnimDuration;
-        [SerializeField] Ease easeType;
-        [SerializeField] float spread;
+        [Header("Animation Settings")]
+        [SerializeField] [Range(0.5f, 0.9f)] private float minAnimDuration = 0.7f;
+        [SerializeField] [Range(0.9f, 2f)] private float maxAnimDuration = 1.8f;
+        [SerializeField] private Ease easeType = Ease.InBounce;
+        [SerializeField] private float spread = 0.5f;
+        [SerializeField] private float scaleDuration = 0.5f;
 
         private Vector3 _targetPosition;
         private IGameObjectsPoolContainer _gameObjectsPoolContainer;
         private IObjectPool<RectTransform> _coinsPool;
-
 
         [Inject]
         public void Construct(IGameObjectsPoolContainer gameObjectsPoolContainer)
@@ -45,18 +44,35 @@ namespace Code.Runtime.UI
         {
             for (int i = 0; i < amount; i++)
             {
-                RectTransform coinTransform = _coinsPool.Get();
-                coinTransform.SetParent(this.transform);
+                RectTransform coinTransform = GetCoinTransform();
+                float duration = Random.Range(minAnimDuration, maxAnimDuration);
 
                 coinTransform.position = collectedCoinPosition + new Vector3(Random.Range(-spread, spread), 0f, 0f);
 
-                float duration = Random.Range(minAnimDuration, maxAnimDuration);
-
-                Sequence sequence = DOTween.Sequence();
-                sequence.Append(coinTransform.DOMove(_targetPosition, duration).SetEase(easeType));
-                sequence.Insert(duration - 0.5f, coinTransform.DOScale(Vector3.zero, 0.5f));
-                sequence.OnComplete(() => _coinsPool.Return(coinTransform));
+                CoinAnimation(coinTransform, duration);
             }
+        }
+
+        private void CoinAnimation(RectTransform coinTransform, float duration)
+        {
+            DOTween.Sequence()
+                .Append(coinTransform.DOMove(_targetPosition, duration).SetEase(easeType))
+                .Insert(duration - scaleDuration, coinTransform.DOScale(Vector3.zero, scaleDuration))
+                .OnComplete(() => ClearCoinTransform(coinTransform));
+        }
+
+        private RectTransform GetCoinTransform()
+        {
+            RectTransform coinTransform = _coinsPool.Get();
+            coinTransform.SetParent(this.transform);
+
+            return coinTransform;
+        }
+
+        private void ClearCoinTransform(RectTransform coinTransform)
+        {
+            coinTransform.localScale = Vector3.one;
+            _coinsPool.Return(coinTransform);
         }
     }
 }
