@@ -16,6 +16,7 @@ namespace Code.Services.WindowsService
 
         private WindowBase _currentWindow;
         private WindowType _currentWindowType;
+        private IWindowsAnimation _windowsAnimation;
 
         private List<WindowType> _previousPages = new();
         private Dictionary<WindowType, WindowBase> _createdWindows = new();
@@ -27,39 +28,46 @@ namespace Code.Services.WindowsService
             _audioService = audioService;
         }
 
-        public void Initialize() =>
-            _uiFactory.CreateWindowsRoot();
+        public void Initialize()
+        {
+            var windowsRoot = _uiFactory.CreateWindowsRoot();
+
+            _windowsAnimation = new WindowsAnimation(windowsRoot);
+        }
 
         public void Open(WindowType windowType, bool returnPage = false)
         {
             _audioService.PlaySfx(SfxType.PopUp);
-            
+
             SetWindow(windowType, returnPage);
 
-            if (TryShowCreatedWindow(windowType)) return;
-
-            switch (windowType)
+            if (!TryShowCreatedWindow(windowType))
             {
-                case WindowType.Unknown:
-                    break;
-                case WindowType.Test:
-                    _currentWindow = _uiFactory.CreateWindow<TestWindow>();
-                    break;
-                case WindowType.RestartGame:
-                    _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>();
-                    break;
-                case WindowType.Shop:
-                    _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
-                    break;
-                case WindowType.Settings:
-                    _currentWindow = _uiFactory.CreateWindow<SettingsWindow>();
-                    break;
-                case WindowType.Rankings:
-                    _currentWindow = _uiFactory.CreateWindow<RankingWindow>();
-                    break;
+                switch (windowType)
+                {
+                    case WindowType.Unknown:
+                        break;
+                    case WindowType.Test:
+                        _currentWindow = _uiFactory.CreateWindow<TestWindow>();
+                        break;
+                    case WindowType.RestartGame:
+                        _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>();
+                        break;
+                    case WindowType.Shop:
+                        _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
+                        break;
+                    case WindowType.Settings:
+                        _currentWindow = _uiFactory.CreateWindow<SettingsWindow>();
+                        break;
+                    case WindowType.Rankings:
+                        _currentWindow = _uiFactory.CreateWindow<RankingWindow>();
+                        break;
+                }
+
+                _createdWindows.Add(windowType, _currentWindow);
             }
 
-            _createdWindows.Add(windowType, _currentWindow);
+            _windowsAnimation.OpenAnimation(_currentWindow.transform);
         }
 
         private bool TryShowCreatedWindow(WindowType windowType)
@@ -69,7 +77,7 @@ namespace Code.Services.WindowsService
             if (isCreatedWindow)
             {
                 windowObject.gameObject.SetActive(true);
-
+                
                 _currentWindow = windowObject;
             }
 
@@ -97,9 +105,11 @@ namespace Code.Services.WindowsService
 
         private void DestroyWindow()
         {
-            _currentWindow.gameObject.SetActive(false);
-
-            _currentWindow = null;
+            _windowsAnimation.CloseAnimation(_currentWindow.transform, () =>
+            {
+                _currentWindow.gameObject.SetActive(false);
+                _currentWindow = null;
+            });
         }
 
         private void SetWindow(WindowType windowType, bool returnPage)

@@ -1,10 +1,11 @@
 ﻿using Code.Runtime.UI.Windows;
+using UnityEngine;
 
 namespace Code.Runtime.UI
 {
     public interface IUIFactory
     {
-        void CreateWindowsRoot();
+        Transform CreateWindowsRoot();
         T CreateWindow<T>() where T : WindowBase;
     }
 }

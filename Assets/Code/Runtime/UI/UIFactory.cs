@@ -27,11 +27,13 @@ namespace Code.Runtime.UI
             _instantiator = instantiator;
         }
 
-        public void CreateWindowsRoot()
+        public Transform CreateWindowsRoot()
         {
             _uiRoot = Instantiate<Transform>(InfrastructureAssetPath.WindowsRootPath);
+
+            return _uiRoot;
         }
-        
+
         public T CreateWindow<T>() where T : WindowBase
         {
             T instantiateWindow =
@@ -43,7 +45,10 @@ namespace Code.Runtime.UI
         private T Instantiate<T>(string path, Transform parent = null) where T : Object
         {
             T prefab = Resources.Load<T>(path);
-            return _instantiator.InstantiatePrefabForComponent<T>(prefab, parent);
+
+            GameObject instantiatePrefab = _instantiator.InstantiatePrefab(prefab, parent);
+
+            return instantiatePrefab.GetComponent<T>();
         }
     }
 }
