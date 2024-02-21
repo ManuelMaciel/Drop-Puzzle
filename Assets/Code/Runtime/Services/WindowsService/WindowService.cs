@@ -48,19 +48,19 @@ namespace Code.Runtime.Services.WindowsService
                     case WindowType.Unknown:
                         break;
                     case WindowType.Test:
-                        _currentWindow = _uiFactory.CreateWindow<TestWindow>();
+                        _currentWindow = _uiFactory.CreateWindow<TestWindow>(windowType);
                         break;
                     case WindowType.RestartGame:
-                        _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>();
+                        _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>(windowType);
                         break;
                     case WindowType.Shop:
-                        _currentWindow = _uiFactory.CreateWindow<ShopWindow>();
+                        _currentWindow = _uiFactory.CreateWindow<ShopWindow>(windowType);
                         break;
                     case WindowType.Settings:
-                        _currentWindow = _uiFactory.CreateWindow<SettingsWindow>();
+                        _currentWindow = _uiFactory.CreateWindow<SettingsWindow>(windowType);
                         break;
                     case WindowType.Rankings:
-                        _currentWindow = _uiFactory.CreateWindow<RankingWindow>();
+                        _currentWindow = _uiFactory.CreateWindow<RankingWindow>(windowType);
                         break;
                 }
 

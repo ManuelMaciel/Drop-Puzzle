@@ -60,7 +60,7 @@ namespace Code.Runtime.Interactors
             _saveLoadService.SaveProgress();
         }
 
-        public class Payload
+        public struct Payload
         {
             public PurchasedBackgroundsConfig PurchasedBackgroundsConfig;
             public MoneyInteractor MoneyInteractor;

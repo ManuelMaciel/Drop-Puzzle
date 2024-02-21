@@ -9,5 +9,6 @@ namespace Code.Runtime.Services.StaticDataService
         ShapeScoreConfig ShapeScoreConfig { get; }
         PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; }
         AudioConfig AudioConfig { get; }
+        WindowAssetsConfig WindowAssetsConfig { get; }
     }
 }
