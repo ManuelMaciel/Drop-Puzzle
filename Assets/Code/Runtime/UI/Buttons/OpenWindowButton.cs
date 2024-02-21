@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Runtime.UI.Windows
+namespace Code.Runtime.UI.Buttons
 {
     public class OpenWindowButton : MonoBehaviour
     {

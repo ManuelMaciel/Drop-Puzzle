@@ -16,6 +16,9 @@ namespace Code.Runtime.Logic.Gameplay
     public ShapeSize ShapeSize { get; private set; }
     public bool IsCombined { get; private set; }
     public string ShapeId { get; private set; }
+
+    public int CombinedCount;
+    
     [Inject] private IAudioService _audioService;
     private IShapeFactory _shapeFactory;
     private ShapeInteractor _shapeInteractor;
@@ -53,12 +56,18 @@ namespace Code.Runtime.Logic.Gameplay
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if(CombinedCount >= 1) return;
+        
         if (other.gameObject.TryGetComponent(out Shape shape))
         {
             if (!shape.IsCombined && shape.ShapeSize == this.ShapeSize)
             {
                 Vector3 spawnPosition = this.transform.position;
                 IsCombined = true;
+
+                CombinedCount++;
+
+                Debug.Log(CombinedCount);
                 
                 _audioService.PlaySfx(SfxType.CombineShape);
                 _shapeFactory.CreateShape(spawnPosition, ShapeSize.NextSize(), true);

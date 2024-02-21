@@ -35,11 +35,14 @@ namespace Code.Services.WindowsService
             DOTween.Sequence()
                 .Append(window.DOScale(0f, AnimationDuration).SetEase(Ease.InBack))
                 .Insert(0f, _backgroundImage.DOFade(0f, AnimationDuration))
-                .OnComplete(() =>
-                {
-                    onCallback?.Invoke();
-                    _backgroundImage.enabled = false;
-                });
+                .OnComplete(() => { OnClose(onCallback); })
+                .OnKill(() => { OnClose(onCallback);});
+        }
+
+        private void OnClose(Action onCallback)
+        {
+            onCallback?.Invoke();
+            _backgroundImage.enabled = false;
         }
     }
 }

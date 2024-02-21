@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Code.Runtime.UI
+namespace Code.Runtime.UI.Buttons
 {
     public class ChangeSceneButton : MonoBehaviour
     {

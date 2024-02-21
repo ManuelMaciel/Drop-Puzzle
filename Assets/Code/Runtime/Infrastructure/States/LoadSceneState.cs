@@ -1,5 +1,6 @@
 ﻿using Code.Services.SaveLoadService;
 using CodeBase.Services.LogService;
+using DG.Tweening;
 
 namespace Code.Runtime.Infrastructure.States
 {
@@ -21,6 +22,8 @@ namespace Code.Runtime.Infrastructure.States
     {
         _saveLoadService.SaveProgress();
         _saveLoadService.ClearUpdatebleProgress();
+
+        DOTween.KillAll();
 
         _sceneLoader.Load(sceneName,
             () => { _logService.Log($"Loaded: {sceneName} (Scene)"); });

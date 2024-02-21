@@ -1,11 +1,12 @@
-﻿using Code.Runtime.Configs;
+﻿using System;
+using Code.Runtime.Configs;
 using Code.Services.AudioService;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using DG.Tweening;
 
-namespace Code.Runtime.UI
+namespace Code.Runtime.UI.Buttons
 {
     [RequireComponent(typeof(Button))]
     public class PlaySfxButton : MonoBehaviour
@@ -14,6 +15,7 @@ namespace Code.Runtime.UI
         
         private Button _button;
         private Vector3 _startScale;
+        private Tween _currentTween;
         
         private IAudioService _audioService;
 
@@ -33,9 +35,12 @@ namespace Code.Runtime.UI
         private void OnDisable() =>
             _button.onClick.RemoveListener(Play);
 
+        private void OnDestroy() =>
+            _currentTween?.Kill();
+
         private void Play()
         {
-            this.transform.DOPunchScale(_startScale * 0.2f, .25f);
+            _currentTween = this.transform.DOPunchScale(_startScale * 0.2f, .25f);
             
             PlaySfx();
         }
