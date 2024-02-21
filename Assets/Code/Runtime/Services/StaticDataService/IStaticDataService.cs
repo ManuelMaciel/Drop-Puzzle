@@ -10,5 +10,6 @@ namespace Code.Runtime.Services.StaticDataService
         PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; }
         AudioConfig AudioConfig { get; }
         WindowAssetsConfig WindowAssetsConfig { get; }
+        GameplayAssetsConfig GameplayAssetsConfig { get; }
     }
 }

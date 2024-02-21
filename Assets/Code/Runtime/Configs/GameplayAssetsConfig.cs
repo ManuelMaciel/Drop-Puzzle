@@ -7,5 +7,6 @@ namespace Code.Runtime.Configs
     {
         public GameObject HUD;
         public GameObject ShapeDropper;
+        public Vector3 SpawnPointPosition;
     }
 }

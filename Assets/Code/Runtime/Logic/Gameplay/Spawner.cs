@@ -12,7 +12,6 @@ namespace Code.Runtime.Logic.Gameplay
         private const float Delay = 1f;
 
         [SerializeField] private Transform dropLine;
-        [SerializeField] private Transform spawnPoint;
 
         private IShapeFactory _shapeFactory;
         private ISaveLoadService _saveLoadService;
@@ -20,6 +19,7 @@ namespace Code.Runtime.Logic.Gameplay
 
         private ShapeDropper _shapeDropper;
         private Transform _currentShapeTransform;
+        private Vector3 _spawnPointPosition;
         private int _lastRandomSizeIndex;
 
         [Inject]
@@ -31,16 +31,17 @@ namespace Code.Runtime.Logic.Gameplay
             _shapeFactory = shapeFactory;
         }
 
-        private void Awake()
+        public void Initialize(Vector3 spawnPointPosition)
         {
             _shapeDropper = GetComponent<ShapeDropper>();
+            _spawnPointPosition = spawnPointPosition;
 
             _shapeDropper.Initialize();
             _shapeDropper.AddShape(CreateShape());
 
             _shapeDropper.OnShapeDropped += SpawnNextShape;
         }
-
+        
         private void OnDestroy() =>
             _shapeDropper.OnShapeDropped += SpawnNextShape;
 
@@ -69,7 +70,7 @@ namespace Code.Runtime.Logic.Gameplay
 
         private Shape CreateShape()
         {
-            Shape shape = _shapeFactory.CreateShape(spawnPoint.position, _shapeDeterminantor.GetShape());
+            Shape shape = _shapeFactory.CreateShape(_spawnPointPosition, _shapeDeterminantor.GetShape());
 
             _currentShapeTransform = shape.transform;
 

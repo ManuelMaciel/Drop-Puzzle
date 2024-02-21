@@ -6,7 +6,6 @@ namespace Code.Runtime.Configs
     public class CoreConfig : ScriptableObject
     {
         public GameplayAssetsConfig GameplayAssetsConfig;
-        public InfrastructureAssetsConfig InfrastructureAssetsConfig; 
         public WindowAssetsConfig WindowAssetsConfig;
         public AudioConfig AudioConfig;
         public PurchasedBackgroundsConfig PurchasedBackgroundsConfig;

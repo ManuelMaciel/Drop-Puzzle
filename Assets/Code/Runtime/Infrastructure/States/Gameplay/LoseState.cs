@@ -15,7 +15,7 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         private readonly PrefabFactory<HUD> _hudFactory;
         private readonly IPersistentProgressService _progressService;
         private readonly ICoroutineRunner _coroutineRunner;
-        private IAudioService _audioService;
+        private readonly IAudioService _audioService;
 
         private Camera mainCamera;
         private float initialSize;
