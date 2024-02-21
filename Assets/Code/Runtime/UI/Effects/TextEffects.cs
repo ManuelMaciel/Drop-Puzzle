@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic.Gameplay;
-using Code.Services.Progress;
+using Code.Runtime.Services.Progress;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;

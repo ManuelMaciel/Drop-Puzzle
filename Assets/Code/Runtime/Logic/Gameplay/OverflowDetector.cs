@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States.Gameplay;
-using Code.Services.AudioService;
+using Code.Runtime.Services.AudioService;
 using UnityEngine;
 using Zenject;
 

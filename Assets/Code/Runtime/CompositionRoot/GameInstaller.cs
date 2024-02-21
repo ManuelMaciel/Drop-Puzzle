@@ -1,12 +1,12 @@
 using Code.Runtime.Infrastructure;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Installers;
-using Code.Services.AudioService;
-using Code.Services.Progress;
-using Code.Services.SaveLoadService;
-using Code.Services.StaticDataService;
-using Code.Services.WindowsService;
-using CodeBase.Services.LogService;
+using Code.Runtime.Services.AudioService;
+using Code.Runtime.Services.LogService;
+using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.SaveLoadService;
+using Code.Runtime.Services.StaticDataService;
+using Code.Runtime.Services.WindowsService;
 using UnityEngine;
 using Zenject;
 
@@ -34,7 +34,7 @@ namespace Code.Runtime.CompositionRoot
 
             BindWindowService();
         
-            BindFactories();
+            BindGlobalFactories();
 
             BindAudioService();
         }
@@ -56,9 +56,9 @@ namespace Code.Runtime.CompositionRoot
             Container.BindInterfacesTo<SaveLoadService>().AsSingle();
         }
 
-        private void BindFactories()
+        private void BindGlobalFactories()
         {
-            FactoriesInstaller.Install(Container);
+            GlobalFactoriesInstaller.Install(Container);
         }
 
         private void BindStaticDataService()

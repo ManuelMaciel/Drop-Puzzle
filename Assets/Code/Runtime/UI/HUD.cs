@@ -1,8 +1,8 @@
 ﻿using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
+using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.StaticDataService;
 using Code.Runtime.UI.Effects;
-using Code.Services.Progress;
-using Code.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 

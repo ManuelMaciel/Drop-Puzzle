@@ -2,8 +2,8 @@
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
+using Code.Runtime.Services.StaticDataService;
 using Code.Runtime.UI.Effects;
-using Code.Services.StaticDataService;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;

@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
 using Code.Runtime.Repositories;
-using Code.Services.StaticDataService;
+using Code.Runtime.Services.StaticDataService;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

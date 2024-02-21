@@ -1,8 +1,8 @@
 ﻿using System;
 using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
-using Code.Services.AudioService;
-using Code.Services.Progress;
+using Code.Runtime.Services.AudioService;
+using Code.Runtime.Services.Progress;
 using UnityEngine;
 using Zenject;
 

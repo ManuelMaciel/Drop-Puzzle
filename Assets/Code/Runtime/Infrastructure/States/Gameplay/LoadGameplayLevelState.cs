@@ -1,9 +1,10 @@
 ﻿using Code.Runtime.Extensions;
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic;
+using Code.Runtime.Logic.Factories;
 using Code.Runtime.Logic.Gameplay;
+using Code.Runtime.Services.Progress;
 using Code.Runtime.UI;
-using Code.Services.Progress;
 
 namespace Code.Runtime.Infrastructure.States.Gameplay
 {

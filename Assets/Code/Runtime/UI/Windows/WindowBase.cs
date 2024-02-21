@@ -1,6 +1,6 @@
 ﻿using Code.Runtime.Repositories;
-using Code.Services.Progress;
-using Code.Services.WindowsService;
+using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.WindowsService;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

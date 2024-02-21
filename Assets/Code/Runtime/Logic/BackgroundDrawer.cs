@@ -1,7 +1,7 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
-using Code.Services.Progress;
-using Code.Services.StaticDataService;
+using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
