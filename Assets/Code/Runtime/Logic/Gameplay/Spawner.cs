@@ -1,6 +1,8 @@
 using System.Collections;
+using Code.Runtime.Configs;
 using Code.Runtime.Logic.Factories;
 using Code.Runtime.Services.SaveLoadService;
+using Code.Runtime.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
@@ -9,8 +11,6 @@ namespace Code.Runtime.Logic.Gameplay
     [RequireComponent(typeof(ShapeDropper))]
     public class Spawner : MonoBehaviour
     {
-        private const float Delay = 1f;
-
         [SerializeField] private Transform dropLine;
 
         private IShapeFactory _shapeFactory;
@@ -19,22 +19,22 @@ namespace Code.Runtime.Logic.Gameplay
 
         private ShapeDropper _shapeDropper;
         private Transform _currentShapeTransform;
-        private Vector3 _spawnPointPosition;
+        private GameplayConfig _gameplayConfig;
         private int _lastRandomSizeIndex;
 
         [Inject]
         public void Construct(IShapeFactory shapeFactory, ISaveLoadService saveLoadService,
-            IShapeDeterminantor shapeDeterminantor)
+            IShapeDeterminantor shapeDeterminantor, IStaticDataService staticDataService)
         {
             _shapeDeterminantor = shapeDeterminantor;
             _saveLoadService = saveLoadService;
             _shapeFactory = shapeFactory;
+            _gameplayConfig = staticDataService.GameplayConfig;
         }
 
-        public void Initialize(Vector3 spawnPointPosition)
+        private void Awake()
         {
             _shapeDropper = GetComponent<ShapeDropper>();
-            _spawnPointPosition = spawnPointPosition;
 
             _shapeDropper.Initialize();
             _shapeDropper.AddShape(CreateShape());
@@ -60,7 +60,7 @@ namespace Code.Runtime.Logic.Gameplay
 
         private IEnumerator SpawnNextShapeDelay()
         {
-            yield return new WaitForSeconds(Delay);
+            yield return new WaitForSeconds(_gameplayConfig.DropInterval);
 
             _shapeDropper.AddShape(CreateShape());
 
@@ -70,7 +70,7 @@ namespace Code.Runtime.Logic.Gameplay
 
         private Shape CreateShape()
         {
-            Shape shape = _shapeFactory.CreateShape(_spawnPointPosition, _shapeDeterminantor.GetShape());
+            Shape shape = _shapeFactory.CreateShape(_gameplayConfig.SpawnPointPosition, _shapeDeterminantor.GetShape());
 
             _currentShapeTransform = shape.transform;
 

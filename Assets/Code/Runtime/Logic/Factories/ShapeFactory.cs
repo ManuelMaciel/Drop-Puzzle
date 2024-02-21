@@ -13,6 +13,8 @@ namespace Code.Runtime.Logic.Factories
 {
     public class ShapeFactory : IShapeFactory
     {
+        private const int PreCountShapes = 20;
+        
         private readonly IStaticDataService _staticDataService;
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
@@ -75,7 +77,7 @@ namespace Code.Runtime.Logic.Factories
         private void InitializeShapePool(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
             IGameObjectsPoolContainer gameObjectsPoolContainer, DiContainer diContainer)
         {
-            _shapesPool = new ShapePool(_shapeSizeConfig.shapePrefab, Constants.PreCountShapes,
+            _shapesPool = new ShapePool(_shapeSizeConfig.shapePrefab, PreCountShapes,
                 gameObjectsPoolContainer, diContainer,
                 (shape) => shape.Construct(this, progressService, saveLoadService, _shapesPool));
             _shapesPool.Initialize();

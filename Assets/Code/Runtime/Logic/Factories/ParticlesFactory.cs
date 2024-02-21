@@ -7,6 +7,8 @@ namespace Code.Runtime.Logic.Factories
 {
     public class ParticlesFactory : IParticlesFactory
     {
+        public const int PreCountParticles = 5;
+        
         private ICoroutineRunner _coroutineRunner;
 
         private IGameObjectPool<ParticleSystem> _tapVfxPool;
@@ -18,9 +20,9 @@ namespace Code.Runtime.Logic.Factories
             _coroutineRunner = coroutineRunner;
 
             _tapVfxPool = new ComponentPool<ParticleSystem>(tapVfx,
-                Constants.PreCountTapParticles, gameObjectsPoolContainer);
+                PreCountParticles, gameObjectsPoolContainer);
             _deathVfxPool = new ComponentPool<ParticleSystem>(deathVfx,
-                Constants.PreCountTapParticles, gameObjectsPoolContainer);
+                PreCountParticles, gameObjectsPoolContainer);
 
             _tapVfxPool.Initialize();
             _deathVfxPool.Initialize();

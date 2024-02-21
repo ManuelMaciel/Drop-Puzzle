@@ -15,7 +15,7 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         private readonly PrefabFactory<Spawner> _spawnerFactory;
         private readonly IShapeFactory _shapeFactory;
         private readonly IPersistentProgressService _progressService;
-        private GameplayAssetsConfig _gameplayAssetsConfig;
+        private GameplayConfig _gameplayConfig;
 
         LoadGameplayLevelState(PrefabFactory<HUD> hudFactory, PrefabFactory<Spawner> spawnerFactory,
             IShapeFactory shapeFactory, IPersistentProgressService progressService, IStaticDataService staticDataService)
@@ -24,7 +24,7 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
             _spawnerFactory = spawnerFactory;
             _shapeFactory = shapeFactory;
             _progressService = progressService;
-            _gameplayAssetsConfig = staticDataService.GameplayAssetsConfig;
+            _gameplayConfig = staticDataService.GameplayConfig;
         }
 
         public void Enter()
@@ -34,10 +34,9 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
 
         private void InitWorld()
         {
-            _hudFactory.Create(_gameplayAssetsConfig.HUD);
-            _spawnerFactory.Create(_gameplayAssetsConfig.ShapeDropper);
-            _spawnerFactory.InstantiatedPrefab.Initialize(_gameplayAssetsConfig.SpawnPointPosition);
-
+            _hudFactory.Create(_gameplayConfig.HUD);
+            _spawnerFactory.Create(_gameplayConfig.ShapeDropper);
+            
             SpawnLoadedShapes();
         }
 
