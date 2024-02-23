@@ -3,7 +3,7 @@
     public enum BackgroundType
     {
         Default = 0,
-        Sky = 1,
-        Water = 2,
+        Space2 = 2,
+        Space4 = 3,
     }
 }
