@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PurchasedBackgrounds:
   - BackgroundType: 0
-    Background: {fileID: 21300000, guid: e580b722e27b6124783e3452dae50c8c, type: 3}
+    Background: {fileID: 21300000, guid: 7e596ee0e89da3c4b85f23277d48657c, type: 3}
     Price: 0
-  - BackgroundType: 1
-    Background: {fileID: 21300000, guid: 3e90e75283e355e46a754169b5539957, type: 3}
-    Price: 150
   - BackgroundType: 2
-    Background: {fileID: 21300000, guid: 2665fdc4222c8244d9e75713c365b65a, type: 3}
-    Price: 900
+    Background: {fileID: 21300000, guid: 79ce5d96c02712245ba44afafc1f4617, type: 3}
+    Price: 400
+  - BackgroundType: 3
+    Background: {fileID: 21300000, guid: c88b1bef3efa6f14baa14d2af1446fb3, type: 3}
+    Price: 1000

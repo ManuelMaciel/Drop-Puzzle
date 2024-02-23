@@ -1,16 +1,16 @@
 ﻿using Code.Runtime.Interactors;
 using Code.Runtime.Services.SaveLoadService;
+using Code.Runtime.UI.Buttons;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Code.Runtime.UI.Windows
 {
     public class SettingsWindow : WindowBase
     {
-        [SerializeField] private Button switchVibrationButton;
-        [SerializeField] private Button switchSFXButton;
-        [SerializeField] private Button switchAmbientButton;
+        [SerializeField] private SwitchButton switchVibrationButton;
+        [SerializeField] private SwitchButton switchSFXButton;
+        [SerializeField] private SwitchButton switchAmbientButton;
         
         private SettingsInteractor _settingsInteractor;
         private ISaveLoadService _saveLoadService;
@@ -25,6 +25,10 @@ namespace Code.Runtime.UI.Windows
         {
             _settingsInteractor = _interactorContainer.Get<SettingsInteractor>();
 
+            switchVibrationButton.Initialize();
+            switchAmbientButton.Initialize();
+            switchSFXButton.Initialize();
+            
             UpdateButtonState(_settingsInteractor.IsEnableVibrate(), switchVibrationButton);
             UpdateButtonState(_settingsInteractor.IsEnableSFX(), switchSFXButton);
             UpdateButtonState(_settingsInteractor.IsEnableAmbient(), switchAmbientButton);
@@ -32,16 +36,16 @@ namespace Code.Runtime.UI.Windows
 
         protected override void SubscribeUpdates()
         {
-            switchVibrationButton.onClick.AddListener(SwitchVibrationMode);
-            switchSFXButton.onClick.AddListener(SwitchSFXMode);
-            switchAmbientButton.onClick.AddListener(SwitchAmbientMode);
+            switchVibrationButton.OnStateChanged += SwitchVibrationMode;
+            switchSFXButton.OnStateChanged += SwitchSFXMode;
+            switchAmbientButton.OnStateChanged += SwitchAmbientMode;
         }
 
         protected override void Cleanup()
         {
-            switchVibrationButton.onClick.RemoveListener(SwitchVibrationMode);
-            switchSFXButton.onClick.RemoveListener(SwitchSFXMode);
-            switchAmbientButton.onClick.RemoveListener(SwitchAmbientMode);
+            switchVibrationButton.OnStateChanged += SwitchVibrationMode;
+            switchSFXButton.OnStateChanged += SwitchSFXMode;
+            switchAmbientButton.OnStateChanged += SwitchAmbientMode;
         }
 
         private void SwitchAmbientMode()
@@ -68,9 +72,9 @@ namespace Code.Runtime.UI.Windows
             UpdateButtonState(isEnableVibrate, switchVibrationButton);
         }
 
-        private void UpdateButtonState(bool isEnable, Button button)
+        private void UpdateButtonState(bool isEnable, SwitchButton button)
         {
-            button.image.color = isEnable ? Color.white : Color.gray;
+            button.UpdateState(isEnable);
 
             _saveLoadService.SaveProgress();
         }

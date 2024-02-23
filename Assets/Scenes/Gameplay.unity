@@ -474,9 +474,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _activeShapeAnimatorsHandler: {fileID: 45857308}
+  mobileInput: {fileID: 838131470175959770}
   deathVfx: {fileID: 446820939785250268, guid: 9cff28e8d1074aa4ea9df6f9ad2415ad, type: 3}
   tapVfx: {fileID: 19800000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
-  mobileInput: {fileID: 838131470175959770}
 --- !u!1 &377950319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,7 +1567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7735373674376322466, guid: e7ddb3bb0f4c63b49bcf86843d643242, type: 3}
       propertyPath: m_Name
-      value: Input
+      value: MobileInput
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7ddb3bb0f4c63b49bcf86843d643242, type: 3}
