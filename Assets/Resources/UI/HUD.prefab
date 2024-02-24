@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 6685182457651946488}
   - component: {fileID: 4949240299271159046}
   - component: {fileID: 1325429352436036846}
+  - component: {fileID: 3217588723337760457}
   m_Layer: 5
-  m_Name: OpenSettingsWindowButton (1)
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -211259840, guid: e91f8d32a9491fa43b19b9277905c391, type: 3}
+  m_Sprite: {fileID: -81238453, guid: e91f8d32a9491fa43b19b9277905c391, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -135,6 +136,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxType: 0
+--- !u!114 &3217588723337760457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432633344406258067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e80ed1c51d846dc8c5729a4c093489f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReturnPage: 0
+  Button: {fileID: 4949240299271159046}
+  WindowType: 2
 --- !u!1 &441945564583938093
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,8 +840,9 @@ GameObject:
   - component: {fileID: 5605636099301633346}
   - component: {fileID: 6420710926314385868}
   - component: {fileID: 2660991895974237989}
+  - component: {fileID: 5644989960624379004}
   m_Layer: 5
-  m_Name: LoadMenuButton (1)
+  m_Name: ShopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -879,7 +896,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 348001763, guid: e91f8d32a9491fa43b19b9277905c391, type: 3}
+  m_Sprite: {fileID: 1166818304, guid: e91f8d32a9491fa43b19b9277905c391, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -946,6 +963,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sfxType: 0
+--- !u!114 &5644989960624379004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609476435131980173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e80ed1c51d846dc8c5729a4c093489f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReturnPage: 0
+  Button: {fileID: 6420710926314385868}
+  WindowType: 3
 --- !u!1 &3280701871654799038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,10 +2440,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 510242808893731085, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
-      propertyPath: m_PreferredWidth
-      value: 35
-      objectReference: {fileID: 0}
     - target: {fileID: 2060704915459151459, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2423,10 +2451,6 @@ PrefabInstance:
     - target: {fileID: 2060704915459151459, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2060704915459151459, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2060704915459151459, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
       propertyPath: m_AnchoredPosition.x
