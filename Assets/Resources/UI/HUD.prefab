@@ -682,6 +682,7 @@ GameObject:
   - component: {fileID: 647722762560251967}
   - component: {fileID: 2816050121817547797}
   - component: {fileID: 8723474875731407685}
+  - component: {fileID: 7129799162582872334}
   m_Layer: 5
   m_Name: LoseContent
   m_TagString: Untagged
@@ -743,6 +744,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &7129799162582872334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2595932168504797277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &2607510627194366457
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,6 +2604,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1864425029858851918, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
+      propertyPath: coinsEffect
+      value: 
+      objectReference: {fileID: 7650840878119650483}
     - target: {fileID: 1864425029858851918, guid: 44e5234b0ed0d1142a46764207992197, type: 3}
       propertyPath: _coinsEffect
       value: 

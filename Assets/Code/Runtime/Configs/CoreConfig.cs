@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Runtime.Configs
 {
-    [CreateAssetMenu(fileName = "CoreConfig", menuName = "Configs/CoreConfig", order = 0)]
+    [CreateAssetMenu(fileName = "CoreConfig", menuName = "Configs/CoreConfig", order = -1)]
     public class CoreConfig : ScriptableObject
     {
-        [FormerlySerializedAs("GameplayAssetsConfig")] public GameplayConfig gameplayConfig;
+        public GameplayConfig GameplayConfig;
+        public AdConfig AdConfig;
         public WindowAssetsConfig WindowAssetsConfig;
         public AudioConfig AudioConfig;
         public PurchasedBackgroundsConfig PurchasedBackgroundsConfig;

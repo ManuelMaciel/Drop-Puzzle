@@ -5,6 +5,7 @@ using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.Progress;
 using Code.Runtime.UI.Effects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -13,8 +14,10 @@ namespace Code.Runtime.UI.Buttons
     [RequireComponent(typeof(Button))]
     public class AdRewardButton : MonoBehaviour
     {
-        [SerializeField] private CoinsEffect _coinsEffect;
-        
+        [FormerlySerializedAs("_coinsEffect")] 
+        [SerializeField] private CoinsEffect coinsEffect;
+        [SerializeField] private int animationCoinsAmount = 10;
+
         private Button _button;
         private IPersistentProgressService _progressService;
         private IAudioService _audioService;
@@ -50,8 +53,8 @@ namespace Code.Runtime.UI.Buttons
 
         private void OnVideoFinished()
         {
-            _progressService.InteractorContainer.Get<MoneyInteractor>().AddCoins(999);
-            _coinsEffect.AddCoins(new Vector2(Screen.width / 2f, Screen.height / 2f), 10, CoinsEffect.AnimationType.Splash);
+            _progressService.InteractorContainer.Get<MoneyInteractor>().AddReward();
+            coinsEffect.AddCoins(new Vector2(Screen.width / 2f, Screen.height / 2f), animationCoinsAmount, CoinsEffect.AnimationType.Splash);
             _audioService.PlaySfx(SfxType.Reward);
         }
     }

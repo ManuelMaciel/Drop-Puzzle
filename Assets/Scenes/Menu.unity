@@ -482,6 +482,7 @@ GameObject:
   - component: {fileID: 318187614}
   - component: {fileID: 318187616}
   - component: {fileID: 318187615}
+  - component: {fileID: 318187617}
   m_Layer: 5
   m_Name: ShapeIcon
   m_TagString: Untagged
@@ -547,6 +548,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318187613}
   m_CullTransparentMesh: 1
+--- !u!114 &318187617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318187613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 25, y: -24}
+  m_UseGraphicAlpha: 1
 --- !u!1 &387973559
 GameObject:
   m_ObjectHideFlags: 0

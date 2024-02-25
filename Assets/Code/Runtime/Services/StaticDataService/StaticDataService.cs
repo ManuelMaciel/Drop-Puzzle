@@ -14,6 +14,7 @@ namespace Code.Runtime.Services.StaticDataService
         public AudioConfig AudioConfig { get; private set; }
         public WindowAssetsConfig WindowAssetsConfig { get; private set; }
         public GameplayConfig GameplayConfig { get; private set; }
+        public AdConfig AdConfig { get; private set; }
 
         private readonly ILogService log;
 
@@ -31,7 +32,8 @@ namespace Code.Runtime.Services.StaticDataService
             PurchasedBackgroundsConfig = coreConfig.PurchasedBackgroundsConfig;
             AudioConfig = coreConfig.AudioConfig;
             WindowAssetsConfig = coreConfig.WindowAssetsConfig;
-            GameplayConfig = coreConfig.gameplayConfig;
+            GameplayConfig = coreConfig.GameplayConfig;
+            AdConfig = coreConfig.AdConfig;
 
             log.Log("Static data loaded");
         }

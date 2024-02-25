@@ -1,32 +1,34 @@
 ﻿using System;
+using Code.Runtime.Configs;
 using Code.Runtime.Services.LogService;
+using Code.Runtime.Services.StaticDataService;
 using UnityEngine.Advertisements;
-using Zenject;
 
 namespace Code.Runtime.Services.AdsService
 {
     public class AdsService : IAdsService, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener
     {
-        private readonly ILogService _logService;
         public event Action RewardedVideoReady;
         public bool IsRewardedVideoReady => _rewardedVideoReady;
 
-        private const string AndroidGameId = "5522750";
-        private const string IOSGameId = "5522751";
-        private const bool TestMode = true;
+        private readonly ILogService _logService;
+        private readonly IStaticDataService _staticDataService;
 
-        private const string UnityRewardedVideoIdAndroid = "Rewarded_Android";
-        private const string UnityRewardedVideoIdIOS = "Rewarded_iOS";
-
+        private Action _onVideoFinished;
+        private AdConfig _adConfig;
+        private bool _rewardedVideoReady;
         private string _gameId;
         private string _adUnitId;
 
-        private Action _onVideoFinished;
-        private bool _rewardedVideoReady;
-
-        public AdsService(ILogService logService)
+        public AdsService(ILogService logService, IStaticDataService staticDataService)
         {
             _logService = logService;
+            _staticDataService = staticDataService;
+        }
+
+        public void Initialize()
+        {
+            _adConfig = _staticDataService.AdConfig;
             
             InitializeAds();
         }
@@ -34,9 +36,9 @@ namespace Code.Runtime.Services.AdsService
         private void InitializeRewardAd()
         {
 #if UNITY_IOS
-            _adUnitId = UnityRewardedVideoIdIOS;
+            _adUnitId = _adConfig.UnityRewardedVideoIdIOS;
 #elif UNITY_ANDROID
-            _adUnitId = UnityRewardedVideoIdAndroid;
+            _adUnitId = _adConfig.UnityRewardedVideoIdAndroid;
 #endif
 
             Advertisement.Load(_adUnitId, this);
@@ -45,16 +47,16 @@ namespace Code.Runtime.Services.AdsService
         public void InitializeAds()
         {
 #if UNITY_IOS
-            _gameId = IOSGameId;
+            _gameId = _adConfig.IOSGameId;
 #elif UNITY_ANDROID
-            _gameId = AndroidGameId;
+            _gameId = _adConfig.AndroidGameId;
 #elif UNITY_EDITOR
-            _gameId = AndroidGameId;
+            _gameId = _adConfig.AndroidGameId;
 #endif
 
             if (!Advertisement.isInitialized && Advertisement.isSupported)
             {
-                Advertisement.Initialize(_gameId, TestMode, this);
+                Advertisement.Initialize(_gameId, _adConfig.TestMode, this);
             }
         }
 

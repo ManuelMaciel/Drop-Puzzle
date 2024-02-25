@@ -11,5 +11,6 @@ namespace Code.Runtime.Services.StaticDataService
         AudioConfig AudioConfig { get; }
         WindowAssetsConfig WindowAssetsConfig { get; }
         GameplayConfig GameplayConfig { get; }
+        AdConfig AdConfig { get; }
     }
 }

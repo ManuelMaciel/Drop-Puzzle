@@ -7,5 +7,6 @@ namespace Code.Runtime.Services.AdsService
         event Action RewardedVideoReady;
         bool IsRewardedVideoReady { get; }
         void ShowRewardedVideo(Action onVideoFinished);
+        void Initialize();
     }
 }
