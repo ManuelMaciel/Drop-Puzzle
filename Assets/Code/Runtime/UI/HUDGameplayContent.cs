@@ -21,22 +21,17 @@ namespace Code.Runtime.UI
         [SerializeField] private RectTransform _coinTransform;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
-        [SerializeField] private TextMeshProUGUI _coinsText;
 
         private IShapeDeterminantor _shapeDeterminantor;
         private IInteractorContainer _interactorContainer;
         private IStaticDataService _staticDataService;
         
         private ScoreInteractor _scoreInteractor;
-        private MoneyInteractor _moneyInteractor;
-        private CoinsEffect _coinsEffect;
-        private Vector3 _coinScale;
-        private Vector3 _nextCoinScale;
+        private Vector3 _nextShapeScale;
 
         public void Construct(IShapeDeterminantor shapeDeterminantor, IInteractorContainer interactorContainer,
-            IStaticDataService staticDataService, CoinsEffect coinsEffect)
+            IStaticDataService staticDataService)
         {
-            _coinsEffect = coinsEffect;
             _shapeDeterminantor = shapeDeterminantor;
             _interactorContainer = interactorContainer;
             _staticDataService = staticDataService;
@@ -45,18 +40,15 @@ namespace Code.Runtime.UI
         public void Initialize()
         {
             InitializeScoreInteractor();
-            InitializeMoneyInteractor();
             InitializeTextNextShape();
-
-            _coinScale = _coinTransform.lossyScale;
-            _nextCoinScale = _nextShapeImage.rectTransform.localScale;
+            
+            _nextShapeScale = _nextShapeImage.rectTransform.localScale;
         }
 
         public void Dispose()
         {
             _shapeDeterminantor.OnShapeChanged -= UpdateImageNextShape;
             _scoreInteractor.OnScoreIncreased -= UpdateScoreText;
-            _coinsEffect.OnCoinAdded -= UpdateCoinsText;
         }
 
         private void InitializeTextNextShape()
@@ -74,33 +66,19 @@ namespace Code.Runtime.UI
 
             UpdateScoreText(_scoreInteractor.GetCurrentScore());
         }
-
-        private void InitializeMoneyInteractor()
-        {
-            _moneyInteractor = _interactorContainer.Get<MoneyInteractor>();
-
-            _coinsEffect.OnCoinAdded += UpdateCoinsText;
-
-            UpdateCoinsText();
-        }
+        
 
         private void UpdateImageNextShape()
         {
             _nextShapeImage.sprite =
                 _staticDataService.ShapeSizeConfig.Sprites[(int)_shapeDeterminantor.NextShapeSize];
-            _nextShapeImage.rectTransform.DOPunchScale(_nextCoinScale * AnimationScaleFactor, AnimationScaleDuration);
+            _nextShapeImage.rectTransform.DOPunchScale(_nextShapeScale * AnimationScaleFactor, AnimationScaleDuration);
         }
 
         private void UpdateScoreText(int score)
         {
             _scoreText.text = score.ToString();
             _maxScoreText.text = _scoreInteractor.GetMaxScore().ToString();
-        }
-
-        private void UpdateCoinsText()
-        {
-            _coinsText.text = _moneyInteractor.GetCoins().ToString();
-            _coinTransform.DOPunchScale(_coinScale * AnimationScaleFactor, AnimationScaleDuration);
         }
     }
 }

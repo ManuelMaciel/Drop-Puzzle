@@ -13,6 +13,11 @@ namespace Code.Runtime.Interactors
         public bool EnoughCoins(int coins) => 
             _repository.Coins >= coins;
 
+        public void AddReward()
+        {
+            
+        }
+        
         public void AddCoins(int coins)
         {
             if(coins < 0) return;

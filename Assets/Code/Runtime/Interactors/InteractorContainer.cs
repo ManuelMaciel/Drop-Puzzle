@@ -9,11 +9,17 @@ namespace Code.Runtime.Interactors
         private Dictionary<Type, IInteractor>
             _interactors = new Dictionary<Type, IInteractor>();
 
+        public bool TryGet<T>(out T interactor) where T : class, IInteractor {
+            if (_interactors.TryGetValue(typeof(T), out IInteractor value)) {
+                interactor = value as T;
+                return true;
+            }
+            interactor = null;
+            return false;
+        }
+
         public T Get<T>() where T : class, IInteractor =>
             _interactors[typeof(T)] as T;
-
-        public bool TryGet<T>(out IInteractor interactor) where T : class, IInteractor =>
-            _interactors.TryGetValue(typeof(T), out interactor);
 
         public void CreateInteractor<T, TRepository>(TRepository repository) where T : Interactor<TRepository>, new() where TRepository : IRepository
         {

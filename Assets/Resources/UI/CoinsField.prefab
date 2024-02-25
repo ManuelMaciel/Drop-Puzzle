@@ -128,6 +128,8 @@ GameObject:
   - component: {fileID: 8266875295566564895}
   - component: {fileID: 3993462306985498213}
   - component: {fileID: 1864425029858851918}
+  - component: {fileID: 8026320039347665903}
+  - component: {fileID: 1116551360}
   m_Layer: 5
   m_Name: CoinsField
   m_TagString: Untagged
@@ -292,6 +294,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0cd9af373244c4bd5a16b1ff6e3296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coinsEffect: {fileID: 0}
+--- !u!114 &8026320039347665903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849635697560143635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23cac393dd740c78d5672e08955c51d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsText: {fileID: 2458740632887641682}
+  coinsEffect: {fileID: 0}
+--- !u!114 &1116551360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4849635697560143635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d2675c8e6942c18e285e5ae326d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxType: 0
 --- !u!1 &5232196924818209175
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,9 +471,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
+  m_MinWidth: 100
   m_MinHeight: -1
-  m_PreferredWidth: 100
+  m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

@@ -8,6 +8,7 @@
         CombineShape,
         Combo,
         ShapeDeath,
-        Lose
+        Lose,
+        Reward,
     }
 }
