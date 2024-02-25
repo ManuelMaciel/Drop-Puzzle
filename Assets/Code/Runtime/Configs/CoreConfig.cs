@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Runtime.Configs
 {
@@ -7,10 +8,11 @@ namespace Code.Runtime.Configs
     {
         public GameplayConfig GameplayConfig;
         public AdConfig AdConfig;
+        public AnimationConfig AnimationConfig;
         public WindowAssetsConfig WindowAssetsConfig;
         public AudioConfig AudioConfig;
         public PurchasedBackgroundsConfig PurchasedBackgroundsConfig;
         public ShapeScoreConfig ShapeScoreConfig;
-        public ShapeSizeConfig ShapeSizeConfig;
+        public ShapeConfig shapeConfig;
     }
 }

@@ -294,7 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0cd9af373244c4bd5a16b1ff6e3296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coinsEffect: {fileID: 0}
+  coinsEffect: {fileID: 0}
+  animationCoinsAmount: 10
 --- !u!114 &8026320039347665903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinsText: {fileID: 2458740632887641682}
+  coinIconTransform: {fileID: 3792430643642034199}
   coinsEffect: {fileID: 0}
 --- !u!114 &1116551360
 MonoBehaviour:

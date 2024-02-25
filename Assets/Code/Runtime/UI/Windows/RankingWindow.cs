@@ -20,7 +20,7 @@ namespace Code.Runtime.UI.Windows
 
         private IStaticDataService _staticDataService;
         private RankingInteractor _rankingInteractor;
-        private ShapeSizeConfig _shapeSizeConfig;
+        private ShapeConfig _shapeConfig;
 
         [Inject]
         public void Construct(IStaticDataService staticDataService)
@@ -37,8 +37,8 @@ namespace Code.Runtime.UI.Windows
 
         protected override void Initialize()
         {
-            _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
-            _countRankElements = _shapeSizeConfig.ShapesCount();
+            _shapeConfig = _staticDataService.ShapeConfig;
+            _countRankElements = _shapeConfig.ShapesCount();
             _rankingInteractor = _interactorContainer.Get<RankingInteractor>();
         }
 
@@ -76,7 +76,7 @@ namespace Code.Runtime.UI.Windows
                 RankElement rankElement = Instantiate(rankElementPrefab, rankElementsContainer);
                 int score = recordsData.Length > i ? recordsData[i].Score : 0;
                 
-                rankElement.Initialize(_shapeSizeConfig.Sprites[(_countRankElements - 1) - i], i, score);
+                rankElement.Initialize(_shapeConfig.Sprites[(_countRankElements - 1) - i], i, score);
             }
         }
 

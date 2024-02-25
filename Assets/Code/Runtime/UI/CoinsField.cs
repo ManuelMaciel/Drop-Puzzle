@@ -1,5 +1,6 @@
 ﻿using Code.Runtime.Interactors;
 using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.StaticDataService;
 using Code.Runtime.UI.Effects;
 using DG.Tweening;
 using TMPro;
@@ -10,22 +11,19 @@ namespace Code.Runtime.UI
 {
     public class CoinsField : MonoBehaviour
     {
-        private const float AnimationScaleFactor = 0.2f;
-        private const float AnimationScaleDuration = 0.2f;
-        
         [SerializeField] private TextMeshProUGUI coinsText;
+        [SerializeField] private RectTransform coinIconTransform;
         [SerializeField] private CoinsEffect coinsEffect;
 
         private IPersistentProgressService _progressService;
         private MoneyInteractor _moneyInteractor;
-        private Vector3 _coinScale;
-        
+        private IStaticDataService _staticDataService;
+
         [Inject]
-        public void Construct(IPersistentProgressService progressService)
+        public void Construct(IPersistentProgressService progressService, IStaticDataService staticDataService)
         {
+            _staticDataService = staticDataService;
             _progressService = progressService;
-            
-            _coinScale = this.transform.lossyScale;
         }
 
         private void Start()
@@ -47,7 +45,8 @@ namespace Code.Runtime.UI
         private void UpdateCoinsText()
         {
             coinsText.text = _moneyInteractor.GetCoins().ToString();
-            this.transform.DOPunchScale(_coinScale * AnimationScaleFactor, AnimationScaleDuration);
+            coinIconTransform.DOPunchScale(_staticDataService.AnimationConfig.GetPunchAnimationScaleFactor(),
+                _staticDataService.AnimationConfig.PunchAnimationScaleDuration);
         }
     }
 }

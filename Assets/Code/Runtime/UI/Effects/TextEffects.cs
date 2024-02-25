@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Infrastructure.ObjectPool;
+﻿using Code.Runtime.Configs;
+using Code.Runtime.Infrastructure.ObjectPool;
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic.Gameplay;
 using Code.Runtime.Services.Progress;
@@ -11,13 +12,12 @@ namespace Code.Runtime.UI.Effects
 {
     public class TextEffects : MonoBehaviour
     {
-        private const int TextPreloadCount = 10;
-
         [SerializeField] private TextMeshProUGUI textPrefab;
         [SerializeField] private CoinsEffect coinsEffect;
 
-        [Header("Animation Settings")]
-        [SerializeField] private float moveScoreDuration = 1f;
+        [Header("Animation Settings")] [SerializeField]
+        private float moveScoreDuration = 1f;
+
         [SerializeField] private float scaleDuration = 0.5f;
         [SerializeField] private float scaleScoreAnimation = 1.5f;
         [SerializeField] private float scaleComboAnimation = 2f;
@@ -49,7 +49,8 @@ namespace Code.Runtime.UI.Effects
             _shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
             _scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
 
-            _textPool = new ComponentPool<TextMeshProUGUI>(textPrefab, TextPreloadCount, _gameObjectsPoolContainer);
+            _textPool = new ComponentPool<TextMeshProUGUI>(textPrefab, ObjectPoolStaticData.PreloadEffectTextCount,
+                _gameObjectsPoolContainer);
         }
 
         private void OnEnable()
@@ -130,8 +131,10 @@ namespace Code.Runtime.UI.Effects
 
             for (int i = 0; i < comboRotationLoopCount; i++)
             {
-                sequence.Append(comboText.rectTransform.DORotate(new Vector3(0, 0, comboTextRotateOffset), comboTextRotateDuration));
-                sequence.Append(comboText.rectTransform.DORotate(new Vector3(0, 0, -comboTextRotateOffset), comboTextRotateDuration));
+                sequence.Append(comboText.rectTransform.DORotate(new Vector3(0, 0, comboTextRotateOffset),
+                    comboTextRotateDuration));
+                sequence.Append(comboText.rectTransform.DORotate(new Vector3(0, 0, -comboTextRotateOffset),
+                    comboTextRotateDuration));
             }
 
             sequence

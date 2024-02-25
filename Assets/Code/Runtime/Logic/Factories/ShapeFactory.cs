@@ -13,13 +13,11 @@ namespace Code.Runtime.Logic.Factories
 {
     public class ShapeFactory : IShapeFactory
     {
-        private const int PreCountShapes = 20;
-        
         private readonly IStaticDataService _staticDataService;
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
 
-        private ShapeSizeConfig _shapeSizeConfig;
+        private ShapeConfig _shapeConfig;
         private ShapePool _shapesPool;
 
         public ShapeFactory(IStaticDataService staticDataService,
@@ -30,7 +28,7 @@ namespace Code.Runtime.Logic.Factories
             _progressService = progressService;
             _saveLoadService = saveLoadService;
 
-            _shapeSizeConfig = _staticDataService.ShapeSizeConfig;
+            _shapeConfig = _staticDataService.ShapeConfig;
 
             InitializeShapePool(progressService, saveLoadService, gameObjectsPoolContainer, diContainer);
         }
@@ -57,10 +55,10 @@ namespace Code.Runtime.Logic.Factories
         private Shape InstantiateShape(Vector3 at, ShapeSize shapeSize, string shapeId)
         {
             int shapeIndex = (int)shapeSize;
-            float size = _shapeSizeConfig.Sizes[shapeIndex];
+            float size = _shapeConfig.Sizes[shapeIndex];
             Shape shape = _shapesPool.Get(at);
             shape.transform.eulerAngles = Vector3.zero;
-            shape.GetComponentInChildren<SpriteRenderer>().sprite = _shapeSizeConfig.Sprites[shapeIndex];
+            shape.GetComponentInChildren<SpriteRenderer>().sprite = _shapeConfig.Sprites[shapeIndex];
 
             InitializeShape(shapeSize, shape, shapeId, size);
             return shape;
@@ -77,7 +75,7 @@ namespace Code.Runtime.Logic.Factories
         private void InitializeShapePool(IPersistentProgressService progressService, ISaveLoadService saveLoadService,
             IGameObjectsPoolContainer gameObjectsPoolContainer, DiContainer diContainer)
         {
-            _shapesPool = new ShapePool(_shapeSizeConfig.shapePrefab, PreCountShapes,
+            _shapesPool = new ShapePool(_shapeConfig.shapePrefab, ObjectPoolStaticData.PreloadShapesCount,
                 gameObjectsPoolContainer, diContainer,
                 (shape) => shape.Construct(this, progressService, saveLoadService, _shapesPool));
             _shapesPool.Initialize();

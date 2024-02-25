@@ -1,4 +1,5 @@
 ﻿using System;
+using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure.ObjectPool;
 using DG.Tweening;
 using UnityEngine;
@@ -18,7 +19,6 @@ namespace Code.Runtime.UI.Effects
         }
 
         private const float TimeFactor = 0.025f;
-        private const int PreloadCoinsCount = 10;
 
         public event Action OnCoinAdded;
 
@@ -49,7 +49,7 @@ namespace Code.Runtime.UI.Effects
         private void Start()
         {
             _targetPosition = coinsField.position;
-            _coinsPool = new ComponentPool<RectTransform>(coinPrefab, PreloadCoinsCount, _gameObjectsPoolContainer);
+            _coinsPool = new ComponentPool<RectTransform>(coinPrefab, ObjectPoolStaticData.PreloadCoinsCount, _gameObjectsPoolContainer);
             _coinsPool.Initialize();
         }
 

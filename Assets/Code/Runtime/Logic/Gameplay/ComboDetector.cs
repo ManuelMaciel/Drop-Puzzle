@@ -3,6 +3,7 @@ using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
 using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.Progress;
+using Code.Runtime.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +11,7 @@ namespace Code.Runtime.Logic.Gameplay
 {
     public class ComboDetector : ITickable, IInitializable, IDisposable, IComboDetector
     {
-        public event Action<int, Vector3> OnComboDetected; 
-        
-        private const float TimeToEndCombo = 0.5f;
+        public event Action<int, Vector3> OnComboDetected;
 
         private int comboCount;
         private float time;
@@ -20,14 +19,18 @@ namespace Code.Runtime.Logic.Gameplay
         private ShapeInteractor _shapeInteractor;
         private ScoreInteractor _scoreInteractor;
         private MoneyInteractor _moneyInteractor;
-        
+
         private IPersistentProgressService _progressService;
         private IAudioService _audioService;
         private IShapeBase _currentShape;
+        private IStaticDataService _staticDataService;
+        private GameplayConfig _gameplayConfig;
 
         [Inject]
-        public void Construct(IPersistentProgressService progressService, IAudioService audioService)
+        public void Construct(IPersistentProgressService progressService, IAudioService audioService,
+            IStaticDataService staticDataService)
         {
+            _staticDataService = staticDataService;
             _audioService = audioService;
             _progressService = progressService;
         }
@@ -37,6 +40,7 @@ namespace Code.Runtime.Logic.Gameplay
             _scoreInteractor = _progressService.InteractorContainer.Get<ScoreInteractor>();
             _shapeInteractor = _progressService.InteractorContainer.Get<ShapeInteractor>();
             _moneyInteractor = _progressService.InteractorContainer.Get<MoneyInteractor>();
+            _gameplayConfig = _staticDataService.GameplayConfig;
 
             _shapeInteractor.OnShapeCombined += OnShapesCombined;
         }
@@ -49,7 +53,7 @@ namespace Code.Runtime.Logic.Gameplay
 
         public void Tick()
         {
-            if (time >= TimeToEndCombo)
+            if (time >= _gameplayConfig.TimeToEndCombo)
             {
                 EndCombo();
 
@@ -62,8 +66,8 @@ namespace Code.Runtime.Logic.Gameplay
         {
             if (comboCount < 2) return;
 
-            _scoreInteractor.AddScore(comboCount * 5);
-            _moneyInteractor.AddCoins(comboCount);
+            _scoreInteractor.AddScore(comboCount * _gameplayConfig.ComboScoreFactor);
+            _moneyInteractor.AddCoins(comboCount * _gameplayConfig.ComboCoinsFactor);
             _audioService.PlaySfx(SfxType.Combo);
             _audioService.PlayVibrate();
 

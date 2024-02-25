@@ -1,6 +1,6 @@
-﻿using System;
-using Code.Runtime.Configs;
+﻿using Code.Runtime.Configs;
 using Code.Runtime.Services.AudioService;
+using Code.Runtime.Services.StaticDataService;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,16 +12,20 @@ namespace Code.Runtime.UI.Buttons
     public class PlaySfxButton : MonoBehaviour
     {
         [SerializeField] private SfxType sfxType;
-        
+
         private Button _button;
         private Vector3 _startScale;
         private Tween _currentTween;
-        
+
         private IAudioService _audioService;
+        private IStaticDataService _staticDataService;
 
         [Inject]
-        public void Construct(IAudioService audioService) =>
+        public void Construct(IAudioService audioService, IStaticDataService staticDataService)
+        {
+            _staticDataService = staticDataService;
             _audioService = audioService;
+        }
 
         private void Awake()
         {
@@ -40,8 +44,10 @@ namespace Code.Runtime.UI.Buttons
 
         private void Play()
         {
-            _currentTween = this.transform.DOPunchScale(_startScale * 0.2f, .25f);
-            
+            _currentTween = this.transform.DOPunchScale(
+                _staticDataService.AnimationConfig.GetPunchAnimationScaleFactor(),
+                _staticDataService.AnimationConfig.PunchAnimationScaleDuration);
+
             PlaySfx();
         }
 

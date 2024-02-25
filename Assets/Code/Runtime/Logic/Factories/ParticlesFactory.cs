@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure;
 using Code.Runtime.Infrastructure.ObjectPool;
 using UnityEngine;
@@ -7,8 +8,6 @@ namespace Code.Runtime.Logic.Factories
 {
     public class ParticlesFactory : IParticlesFactory
     {
-        public const int PreCountParticles = 5;
-        
         private ICoroutineRunner _coroutineRunner;
 
         private IGameObjectPool<ParticleSystem> _tapVfxPool;
@@ -20,9 +19,9 @@ namespace Code.Runtime.Logic.Factories
             _coroutineRunner = coroutineRunner;
 
             _tapVfxPool = new ComponentPool<ParticleSystem>(tapVfx,
-                PreCountParticles, gameObjectsPoolContainer);
+                ObjectPoolStaticData.PreloadParticlesCount, gameObjectsPoolContainer);
             _deathVfxPool = new ComponentPool<ParticleSystem>(deathVfx,
-                PreCountParticles, gameObjectsPoolContainer);
+                ObjectPoolStaticData.PreloadParticlesCount, gameObjectsPoolContainer);
 
             _tapVfxPool.Initialize();
             _deathVfxPool.Initialize();
@@ -53,7 +52,7 @@ namespace Code.Runtime.Logic.Factories
                 yield return new WaitForSeconds(0.5f);
 
                 if (ps == null) break;
-                
+
                 if (!ps.IsAlive(true))
                 {
                     pool.Return(ps);

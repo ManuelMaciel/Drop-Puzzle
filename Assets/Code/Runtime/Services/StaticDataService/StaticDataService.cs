@@ -8,13 +8,14 @@ namespace Code.Runtime.Services.StaticDataService
     {
         private const string CoreConfigPath = "Configs/CoreConfig";
 
-        public ShapeSizeConfig ShapeSizeConfig { get; private set; }
+        public ShapeConfig ShapeConfig { get; private set; }
         public ShapeScoreConfig ShapeScoreConfig { get; private set; }
         public PurchasedBackgroundsConfig PurchasedBackgroundsConfig { get; private set; }
         public AudioConfig AudioConfig { get; private set; }
         public WindowAssetsConfig WindowAssetsConfig { get; private set; }
         public GameplayConfig GameplayConfig { get; private set; }
         public AdConfig AdConfig { get; private set; }
+        public AnimationConfig AnimationConfig { get; private set; }
 
         private readonly ILogService log;
 
@@ -27,13 +28,14 @@ namespace Code.Runtime.Services.StaticDataService
         {
             CoreConfig coreConfig = LoadResource<CoreConfig>(CoreConfigPath);
 
-            ShapeSizeConfig = coreConfig.ShapeSizeConfig;
+            ShapeConfig = coreConfig.shapeConfig;
             ShapeScoreConfig = coreConfig.ShapeScoreConfig;
             PurchasedBackgroundsConfig = coreConfig.PurchasedBackgroundsConfig;
             AudioConfig = coreConfig.AudioConfig;
             WindowAssetsConfig = coreConfig.WindowAssetsConfig;
             GameplayConfig = coreConfig.GameplayConfig;
             AdConfig = coreConfig.AdConfig;
+            AnimationConfig = coreConfig.AnimationConfig;
 
             log.Log("Static data loaded");
         }

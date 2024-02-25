@@ -45,11 +45,6 @@ namespace Code.Runtime.Services.WindowsService
             {
                 switch (windowType)
                 {
-                    case WindowType.Unknown:
-                        break;
-                    case WindowType.Test:
-                        _currentWindow = _uiFactory.CreateWindow<TestWindow>(windowType);
-                        break;
                     case WindowType.RestartGame:
                         _currentWindow = _uiFactory.CreateWindow<RestartGameWindow>(windowType);
                         break;
