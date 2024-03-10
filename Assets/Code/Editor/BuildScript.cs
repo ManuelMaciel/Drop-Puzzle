@@ -3,20 +3,21 @@ using UnityEngine;
 
 public class BuildScript : MonoBehaviour
 {
-    private const string BuildPath = "D:\\Unity\\Projects\\Builds";
+    private const string BuildPathWebGL = "D:\\Unity\\Projects\\Builds\\WebGL";
+    private const string BuildPathAndroid = "D:\\Unity\\Projects\\Builds\\Android";
     
     [MenuItem("Tools/Build WebGL")]
     public static void BuildWebGL()
     {
         string[] scenes = GetScenes();
-        BuildPipeline.BuildPlayer(scenes, BuildPath, BuildTarget.WebGL, BuildOptions.None);
+        BuildPipeline.BuildPlayer(scenes, BuildPathWebGL, BuildTarget.WebGL, BuildOptions.None);
     }
     
     [MenuItem("Tools/Build Android")]
     public static void BuildAndroid()
     {
         string[] scenes = GetScenes();
-        BuildPipeline.BuildPlayer(scenes, BuildPath, BuildTarget.Android, BuildOptions.None);
+        BuildPipeline.BuildPlayer(scenes, BuildPathAndroid, BuildTarget.Android, BuildOptions.None);
     }
 
     private static string[] GetScenes()

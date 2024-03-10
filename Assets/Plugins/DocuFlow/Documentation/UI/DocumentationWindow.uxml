@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="doc-window" class="doc-window">
+        <ui:VisualElement name="header" class="search-bar">
+            <ui:Button name="back-button" text="← Back" class="button"></ui:Button>
+            <ui:TextField name="search-query" style="flex-grow: 1;" class="search-field"></ui:TextField>
+        </ui:VisualElement>
+        <ui:VisualElement name="content" style="flex-direction: row;">
+            <ui:ScrollView name="left-scroll-view" class="scroll-view">
+                <ui:ListView name="name-list" item-height="20" selection-type="Single"></ui:ListView>
+            </ui:ScrollView>
+            <ui:ScrollView name="right-scroll-view" class="scroll-view">
+                <ui:VisualElement name="class-details">
+                    <ui:Label name="class-name" class="main-header"></ui:Label>
+                    <ui:Label name="class-description" class="description-class"></ui:Label>
+                    <ui:Label name="fields-heading" class="subheading" text="Properties"></ui:Label>
+                    <ui:ScrollView name="properties-scroll-view" class="scroll-view">
+                        <ui:VisualElement name="properties-list"></ui:VisualElement>
+                    </ui:ScrollView>
+                    <ui:Label name="methods-heading" class="subheading" text="Methods"></ui:Label>
+                    <ui:ScrollView name="methods-scroll-view" class="scroll-view">
+                        <ui:VisualElement name="methods-list"></ui:VisualElement>
+                    </ui:ScrollView>
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

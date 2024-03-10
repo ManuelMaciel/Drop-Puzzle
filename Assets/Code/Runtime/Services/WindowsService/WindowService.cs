@@ -5,9 +5,11 @@ using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.LogService;
 using Code.Runtime.UI;
 using Code.Runtime.UI.Windows;
+using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Services.WindowsService
 {
+    [Doc("About windows")]
     public class WindowService : IWindowService
     {
         private readonly IUIFactory _uiFactory;
@@ -28,6 +30,7 @@ namespace Code.Runtime.Services.WindowsService
             _audioService = audioService;
         }
 
+        [Doc("Test method")]
         public void Initialize()
         {
             var windowsRoot = _uiFactory.CreateWindowsRoot();
