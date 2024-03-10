@@ -35,3 +35,6 @@ MonoBehaviour:
   - SfxType: 6
     Sfx: {fileID: 8300000, guid: 2cfe292ae7eba264ea92f5ab439b5283, type: 3}
     Volume: 0.8
+  - SfxType: 7
+    Sfx: {fileID: 8300000, guid: 4b8bb360ef694044abd2977787914f74, type: 3}
+    Volume: 1

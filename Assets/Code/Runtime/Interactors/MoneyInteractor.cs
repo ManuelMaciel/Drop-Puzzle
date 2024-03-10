@@ -3,15 +3,25 @@ using Code.Runtime.Repositories;
 
 namespace Code.Runtime.Interactors
 {
-    public class MoneyInteractor : Interactor<MoneyRepository>
+    public class MoneyInteractor : PayloadInteractor<MoneyRepository, int>
     {
         public event Action<int> OnCollectCoins;
         
+        private int _reward;
+
+        public override void Initialize(int reward)
+        {
+            _reward = reward;
+        }
+
         public int GetCoins() =>
             _repository.Coins;
 
         public bool EnoughCoins(int coins) => 
             _repository.Coins >= coins;
+
+        public void AddReward() =>
+            AddCoins(_reward);
 
         public void AddCoins(int coins)
         {

@@ -52,9 +52,13 @@ namespace Code.Runtime.Infrastructure.States
 
         private void FirstLoadGameData(PlayerProgress playerProgress)
         {
-            playerProgress.GameplayData.MoneyRepository.Coins = 999;
+            playerProgress.GameplayData.MoneyRepository.Coins = 0;
             playerProgress.PurchasesRepository.PurchasedBackgrounds.Add(BackgroundType.Default);
             playerProgress.PurchasesRepository.SelectedBackground = BackgroundType.Default;
+
+            playerProgress.SettingsRepository.IsEnableVibrate = true;
+            playerProgress.SettingsRepository.IsEnableSFX = true;
+            playerProgress.SettingsRepository.IsEnableAmbient = true;
         }
 
         public void Exit()

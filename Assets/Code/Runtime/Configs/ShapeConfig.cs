@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Code.Runtime.Configs
 {
-    [CreateAssetMenu(fileName = "ShapeSizeConfig", menuName = "Configs/ShapeSizeConfig")]
-    public class ShapeSizeConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "ShapeConfig", menuName = "Configs/ShapeConfig")]
+    public class ShapeConfig : ScriptableObject
     {
         public Shape shapePrefab;
         public ShapeType ShapeType;

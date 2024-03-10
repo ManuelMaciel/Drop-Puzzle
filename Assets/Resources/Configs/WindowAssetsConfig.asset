@@ -14,10 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WindowRootPrefab: {fileID: 1192479588569338027, guid: 44917d7a6d0f8ad4492b068fc6067adb, type: 3}
   WindowAssets:
-  - WindowType: 0
-    WindowPrefab: {fileID: 2730972446903113876, guid: cbfb2fb5cd2753c4cb590850ce8db3b5, type: 3}
-  - WindowType: 1
-    WindowPrefab: {fileID: 2730972446903113876, guid: cbfb2fb5cd2753c4cb590850ce8db3b5, type: 3}
   - WindowType: 2
     WindowPrefab: {fileID: 2022291860348116874, guid: 61186ffd1c1f1fe40ac0cef3fc7f48e5, type: 3}
   - WindowType: 3

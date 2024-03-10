@@ -1,0 +1,60 @@
+DocuFlow Documentation
+
+Overview
+DocuFlow is a Unity plugin that provides a simple and efficient way to document your code. It uses C# attributes to annotate code elements, such as classes, properties, and methods, to provide meaningful descriptions of their purpose and functionality. This system is designed to improve code readability, facilitate knowledge transfer between developers, and make it easier to maintain and extend your projects.
+
+Key Components
+DocAttribute
+The DocAttribute class is a custom attribute that you can use to annotate your classes, methods, and properties. It takes a string parameter that describes the purpose or functionality of the code element it annotates. For example:
+
+csharp
+Copy code
+[Doc("This class represents the player-controlled paddle, handling its movement and reset.")]
+public class Paddle : MonoBehaviour { ... }
+ClassDocumentationData
+The ClassDocumentationData class holds the documentation data for a class. It includes the class type, its description, and lists of its methods and properties.
+
+MethodDocumentationData and PropertyDocumentationData
+These classes hold the documentation data for methods and properties, respectively. They include the method or property info and its description.
+
+DocumentationCollector
+The DocumentationCollector class is responsible for collecting all the documentation data from your code. It scans all the assemblies in the current domain, collects the classes that have a DocAttribute, and creates a ClassDocumentationData for each of them.
+
+DocumentationManager
+The DocumentationManager class manages the documentation data. It holds a list of ClassDocumentationData and provides a method to refresh this list.
+
+DocWindow
+The DocWindow class is a custom editor window that displays the documentation. It provides a search field to filter the list of classes, and it displays the description, properties, and methods of the selected class.
+
+SearchManager
+The SearchManager class provides a search functionality. It builds a trie from the documentation data and provides a method to filter and score the documentation based on a search query.
+
+Usage
+To use DocuFlow, add a Doc attribute above any class, property, or method you want to document. Here is an example:
+
+csharp
+Copy code
+[Doc("This class represents the player-controlled paddle, handling its movement and reset.")]
+public class Paddle : MonoBehaviour
+{
+    [Doc("The velocity of the paddle.")]
+    public Vector3 Velocity { get; private set; }
+
+    [Doc("Resets the paddle's position to the start state.")]
+    public void Reset()
+    {
+        transform.position = resetPosition;
+    }
+}
+In this example, the Paddle class, the Velocity property, and the Reset method are documented with meaningful descriptions.
+
+Please note that the standard Unity methods (like Start, Update, etc.) and private variables are not typically documented using the Doc attribute.
+
+Recommendations
+Write concise, meaningful descriptions for your code elements.
+Clearly describe the purpose and functionality of classes and methods.
+For methods, describe the arguments, the return type, and side effects if any.
+Use consistent language and terminology throughout your documentation.
+Regularly update your documentation as your code evolves.
+Conclusion
+DocuFlow is a simple, yet effective way to document your Unity codebase. By using this system, you can improve code readability, facilitate knowledge transfer between developers, and make it easier to maintain and extend your projects. Happy coding!

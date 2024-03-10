@@ -51,7 +51,9 @@ namespace Code.Runtime.Services.AudioService
         {
             if (!_settingsInteractor.IsEnableVibrate()) return;
 
+#if !UNITY_WEBGL
             Handheld.Vibrate();
+#endif
         }
 
         public void PlaySfx(SfxType sfxType)

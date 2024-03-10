@@ -1,9 +1,9 @@
 ﻿using System;
+using Code.Runtime.Configs;
 using Code.Runtime.Interactors;
 using Code.Runtime.Logic;
 using Code.Runtime.Repositories;
 using Code.Runtime.Services.StaticDataService;
-using Code.Runtime.UI.Effects;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -14,29 +14,21 @@ namespace Code.Runtime.UI
     [Serializable]
     public class HUDGameplayContent : IDisposable
     {
-        private const float AnimationScaleFactor = 0.2f;
-        private const float AnimationScaleDuration = 0.2f;
-        
         [SerializeField] private Image _nextShapeImage;
         [SerializeField] private RectTransform _coinTransform;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _maxScoreText;
-        [SerializeField] private TextMeshProUGUI _coinsText;
 
         private IShapeDeterminantor _shapeDeterminantor;
         private IInteractorContainer _interactorContainer;
         private IStaticDataService _staticDataService;
-        
+
         private ScoreInteractor _scoreInteractor;
-        private MoneyInteractor _moneyInteractor;
-        private CoinsEffect _coinsEffect;
-        private Vector3 _coinScale;
-        private Vector3 _nextCoinScale;
+        private AnimationConfig _animationConfig;
 
         public void Construct(IShapeDeterminantor shapeDeterminantor, IInteractorContainer interactorContainer,
-            IStaticDataService staticDataService, CoinsEffect coinsEffect)
+            IStaticDataService staticDataService)
         {
-            _coinsEffect = coinsEffect;
             _shapeDeterminantor = shapeDeterminantor;
             _interactorContainer = interactorContainer;
             _staticDataService = staticDataService;
@@ -44,19 +36,16 @@ namespace Code.Runtime.UI
 
         public void Initialize()
         {
+            _animationConfig = _staticDataService.AnimationConfig;
+            
             InitializeScoreInteractor();
-            InitializeMoneyInteractor();
             InitializeTextNextShape();
-
-            _coinScale = _coinTransform.lossyScale;
-            _nextCoinScale = _nextShapeImage.rectTransform.localScale;
         }
 
         public void Dispose()
         {
             _shapeDeterminantor.OnShapeChanged -= UpdateImageNextShape;
             _scoreInteractor.OnScoreIncreased -= UpdateScoreText;
-            _coinsEffect.OnCoinAdded -= UpdateCoinsText;
         }
 
         private void InitializeTextNextShape()
@@ -75,32 +64,19 @@ namespace Code.Runtime.UI
             UpdateScoreText(_scoreInteractor.GetCurrentScore());
         }
 
-        private void InitializeMoneyInteractor()
-        {
-            _moneyInteractor = _interactorContainer.Get<MoneyInteractor>();
-
-            _coinsEffect.OnCoinAdded += UpdateCoinsText;
-
-            UpdateCoinsText();
-        }
 
         private void UpdateImageNextShape()
         {
             _nextShapeImage.sprite =
-                _staticDataService.ShapeSizeConfig.Sprites[(int)_shapeDeterminantor.NextShapeSize];
-            _nextShapeImage.rectTransform.DOPunchScale(_nextCoinScale * AnimationScaleFactor, AnimationScaleDuration);
+                _staticDataService.ShapeConfig.Sprites[(int)_shapeDeterminantor.NextShapeSize];
+            _nextShapeImage.rectTransform.DOPunchScale(_animationConfig.GetPunchAnimationScaleFactor(),
+                _animationConfig.PunchAnimationScaleDuration);
         }
 
         private void UpdateScoreText(int score)
         {
             _scoreText.text = score.ToString();
             _maxScoreText.text = _scoreInteractor.GetMaxScore().ToString();
-        }
-
-        private void UpdateCoinsText()
-        {
-            _coinsText.text = _moneyInteractor.GetCoins().ToString();
-            _coinTransform.DOPunchScale(_coinScale * AnimationScaleFactor, AnimationScaleDuration);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Code.Runtime.Infrastructure.StateMachines;
+using Code.Runtime.Services.AdsService;
 using Code.Runtime.Services.StaticDataService;
 using Code.Runtime.Services.WindowsService;
 using Code.Runtime.UI;
@@ -12,10 +13,12 @@ namespace Code.Runtime.Infrastructure.States
         private readonly GameStateMachine _gameStateMachine;
         private readonly IWindowService _windowService;
         private readonly IUIFactory _uiFactory;
+        private IAdsService _adsService;
 
         public BootstrapState(ISceneLoader sceneLoader, IStaticDataService staticDataService,
-            GameStateMachine gameStateMachine, IWindowService windowService, IUIFactory uiFactory)
+            GameStateMachine gameStateMachine, IWindowService windowService, IUIFactory uiFactory, IAdsService adsService)
         {
+            _adsService = adsService;
             _sceneLoader = sceneLoader;
             _staticDataService = staticDataService;
             _gameStateMachine = gameStateMachine;
@@ -28,6 +31,7 @@ namespace Code.Runtime.Infrastructure.States
             _staticDataService.Initialize();
             _uiFactory.Initialize();
             _windowService.Initialize();
+            _adsService.Initialize();
 
             _sceneLoader.Load(SceneName.Bootstrap.ToString(), ToLoadProgressState);
         }

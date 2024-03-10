@@ -12,8 +12,8 @@ namespace Code.Runtime.Interactors
         {
             interactorContainer.CreateInteractor<ShapeInteractor, ShapeRepository>(playerProgress.GameplayData
                 .ShapeRepository);
-            interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository>(playerProgress.GameplayData
-                .MoneyRepository);
+            interactorContainer.CreateInteractor<MoneyInteractor, MoneyRepository, int>(playerProgress.GameplayData
+                .MoneyRepository, staticDataService.AdConfig.Reward);
             interactorContainer.CreateInteractor<GameplayShapesInteractor, GameplayShapesRepository>(playerProgress
                 .GameplayData.GameplayShapesRepository);
             interactorContainer.CreateInteractor<RankingInteractor, RankingRepository>(playerProgress.GameplayData

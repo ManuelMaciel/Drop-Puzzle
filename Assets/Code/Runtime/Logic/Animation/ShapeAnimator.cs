@@ -36,7 +36,7 @@ namespace Code.Runtime.Logic
 
         private void OnEnable()
         {
-            shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.Sprites[(int)_shape.ShapeSize];
+            shapeSpriteRenderer.sprite = _staticDataService.ShapeConfig.Sprites[(int)_shape.ShapeSize];
 
             _activeShapeAnimatorsHandler.AddShapeAnimator(_shape, this);
         }
@@ -88,11 +88,11 @@ namespace Code.Runtime.Logic
 
         private IEnumerator BlinkAnimation()
         {
-            shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.BlinkSprites[(int)_shape.ShapeSize];
+            shapeSpriteRenderer.sprite = _staticDataService.ShapeConfig.BlinkSprites[(int)_shape.ShapeSize];
 
             yield return new WaitForSeconds(1f);
 
-            shapeSpriteRenderer.sprite = _staticDataService.ShapeSizeConfig.Sprites[(int)_shape.ShapeSize];
+            shapeSpriteRenderer.sprite = _staticDataService.ShapeConfig.Sprites[(int)_shape.ShapeSize];
         }
     }
 }

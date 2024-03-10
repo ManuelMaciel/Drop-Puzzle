@@ -1,6 +1,7 @@
 using Code.Runtime.Infrastructure;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Installers;
+using Code.Runtime.Services.AdsService;
 using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.LogService;
 using Code.Runtime.Services.Progress;
@@ -37,6 +38,13 @@ namespace Code.Runtime.CompositionRoot
             BindGlobalFactories();
 
             BindAudioService();
+
+            AdsService();
+        }
+
+        private void AdsService()
+        {
+            Container.Bind<IAdsService>().To<AdsService>().AsSingle();
         }
 
         private void BindAudioService()
