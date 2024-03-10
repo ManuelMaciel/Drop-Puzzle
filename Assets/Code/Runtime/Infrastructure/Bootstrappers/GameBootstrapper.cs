@@ -1,9 +1,11 @@
 ﻿using Code.Runtime.Infrastructure.States;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Infrastructure.Bootstrappers
 {
+    [Doc("The GameBootstrapper class is responsible for initializing the game state machine and managing the bootstrapping process (Start Game State Machine).")]
     public class GameBootstrapper : BootstrapperBase
     {
         private void Awake()

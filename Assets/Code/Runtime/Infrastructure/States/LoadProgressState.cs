@@ -5,9 +5,11 @@ using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.Progress;
 using Code.Runtime.Services.SaveLoadService;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Infrastructure.States
 {
+    [Doc("The LoadProgressState class responsible for loading progress and initializing game-related data before transitioning to the main menu scene.")]
     public class LoadProgressState : IState
     {
         private readonly IPersistentProgressService _persistentProgressService;

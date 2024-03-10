@@ -2,9 +2,11 @@
 using Code.Runtime.Repositories;
 using Code.Runtime.Services.SaveLoadService;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Interactors
 {
+    [Doc("The InteractorsInitializer class provides a static method for initializing interactors based on player progress, static data, and services. It encapsulates the logic for creating and registering interactors with the provided interactor container.")]
     public static class InteractorsInitializer
     {
         public static void Initialize(PlayerProgress playerProgress, IInteractorContainer interactorContainer,

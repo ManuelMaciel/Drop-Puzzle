@@ -1,8 +1,10 @@
 ﻿using System;
+using Plugin.DocuFlow.Documentation;
 using Random = UnityEngine.Random;
 
 namespace Code.Runtime.Logic
 {
+    [Doc("The ShapeDeterminantor class is responsible for determining the size of shapes in the game. It randomly selects the size of the current shape and precomputes the size of the next shape. It also provides an event for notifying when the shape size changes.")]
     public class ShapeDeterminantor : IShapeDeterminantor
     {
         public const int MaxRandomShapeSize = 3;

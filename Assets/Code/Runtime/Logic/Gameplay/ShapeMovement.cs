@@ -1,11 +1,13 @@
 ﻿using Code.Runtime.Interactors;
 using Code.Runtime.Services.InputService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
-    public class Movement : MonoBehaviour
+    [Doc("The ShapeMovement class handles the movement of shapes in the gameplay scene. It constrains the movement of shapes horizontally within the screen boundaries based on user input.")]
+    public class ShapeMovement : MonoBehaviour
     {
         private ScreenBorders _screenBorders;
         private Rigidbody2D _shapeRigidbody;

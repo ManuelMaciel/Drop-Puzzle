@@ -9,7 +9,7 @@ using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Services.WindowsService
 {
-    [Doc("About windows")]
+    [Doc("The WindowService class provides functionality for managing UI windows within the game. It handles the creation, opening, and closing of different types of windows, including animations for transitions between them.")]
     public class WindowService : IWindowService
     {
         private readonly IUIFactory _uiFactory;
@@ -29,8 +29,7 @@ namespace Code.Runtime.Services.WindowsService
             _logService = logService;
             _audioService = audioService;
         }
-
-        [Doc("Test method")]
+        
         public void Initialize()
         {
             var windowsRoot = _uiFactory.CreateWindowsRoot();

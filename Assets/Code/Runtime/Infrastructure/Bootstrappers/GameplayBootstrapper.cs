@@ -1,11 +1,13 @@
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States;
 using Code.Runtime.Infrastructure.States.Gameplay;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Infrastructure.Bootstrappers
 {
+    [Doc("The GameplayBootstrapper class is responsible for initializing the gameplay state machine and adding necessary states for managing the gameplay flow.")]
     public class GameplayBootstrapper : MonoBehaviour
     {
         [Inject] private GameplayStateMachine _gameplayStateMachine;

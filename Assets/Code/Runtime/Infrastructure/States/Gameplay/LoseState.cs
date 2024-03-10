@@ -11,7 +11,7 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
 {
     public class LoseState : IState
     {
-        private readonly PrefabFactory<Spawner> _spawnerFactory;
+        private readonly PrefabFactory<ShapeSpawner> _spawnerFactory;
         private readonly PrefabFactory<HUD> _hudFactory;
         private readonly IPersistentProgressService _progressService;
         private readonly ICoroutineRunner _coroutineRunner;
@@ -22,7 +22,7 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
         private float targetSize = 6f;
         private float changeDuration = 1.5f;
 
-        public LoseState(PrefabFactory<Spawner> spawnerFactory, PrefabFactory<HUD> hudFactory,
+        public LoseState(PrefabFactory<ShapeSpawner> spawnerFactory, PrefabFactory<HUD> hudFactory,
             IPersistentProgressService progressService, ICoroutineRunner coroutineRunner, IAudioService audioService)
         {
             _audioService = audioService;

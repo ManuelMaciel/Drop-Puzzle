@@ -12,12 +12,12 @@ namespace Code.Runtime.Infrastructure.States.Gameplay
     public class LoadGameplayLevelState : IState
     {
         private readonly PrefabFactory<HUD> _hudFactory;
-        private readonly PrefabFactory<Spawner> _spawnerFactory;
+        private readonly PrefabFactory<ShapeSpawner> _spawnerFactory;
         private readonly IShapeFactory _shapeFactory;
         private readonly IPersistentProgressService _progressService;
         private GameplayConfig _gameplayConfig;
 
-        LoadGameplayLevelState(PrefabFactory<HUD> hudFactory, PrefabFactory<Spawner> spawnerFactory,
+        LoadGameplayLevelState(PrefabFactory<HUD> hudFactory, PrefabFactory<ShapeSpawner> spawnerFactory,
             IShapeFactory shapeFactory, IPersistentProgressService progressService, IStaticDataService staticDataService)
         {
             _hudFactory = hudFactory;

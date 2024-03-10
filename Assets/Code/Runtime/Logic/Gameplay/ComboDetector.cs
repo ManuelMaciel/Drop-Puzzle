@@ -4,11 +4,13 @@ using Code.Runtime.Interactors;
 using Code.Runtime.Services.AudioService;
 using Code.Runtime.Services.Progress;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
+    [Doc("The ComboDetector class is responsible for detecting combos in the game. It tracks the combination of shapes to determine if a combo has been achieved, calculates the combo score and rewards, and notifies listeners when a combo is detected.")]
     public class ComboDetector : ITickable, IInitializable, IDisposable, IComboDetector
     {
         public event Action<int, Vector3> OnComboDetected;

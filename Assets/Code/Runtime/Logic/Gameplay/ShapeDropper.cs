@@ -10,13 +10,13 @@ using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
-    [RequireComponent(typeof(Movement))]
+    [RequireComponent(typeof(ShapeMovement))]
     public class ShapeDropper : MonoBehaviour
     {
         public event Action OnShapeDropped;
 
         private Shape _currentShape;
-        private Movement _shapeMovement;
+        private ShapeMovement _shapeShapeMovement;
         private Rigidbody2D _shapeRigidbody;
         private Collider2D _shapeCollider;
         private GameplayShapesInteractor _gameplayShapesInteractor;
@@ -47,7 +47,7 @@ namespace Code.Runtime.Logic.Gameplay
         }
 
         public void Initialize() =>
-            _shapeMovement = this.GetComponent<Movement>();
+            _shapeShapeMovement = this.GetComponent<ShapeMovement>();
 
         public void AddShape(Shape newShape)
         {
@@ -56,7 +56,7 @@ namespace Code.Runtime.Logic.Gameplay
             _currentShape = newShape;
 
             _shapeRigidbody.bodyType = RigidbodyType2D.Kinematic;
-            _shapeMovement.AddShape(_shapeRigidbody, _shapeCollider);
+            _shapeShapeMovement.AddShape(_shapeRigidbody, _shapeCollider);
             _shapeCollider.enabled = false;
         }
 
@@ -68,7 +68,7 @@ namespace Code.Runtime.Logic.Gameplay
 
             _audioService.PlaySfx(SfxType.DropShape);
             _shapeCollider.enabled = true;
-            _shapeMovement.RemoveShape();
+            _shapeShapeMovement.RemoveShape();
             _gameplayShapesInteractor.AddShape(_currentShape);
             _shapeRigidbody.bodyType = RigidbodyType2D.Dynamic;
 

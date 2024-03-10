@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Code.Runtime.Configs;
 using Code.Runtime.Infrastructure.StateMachines;
 using Code.Runtime.Infrastructure.States.Gameplay;
+using Code.Runtime.Logic.Animation;
 using Code.Runtime.Services.AudioService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
+    [Doc("The OverflowDetector class is responsible for detecting overflow conditions in the game. It detects when shapes overflow from their designated area, triggers animations, and transitions the game state to the lose state when overflow conditions persist.")]
     public class OverflowDetector : MonoBehaviour
     {
         private const string ShapeTag = "Shape";

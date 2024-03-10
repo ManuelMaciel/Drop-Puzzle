@@ -1,9 +1,11 @@
 ﻿using Code.Runtime.Configs;
 using Code.Runtime.Services.LogService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 
 namespace Code.Runtime.Services.StaticDataService
 {
+    [Doc("The StaticDataService class is responsible for loading and providing static data configurations used throughout the game. It loads various configurations from resource files and exposes them through properties for easy access.")]
     public class StaticDataService : IStaticDataService
     {
         private const string CoreConfigPath = "Configs/CoreConfig";

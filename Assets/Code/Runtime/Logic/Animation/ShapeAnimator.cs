@@ -5,7 +5,7 @@ using Code.Runtime.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
 
-namespace Code.Runtime.Logic
+namespace Code.Runtime.Logic.Animation
 {
     [RequireComponent(typeof(Shape))]
     public class ShapeAnimator : MonoBehaviour

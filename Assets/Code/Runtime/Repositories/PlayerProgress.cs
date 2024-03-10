@@ -1,7 +1,9 @@
 ﻿using System;
+using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Repositories
 {
+    [Doc("The PlayerProgress class represents the progress data of the game. It contains various repositories for storing gameplay, settings, and purchases data.")]
     [Serializable]
     public class PlayerProgress
     {

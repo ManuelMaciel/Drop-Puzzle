@@ -3,9 +3,11 @@ using Code.Runtime.Services.AdsService;
 using Code.Runtime.Services.StaticDataService;
 using Code.Runtime.Services.WindowsService;
 using Code.Runtime.UI;
+using Plugin.DocuFlow.Documentation;
 
 namespace Code.Runtime.Infrastructure.States
 {
+    [Doc("The BootstrapState class responsible for bootstrapping the game. It initializes essential services and components required for the game's functionality during the startup phase.")]
     public class BootstrapState : IState
     {
         private readonly ISceneLoader _sceneLoader;

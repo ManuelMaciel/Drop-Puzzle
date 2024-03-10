@@ -3,13 +3,15 @@ using Code.Runtime.Configs;
 using Code.Runtime.Logic.Factories;
 using Code.Runtime.Services.SaveLoadService;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic.Gameplay
 {
+    [Doc("The ShapeSpawner class is responsible for spawning shapes in the gameplay scene at regular intervals. It uses a ShapeFactory to create shapes based on a predefined spawn point and shape size determined by a ShapeDeterminantor.")]
     [RequireComponent(typeof(ShapeDropper))]
-    public class Spawner : MonoBehaviour
+    public class ShapeSpawner : MonoBehaviour
     {
         [SerializeField] private Transform dropLine;
 

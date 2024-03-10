@@ -6,11 +6,13 @@ using Code.Runtime.Logic.Gameplay;
 using Code.Runtime.Services.Progress;
 using Code.Runtime.Services.SaveLoadService;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Logic.Factories
 {
+    [Doc("The ShapeFactory class is responsible for creating shape objects in the game. It manages the instantiation of shapes, including their size, appearance, and initialization. The ShapeFactory utilizes a pool of shape objects to optimize performance and manage object reuse.")]
     public class ShapeFactory : IShapeFactory
     {
         private readonly IStaticDataService _staticDataService;

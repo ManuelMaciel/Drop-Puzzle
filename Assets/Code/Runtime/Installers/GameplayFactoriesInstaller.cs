@@ -32,7 +32,7 @@ namespace Code.Runtime.Installers
 
         private void BindSpawnerFactory()
         {
-            Container.Bind<Infrastructure.PrefabFactory<Spawner>>().AsSingle();
+            Container.Bind<Infrastructure.PrefabFactory<ShapeSpawner>>().AsSingle();
         }
 
         private void BindHUDFactory()

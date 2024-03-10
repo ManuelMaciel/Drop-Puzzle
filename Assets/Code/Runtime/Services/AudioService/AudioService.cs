@@ -2,11 +2,13 @@
 using Code.Runtime.Interactors;
 using Code.Runtime.Services.Progress;
 using Code.Runtime.Services.StaticDataService;
+using Plugin.DocuFlow.Documentation;
 using UnityEngine;
 using Zenject;
 
 namespace Code.Runtime.Services.AudioService
 {
+    [Doc("The AudioService class manages audio playback within the game, including ambient sound, sound effects (SFX), and device vibrations. It utilizes Unity's AudioSource component for playing audio clips and interacts with static data configurations and player settings to control audio behavior.")]
     [RequireComponent(typeof(AudioSource))]
     public class AudioService : MonoBehaviour, IAudioService
     {

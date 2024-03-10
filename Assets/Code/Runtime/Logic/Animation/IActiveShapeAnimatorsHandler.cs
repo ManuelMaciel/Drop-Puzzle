@@ -1,4 +1,5 @@
-﻿using Code.Runtime.Logic.Gameplay;
+﻿using Code.Runtime.Logic.Animation;
+using Code.Runtime.Logic.Gameplay;
 
 namespace Code.Runtime.Logic
 {
