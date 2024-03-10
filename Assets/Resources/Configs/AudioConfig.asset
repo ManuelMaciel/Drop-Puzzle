@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b1d01daebc416e9211dc13f60efc48, type: 3}
   m_Name: AudioConfig
   m_EditorClassIdentifier: 
-  Ambient: {fileID: 8300000, guid: e539911894042184dba82177cbd6b6c7, type: 3}
+  Ambient: {fileID: 8300000, guid: 642752a5210694645a97a436337b2bd0, type: 3}
   SfxsData:
   - SfxType: 0
-    Sfx: {fileID: 8300000, guid: 186061da4f4d81d4f99031f6755e2431, type: 3}
+    Sfx: {fileID: 8300000, guid: 2c2730057390b564ca5ed01d36c97ff9, type: 3}
     Volume: 1
   - SfxType: 1
-    Sfx: {fileID: 8300000, guid: 9e273feb35d37fd4fb4ddd94861d65de, type: 3}
+    Sfx: {fileID: 8300000, guid: ad89336e4d641df42947764015b0435f, type: 3}
     Volume: 1
   - SfxType: 2
-    Sfx: {fileID: 8300000, guid: 75dc027dace5ef64592cf54e74a12199, type: 3}
+    Sfx: {fileID: 8300000, guid: 7892313e50ab9874f8d4d96a7fbaee72, type: 3}
     Volume: 1
   - SfxType: 3
-    Sfx: {fileID: 8300000, guid: f67e82fbb80a47149a690349a91822b4, type: 3}
+    Sfx: {fileID: 8300000, guid: 0a56f0d5319aa6b419b13d8cf05dd081, type: 3}
     Volume: 1
   - SfxType: 4
-    Sfx: {fileID: 8300000, guid: df446b79061ddab409340273a0ea1803, type: 3}
+    Sfx: {fileID: 8300000, guid: 377c58f6247dd3e49b7c36ce4437f3d3, type: 3}
     Volume: 0.3
   - SfxType: 5
     Sfx: {fileID: 8300000, guid: 77e9b741db3113b42b2bd9cff690c49a, type: 3}
@@ -36,5 +36,5 @@ MonoBehaviour:
     Sfx: {fileID: 8300000, guid: 2cfe292ae7eba264ea92f5ab439b5283, type: 3}
     Volume: 0.8
   - SfxType: 7
-    Sfx: {fileID: 8300000, guid: 4b8bb360ef694044abd2977787914f74, type: 3}
+    Sfx: {fileID: 8300000, guid: b08f12d33099fa543a3be3d2f8671c13, type: 3}
     Volume: 1
